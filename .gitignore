@@ -1,0 +1,10 @@
+# Python 3 bytecode directories
+__pycache__
+
+# Python bytecode files
+*.pyc
+
+# virtualenv stuff
+bin/
+lib/
+pyvenv.cfg
