@@ -1,22 +1,17 @@
 """
-Django settings for Finetooth project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
+Django settings for Finetooth.
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+# TODO: review
+# https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# XXX TODO FIXME DANGER: the security warning on the previous line is
+# big deal; if/when deploying this somewhere, change this and DO NOT
+# keep the real value in a publicly-visible Git repo
 SECRET_KEY = '4y+opi-^iz@s+(#io3b2l1+w89c44vos%9npcxap8=#+4c11!n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -26,9 +21,6 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,6 +28,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'south',
+    'Finetooth.core',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,19 +45,14 @@ ROOT_URLCONF = 'Finetooth.urls'
 
 WSGI_APPLICATION = 'Finetooth.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
 DATABASES = {
     'default': {
+        # I <3 SQLite but maybe consider Postgres if/when deploying this
+        # somewhere
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.6/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -74,9 +63,5 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'

@@ -1,3 +1,5 @@
+# Things that should not be in version control---
+
 # Python 3 bytecode directories
 __pycache__
 
@@ -8,3 +10,6 @@ __pycache__
 bin/
 lib/
 pyvenv.cfg
+
+# the database
+db.sqlite3
