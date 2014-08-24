@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Post #{{ post.pk }}</h2>
+<span class="score" data-pk="{{ post.pk }}" data-score="{{ post.score }}">
+  <strong>score: {{ post.score }}</strong>
+</span>
 
 <div class="post-content" data-id="{{ post.pk }}">
 {{ post.content }}

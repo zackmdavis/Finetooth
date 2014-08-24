@@ -6,7 +6,10 @@
 {% for post in posts %}
 <div class="row">
 <h3><a href="{{ post.pk }}/">Post #{{ post.pk }}</a></h3>
-<div class="post" data-id="{{ post.pk }}">
+<span class="score" data-pk="{{ post.pk }}" data-score="{{ post.score }}">
+  <strong>score: {{ post.score }}</strong>
+</span>
+<div class="post" data-pk="{{ post.pk }}">
 {{ post.content }}
 </div>
 <a href="{{ post.pk }}/#comments">
