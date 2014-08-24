@@ -1,0 +1,10 @@
+#brand {
+    font-family: 'Italianno', cursive;
+    font-size: 60px;
+    margin-right: 50px;
+    text-decoration: none;
+}
+#brand a:link { text-decoration: none; color: #000000; }
+#brand a:visited { text-decoration: none; color: #000000; }
+#brand a:hover { text-decoration: none; color: #0000DD; }
+#brand a:active { text-decoration: none; color: #DD0000; }
