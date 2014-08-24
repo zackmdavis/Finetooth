@@ -29,7 +29,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
-    'Finetooth.core',
+    'core',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -41,16 +41,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Finetooth.urls'
+ROOT_URLCONF = 'urls'
 
-WSGI_APPLICATION = 'Finetooth.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
         # I <3 SQLite but maybe consider Postgres if/when deploying this
         # somewhere
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join('db.sqlite3'),
     }
 }
 
@@ -64,6 +64,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-TEMPLATE_DIRS = os.path.join(BASE_DIR, "Finetooth", "templates")
+TEMPLATE_DIRS = "templates"
 
 STATIC_URL = '/static/'
