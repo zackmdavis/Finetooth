@@ -4,11 +4,11 @@
 
 {% block content %}
 {% for post in posts %}
-<h3>Post #{{ post.pk }}</h3>
+<h3><a href="{{ post.pk }}/">Post #{{ post.pk }}</a></h3>
 <div class="post" data-id="{{ post.pk }}">
 {{ post.content }}
 </div>
-<a href="#TODO">
+<a href="{{ post.pk }}/#comments">
   <strong>{{ post.comment_set.count }} comments</strong>
 </a>
 {% endfor %}

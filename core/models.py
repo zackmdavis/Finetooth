@@ -7,6 +7,8 @@ class Post(models.Model):
     # TODO: "title" attribute should be CharField (but what should
     # max_length be??)
     content = models.TextField()
+    # TODO: date published (a DateTimeField), definitely! Maybe date
+    # last edited (DateTimeField with auto_now), too?
 
     def __str__(self):
         # TODO: change this to something more informative when we have

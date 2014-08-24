@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block subtitle %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<h2>Post #{{ post.pk }}</h2>
+
+<div class="post-content" data-id="{{ post.pk }}">
+{{ post.content }}
+</div>
+
+<div id="comments">
+  <h4>{{ post.comment_set.count }} comments</h4>
+  {% for comment in post.comment_set.all %}
+  <hr>
+  <div class="comment" data-id="{{ comment.pk }}">
+    {{ comment.content }}
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
