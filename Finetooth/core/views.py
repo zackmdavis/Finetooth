@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+from Finetooth.core.models import Post
+
+def home(request):
+    posts = Post.objects.all()
+    return render(request, "home.html", locals())

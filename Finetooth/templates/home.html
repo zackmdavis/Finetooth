@@ -1,0 +1,11 @@
+<h1>Finetooth</h1>
+
+{% for post in posts %}
+<h3>Post #{{ post.pk }}</h3>
+<div class="post" data-id="{{ post.pk }}">
+{{ post.content }}
+</div>
+<a href="#TODO">
+  <strong>{{ post.comment_set.count }} comments</strong>
+</a>
+{% endfor %}
