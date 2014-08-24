@@ -1,6 +1,9 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
-from core.models import Post
+from core.models import Post, Comment
 
 def home(request):
     posts = Post.objects.all()
@@ -12,3 +15,10 @@ def show_post(request, pk):
     # column!) and look them up that way?
     post = Post.objects.get(pk=pk)
     return render(request, "post.html", {'post': post})
+
+@require_POST
+@csrf_exempt
+def ballot_box(request, kind, pk, value):
+    kinds = {"post": Post, "comment": Comment}
+    kinds[kind].objects.get(pk=pk).vote_set.create(value=value)
+    return HttpResponse(status=204)
