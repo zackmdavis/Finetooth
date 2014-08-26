@@ -20,5 +20,10 @@ def show_post(request, pk):
 @csrf_exempt
 def ballot_box(request, kind, pk, value):
     kinds = {"post": Post, "comment": Comment}
-    kinds[kind].objects.get(pk=pk).vote_set.create(value=value)
+    kinds[kind].objects.get(pk=pk).vote_set.create(
+        value=value,
+        # arbitrary values to prevent IntegrityErrors until I get
+        # around to fixing this
+        start_index=0, end_index=2
+    )
     return HttpResponse(status=204)
