@@ -9,7 +9,7 @@
 </span>
 
 <div class="post-content" data-id="{{ post.pk }}">
-{{ post.content }}
+{{ post.render|safe }}
 </div>
 
 <div id="comments">

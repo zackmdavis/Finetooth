@@ -10,7 +10,7 @@
   <strong>score: {{ post.score }}</strong>
 </span>
 <div class="post well" data-pk="{{ post.pk }}" data-kind="post">
-{{ post.content }}
+{{ post.render|safe }}
 </div>
 <a href="{{ post.pk }}/#comments">
   <strong>{{ post.comment_set.count }} comments</strong>

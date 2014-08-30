@@ -35,4 +35,3 @@ def ballot_box(request, kind, pk):
         return HttpResponse(status=204)
     else:
         return HttpResponse(status=400)
-
