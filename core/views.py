@@ -18,7 +18,20 @@ def show_post(request, pk):
 
 @require_POST
 @csrf_exempt
-def ballot_box(request, kind, pk, value):
+def ballot_box(request, kind, pk):
     kinds = {"post": Post, "comment": Comment}
-    kinds[kind].objects.get(pk=pk).vote_set.create(value=value)
-    return HttpResponse(status=204)
+    value = int(request.POST['value'])
+    selection = request.POST['selection']
+    item = kinds[kind].objects.get(pk=pk)
+    content = item.content
+    # XXX what about when the selection appears more than once?
+    start_index = content.find(selection)
+    if start_index != -1:
+        end_index = start_index + len(selection)
+        item.vote_set.create(
+            value=value,
+            start_index=start_index, end_index=end_index
+        )
+        return HttpResponse(status=204)
+    else:
+        return HttpResponse(status=400)

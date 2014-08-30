@@ -37,12 +37,9 @@ class Comment(models.Model, VotableMixin):
 
 class Vote(models.Model):
     # TODO: "voter" attribute will be ForeignKey to User
-    # TODO: for the exciting unique feature of this project, we're
-    # actually going to want votes to have a start and end index, so
-    # that they refer to substrings within the content of a post
-    # (respectively comment), rather than the post (respectively
-    # comment) itself
     value = models.IntegerField()
+    start_index = models.PositiveIntegerField()
+    end_index = models.PositiveIntegerField()
 
 class PostVote(Vote):
     post = models.ForeignKey("Post")
