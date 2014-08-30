@@ -6,9 +6,13 @@ __pycache__
 # Python bytecode files
 *.pyc
 
+# editor backups
+*~
+
 # virtualenv stuff
 bin/
 lib/
+lib64
 pyvenv.cfg
 
 # the database

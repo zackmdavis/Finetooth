@@ -5,8 +5,7 @@ from core.votable import VotableMixin
 
 class Post(models.Model, VotableMixin):
     # TODO: "author" attribute will be ForeignKey to user model
-    # TODO: "title" attribute should be CharField (but what should
-    # max_length be??)
+    title = models.CharField(max_length=200)
     content = models.TextField()
     # TODO: date published (a DateTimeField), definitely! Maybe date
     # last edited (DateTimeField with auto_now), too?
