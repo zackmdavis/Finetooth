@@ -24,6 +24,7 @@ class Comment(models.Model, VotableMixin):
     commenter = models.ForeignKey("FinetoothUser")
     content = models.TextField()
     post = models.ForeignKey("Post")
+    parent = models.ForeignKey("Comment", null=True)
 
     def __str__(self):
         return "#{} on \"{}\"".format(self.pk, self.post.title)
@@ -31,7 +32,6 @@ class Comment(models.Model, VotableMixin):
     @property
     def vote_set(self):
         return self.commentvote_set
-
 
 class Vote(models.Model):
     voter = models.ForeignKey("FinetoothUser")

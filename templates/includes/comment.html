@@ -1,0 +1,11 @@
+<div class="comment" data-pk="{{ comment.pk }}">
+{{ comment.content }}
+
+{% for child in comment.comment_set.all %}
+   {% with "includes/comment.html" as comment_template %}
+      {% with child as comment %}
+         {% include comment_template %}
+      {% endwith %}
+   {% endwith %}
+{% endfor %}
+</div>

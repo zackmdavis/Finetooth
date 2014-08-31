@@ -46,9 +46,11 @@ def show_post(request, pk):
         high_score = post.high_score()
     else:
         low_score, high_score = 0, 0
+    top_level_comments = post.comment_set.filter(parent=None)    
     return render(
         request, "post.html",
         {'post': post,
+         'top_level_comments': top_level_comments,
          'low_score': low_score, 'high_score': high_score,
          'low_color': "ff0000", 'high_color': "0000ff"}
     )
