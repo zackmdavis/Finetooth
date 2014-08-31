@@ -5,6 +5,9 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+from core.models import FinetoothUser
+from django.db import IntegrityError
 
 from core.models import Post, Comment
 
@@ -22,6 +25,19 @@ def show_post(request, pk):
     # column!) and look them up that way?
     post = Post.objects.get(pk=pk)
     return render(request, "post.html", {'post': post})
+
+def sign_up(request):
+   if  request.method == "POST":
+        try:
+            username = request.POST["username"]
+            email = request.POST["email"]
+            password = request.POST["password"]
+            user = FinetoothUser.objects.create_user(username, email, password)
+            return render(request, 'account_creation_successful.html', {})
+        except IntegrityError:
+            return render(request, 'duplicate_user.html')        
+   else:
+       return render(request, 'sign_up.html',)
 
 @login_required
 def new_post(request):

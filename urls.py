@@ -11,4 +11,5 @@ urlpatterns = patterns(
         'core.views.ballot_box', name="vote"),
     url(r'^login/', login, {'template_name': "login.html"}, name="login"),
     url(r'^logout/$', 'core.views.logout_view', name='logout'),
+    url(r'^signup/$', 'core.views.sign_up', name='sign_up')
 )
