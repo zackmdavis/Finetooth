@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from core.votable import VotableMixin
 
-class FinetoothUser(AbstractUser):   
+class FinetoothUser(AbstractUser):
     location = models.CharField(max_length=100)
     url = models.URLField()
 
@@ -10,13 +10,10 @@ class Post(models.Model, VotableMixin):
     author = models.ForeignKey("FinetoothUser")
     title = models.CharField(max_length=200)
     content = models.TextField()
-    # TODO: date published (a DateTimeField), definitely! Maybe date
-    # last edited (DateTimeField with auto_now), too?
+    # TODO: date published (a DateTimeField)
 
     def __str__(self):
-        # TODO: change this to something more informative when we have
-        # authors and titles
-        return "#{}: {}".format(self.pk, self.content[:12])
+        return "#{}: {}".format(self.pk, self.title)
 
     @property
     def vote_set(self):
@@ -27,10 +24,9 @@ class Comment(models.Model, VotableMixin):
     commenter = models.ForeignKey("FinetoothUser")
     content = models.TextField()
     post = models.ForeignKey("Post")
-    
+
     def __str__(self):
-        # TODO: change this to something more informative, &c.
-        return "#{}: {}".format(self.pk, self.content[:12])
+        return "#{} on \"{}\"".format(self.pk, self.post.title)
 
     @property
     def vote_set(self):
@@ -54,5 +50,3 @@ class CommentVote(Vote):
 
     def __str__(self):
         return "{} on comment #{}".format(self.value, self.comment.pk)
-
-

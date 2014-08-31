@@ -10,10 +10,27 @@ from core.models import FinetoothUser
 from django.db import IntegrityError
 
 from core.models import Post, Comment
+from core.colorize import stylesheet
 
 def home(request):
     posts = Post.objects.all()
-    return render(request, "home.html", {'posts': posts})
+    if posts:
+        low_score = min(p.low_score() for p in posts)
+        high_score = max(p.high_score() for p in posts)
+    else:
+        low_score, high_score = 0, 0
+    return render(
+        request, "home.html",
+        {'posts': posts,
+         'low_score': low_score, 'high_score': high_score,
+         'low_color': "ff0000", 'high_color': "0000ff"}
+    )
+
+def serve_stylesheet(request, low_score, low_color, high_score, high_color):
+    return HttpResponse(
+        stylesheet(int(low_score), low_color, int(high_score), high_color),
+        content_type="text/css"
+    )
 
 def logout_view(request):
     logout(request)
@@ -24,7 +41,17 @@ def show_post(request, pk):
     # want to store URL slugs in the post model (and index that
     # column!) and look them up that way?
     post = Post.objects.get(pk=pk)
-    return render(request, "post.html", {'post': post})
+    if post:
+        low_score = post.low_score()
+        high_score = post.high_score()
+    else:
+        low_score, high_score = 0, 0
+    return render(
+        request, "post.html",
+        {'post': post,
+         'low_score': low_score, 'high_score': high_score,
+         'low_color': "ff0000", 'high_color': "0000ff"}
+    )
 
 def sign_up(request):
    if  request.method == "POST":
@@ -50,7 +77,6 @@ def new_post(request):
         return redirect(reverse("show_post", args=(new_post.pk,)))
     else:
         return render(request, "new_post.html", {})
-
 
 @require_POST
 @csrf_exempt
