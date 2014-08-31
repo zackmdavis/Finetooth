@@ -3,8 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from core.votable import VotableMixin
 
 class FinetoothUser(AbstractUser):
-    location = models.CharField(max_length=100)
-    url = models.URLField()
+    location = models.CharField(max_length=100, null=True)
+    url = models.URLField(null=True)
 
 class Post(models.Model, VotableMixin):
     author = models.ForeignKey("FinetoothUser")
