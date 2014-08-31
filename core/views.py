@@ -18,7 +18,8 @@ def home(request):
         low_score, high_score = 0, 0
     return render(
         request, "home.html",
-        {'posts': posts, 'low_score': low_score, 'high_score': high_score,
+        {'posts': posts,
+         'low_score': low_score, 'high_score': high_score,
          'low_color': "ff0000", 'high_color': "0000ff"}
     )
 
@@ -37,7 +38,17 @@ def show_post(request, pk):
     # want to store URL slugs in the post model (and index that
     # column!) and look them up that way?
     post = Post.objects.get(pk=pk)
-    return render(request, "post.html", {'post': post})
+    if post:
+        low_score = post.low_score()
+        high_score = post.high_score()
+    else:
+        low_score, high_score = 0, 0
+    return render(
+        request, "post.html",
+        {'post': post,
+         'low_score': low_score, 'high_score': high_score,
+         'low_color': "ff0000", 'high_color': "0000ff"}
+    )
 
 @login_required
 def new_post(request):

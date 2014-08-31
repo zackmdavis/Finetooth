@@ -37,6 +37,11 @@ def style_block(value, color):
                       "}\n"])
 
 def stylesheet(low_score, low_color, high_score, high_color):
-    color_stops = populate_stops({low_score: low_color, high_score: high_color})
+    stops = {0: "000000"}
+    if low_score < 0:
+        stops.update({low_score: low_color})
+    if high_score > 0:
+        stops.update({high_score: high_color})
+    colors = populate_stops(stops)
     return "\n".join(style_block(value, color)
-                     for value, color in color_stops.items())
+                     for value, color in colors.items())

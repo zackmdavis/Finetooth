@@ -1,17 +1,12 @@
 {% extends "base.html" %}
 
+{% block valuation %}
+<link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
+{% endblock %}
 {% block subtitle %}{{ post.title }}{% endblock %}
 
 {% block content %}
-<h2>Post #{{ post.pk }}</h2>
-<span class="score" data-pk="{{ post.pk }}" data-score="{{ post.score }}">
-  <strong>score: {{ post.score }}</strong>
-</span>
-
-<div class="post-content" data-id="{{ post.pk }}">
-{{ post.render|safe }}
-</div>
-
+{% include "includes/post.html" %}
 <div id="comments">
   <h4>{{ post.comment_set.count }} comments</h4>
   {% for comment in post.comment_set.all %}
@@ -21,5 +16,4 @@
   </div>
   {% endfor %}
 </div>
-
 {% endblock %}
