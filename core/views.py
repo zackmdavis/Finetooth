@@ -7,10 +7,26 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 
 from core.models import Post, Comment
+from core.colorize import stylesheet
 
 def home(request):
     posts = Post.objects.all()
-    return render(request, "home.html", {'posts': posts})
+    if posts:
+        low_score = min(p.low_score() for p in posts)
+        high_score = max(p.high_score() for p in posts)
+    else:
+        low_score, high_score = 0, 0
+    return render(
+        request, "home.html",
+        {'posts': posts, 'low_score': low_score, 'high_score': high_score,
+         'low_color': "ff0000", 'high_color': "0000ff"}
+    )
+
+def serve_stylesheet(request, low_score, low_color, high_score, high_color):
+    return HttpResponse(
+        stylesheet(int(low_score), low_color, int(high_score), high_color),
+        content_type="text/css"
+    )
 
 def logout_view(request):
     logout(request)
@@ -34,7 +50,6 @@ def new_post(request):
         return redirect(reverse("show_post", args=(new_post.pk,)))
     else:
         return render(request, "new_post.html", {})
-
 
 @require_POST
 @csrf_exempt

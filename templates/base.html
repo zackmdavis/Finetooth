@@ -6,9 +6,9 @@
   {% bootstrap_css %}
   <link href='http://fonts.googleapis.com/css?family=Italianno'
 	rel='stylesheet' type='text/css'>
-<link href="/static/finetooth.css" rel="stylesheet">
-
-    <title>Finetooth &mdash; {% block subtitle %}{% endblock %}</title>
+  <link href="/static/finetooth.css" rel="stylesheet">
+  {% block valuation %}{% endblock %}
+  <title>Finetooth &mdash; {% block subtitle %}{% endblock %}</title>
 </head>
 <body>
 
@@ -17,7 +17,7 @@
         <span id="brand" class="pull-left"><a href="/">Finetooth</a></span>
 	<ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
-	  {% if not  user.is_authenticated %}	  
+	  {% if not user.is_authenticated %}
 	  <li><a href="/login">Log in</a></li>
 	  <li><a href="#TODO">Sign up</a></li>
 	  {% else %}

@@ -35,3 +35,8 @@ def style_block(value, color):
     return "\n".join(["[data-value=\"{}\"] {{".format(value),
                       "    color: #{};".format(color),
                       "}\n"])
+
+def stylesheet(low_score, low_color, high_score, high_color):
+    color_stops = populate_stops({low_score: low_color, high_score: high_color})
+    return "\n".join(style_block(value, color)
+                     for value, color in color_stops.items())

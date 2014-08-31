@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% block valuation %}
+<link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
+{% endblock %}
 {% block subtitle %}Home{% endblock %}
 
 {% block content %}
@@ -17,12 +20,12 @@
 </a>
 <a class="btn btn-success upvote"
    data-pk="{{ post.pk }}" data-kind="post"
-   href="javascript:void(0)"> 
+   href="javascript:void(0)">
   <i class="glyphicon glyphicon-thumbs-up"></i> upvote
 </a>
 <a class="btn btn-danger downvote"
    data-pk="{{ post.pk }}" data-kind="post"
-   href="javascript:void(0)"> 
+   href="javascript:void(0)">
   <i class="glyphicon glyphicon-thumbs-down"></i> downvote
 </a>
 </div>

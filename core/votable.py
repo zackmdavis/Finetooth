@@ -18,9 +18,13 @@ class VotableMixin:
         return tuple(scored_characters)
 
     def render(self):
-        clr = lambda i: "#0000" + hex(i)[2:]*2 if i < 15 else "#0000FF"
         return "".join(
-            "<span style=\"color:{};\">{}</span>".format(clr(value), character)
+            "<span data-value=\"{}\">{}</span>".format(value, character)
             for character, value in self.scored_content
         )
-        
+
+    def low_score(self):
+        return min(v for c, v in self.scored_content)
+
+    def high_score(self):
+        return max(v for c, v in self.scored_content)
