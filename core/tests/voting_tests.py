@@ -5,9 +5,14 @@ from core.models import Post
 class ScoringTest(TestCase):
 
     def setUp(self):
-        self.the_post = Post.objects.create(content="friendship")
+        self.the_post = Post.objects.create(
+            author_id=1, content="friendship", title="eponymous"
+        )
         for i in range(6):
-            self.the_post.vote_set.create(value=1, start_index=i, end_index=10)
+            self.the_post.vote_set.create(
+                voter_id=1, value=1,
+                start_index=i, end_index=10
+            )
 
     def test_scored_content(self):
         self.assertEqual(

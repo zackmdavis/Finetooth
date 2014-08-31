@@ -12,6 +12,10 @@ def home(request):
     posts = Post.objects.all()
     return render(request, "home.html", {'posts': posts})
 
+def logout_view(request):
+    logout(request)
+    return redirect("/")
+
 def show_post(request, pk):
     # TODO: looking up posts by ID number is super ugly; we probably
     # want to store URL slugs in the post model (and index that
@@ -30,11 +34,13 @@ def new_post(request):
         return redirect(reverse("show_post", args=(new_post.pk,)))
     else:
         return render(request, "new_post.html", {})
-    
+
 
 @require_POST
 @csrf_exempt
 def ballot_box(request, kind, pk):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=403)
     kinds = {"post": Post, "comment": Comment}
     value = int(request.POST['value'])
     selection = request.POST['selection']
@@ -45,16 +51,9 @@ def ballot_box(request, kind, pk):
     if start_index != -1:
         end_index = start_index + len(selection)
         item.vote_set.create(
-            value=value,
+            voter=request.user, value=value,
             start_index=start_index, end_index=end_index
         )
         return HttpResponse(status=204)
     else:
         return HttpResponse(status=400)
-
-def logout_view(request):
-    logout(request)
-    return redirect("/")
-
-
-
