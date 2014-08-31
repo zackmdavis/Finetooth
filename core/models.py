@@ -1,10 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from core.votable import VotableMixin
 
-# TODO: users; probably want to subclass Django's AbstractUser
+class FinetoothUser(AbstractUser):   
+    location = models.CharField(max_length=100)
+    url = models.URLField()
 
 class Post(models.Model, VotableMixin):
-    # TODO: "author" attribute will be ForeignKey to user model
+    author = models.ForeignKey("FinetoothUser")
     title = models.CharField(max_length=200)
     content = models.TextField()
     # TODO: date published (a DateTimeField), definitely! Maybe date
@@ -21,7 +24,7 @@ class Post(models.Model, VotableMixin):
 
 
 class Comment(models.Model, VotableMixin):
-    # TODO: "author" attribute will be, &c.
+    commenter = models.ForeignKey("FinetoothUser")
     content = models.TextField()
     post = models.ForeignKey("Post")
     
@@ -35,7 +38,7 @@ class Comment(models.Model, VotableMixin):
 
 
 class Vote(models.Model):
-    # TODO: "voter" attribute will be ForeignKey to User
+    voter = models.ForeignKey("FinetoothUser")
     value = models.IntegerField()
     start_index = models.PositiveIntegerField()
     end_index = models.PositiveIntegerField()
@@ -51,3 +54,5 @@ class CommentVote(Vote):
 
     def __str__(self):
         return "{} on comment #{}".format(self.value, self.comment.pk)
+
+

@@ -55,6 +55,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "core.FinetoothUser"
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -69,3 +71,5 @@ TEMPLATE_DIRS = ("templates",)
 STATICFILES_DIRS = ("static",)
 
 STATIC_URL = '/static/'
+
+
