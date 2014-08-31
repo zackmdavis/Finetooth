@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 
 from core.models import Post, Comment
 
@@ -16,6 +18,19 @@ def show_post(request, pk):
     # column!) and look them up that way?
     post = Post.objects.get(pk=pk)
     return render(request, "post.html", {'post': post})
+
+@login_required
+def new_post(request):
+    if request.method == "POST":
+        content = request.POST["content"]
+        title = request.POST["title"]
+        new_post = Post.objects.create(
+            content=content, title=title, author=request.user
+        )
+        return redirect(reverse("show_post", args=(new_post.pk,)))
+    else:
+        return render(request, "new_post.html", {})
+    
 
 @require_POST
 @csrf_exempt
@@ -40,4 +55,6 @@ def ballot_box(request, kind, pk):
 def logout_view(request):
     logout(request)
     return redirect("/")
+
+
 

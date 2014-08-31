@@ -22,6 +22,7 @@
 	  <li><a href="#TODO">Sign up</a></li>
 	  {% else %}
 	  <li>{{ user.username }}</li>
+      <li> <a href="{% url 'new_post' %}"> New Post</a></li>
       <li> <a href="/logout">Log out</a></li>
 	  {% endif %}
 	</ul>
