@@ -17,9 +17,13 @@
         <span id="brand" class="pull-left"><a href="/">Finetooth</a></span>
 	<ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#TODO">About</a></li>
-	  <li><a href="#TODO">Log in</a></li>
+	  {% if not  user.is_authenticated %}	  
+	  <li><a href="/login">Log in</a></li>
 	  <li><a href="#TODO">Sign up</a></li>
+	  {% else %}
+	  <li>{{ user.username }}</li>
+      <li> <a href="/logout">Log out</a></li>
+	  {% endif %}
 	</ul>
     </div>
   </div>

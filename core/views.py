@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.auth import logout
 
 from core.models import Post, Comment
 
@@ -35,3 +36,8 @@ def ballot_box(request, kind, pk):
         return HttpResponse(status=204)
     else:
         return HttpResponse(status=400)
+
+def logout_view(request):
+    logout(request)
+    return redirect("/")
+

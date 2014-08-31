@@ -57,6 +57,8 @@ DATABASES = {
 
 AUTH_USER_MODEL = "core.FinetoothUser"
 
+AUTH_REDIRECT_URL = "/"
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
