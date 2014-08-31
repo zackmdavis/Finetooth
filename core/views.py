@@ -6,11 +6,12 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from core.models import FinetoothUser
+
 from django.db import IntegrityError
 
-from core.models import Post, Comment
+from core.models import Post, Comment, FinetoothUser
 from core.colorize import stylesheet
+from core.forms import CommentForm
 
 def home(request):
     posts = Post.objects.all()
@@ -46,14 +47,26 @@ def show_post(request, pk):
         high_score = post.high_score()
     else:
         low_score, high_score = 0, 0
+    comment_form = CommentForm()
     top_level_comments = post.comment_set.filter(parent=None)    
     return render(
         request, "post.html",
-        {'post': post,
+        {'post': post, 'comment_form': comment_form,
          'top_level_comments': top_level_comments,
          'low_score': low_score, 'high_score': high_score,
          'low_color': "ff0000", 'high_color': "0000ff"}
     )
+
+@login_required
+@require_POST
+def add_comment(request, pk):
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        Comment.objects.create(
+            content=comment_form.cleaned_data['content'],
+            commenter=request.user, post_id=pk
+        )
+        return redirect(reverse("show_post", args=(pk,)))
 
 def sign_up(request):
    if  request.method == "POST":
@@ -84,7 +97,7 @@ def new_post(request):
 @csrf_exempt
 def ballot_box(request, kind, pk):
     if not request.user.is_authenticated():
-        return HttpResponse(status=403)
+        return HttpResponse(status=401)
     kinds = {"post": Post, "comment": Comment}
     value = int(request.POST['value'])
     selection = request.POST['selection']
