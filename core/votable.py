@@ -81,10 +81,15 @@ class VotableMixin:
                      )
                 )
             elif isinstance(token, tuple) and len(token) == 2: # open tag
+                tag_type, attributes = token
                 join_to_render.append(
-                    "<{}{}>".format(
-                        token[0],
-                        " ".join('{}="{}"' for k, v in token[1])
+                    "<{}{}{}>".format(
+                        tag_type,
+                        " " if attributes else "",
+                        " ".join(
+                            '{}="{}"'.format(k, v)
+                            for k, v in attributes.items()
+                        )
                     )
                 )
             elif isinstance(token, tuple) and len(token) == 1: # close tag
