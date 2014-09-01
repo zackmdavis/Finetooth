@@ -1,3 +1,21 @@
+from html.parser import HTMLParser
+
+class Tagnostic(HTMLParser):
+    def __init__(self, content):
+        super().__init__(convert_charrefs=True)
+        self.content = []
+        self.feed(content)
+
+    def handle_starttag(self, tag, attrs):
+        self.content.append((tag, dict(attrs)))
+
+    def handle_endtag(self, tag):
+        self.content.append(('/'+tag,))
+
+    def handle_data(self, data):
+        self.content.append(data)
+
+
 class VotableMixin:
 
     @property

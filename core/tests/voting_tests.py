@@ -1,6 +1,21 @@
 from django.test import TestCase
 
+from markdown import markdown
+
 from core.models import Post
+from core.votable import Tagnostic
+
+class TagnosticismTest(TestCase):
+
+    def test_feeding(self):
+        content = markdown("*Hello* [Python](python.org) world")
+        tag_skeptic = Tagnostic(content)
+        self.assertEqual(
+            tag_skeptic.content,
+            [('p', {}), ("em", {}), "Hello", ("/em",), " ",
+             ('a', {'href': 'python.org'}), "Python", ("/a",),
+             " world", ('/p',)]
+        )
 
 class ScoringTest(TestCase):
 
