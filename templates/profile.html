@@ -12,10 +12,16 @@ Location: {{the_user.location}}
 
 <p>
 
-URL: {{the_user.url}} 
+URL: <a href="{{the_user.url}}"> {{the_user.url}} </a> 
 
 <p>
 
+{% for post in posts %}
+   {% include "includes/post.html" %}
+{% endfor %}
 
+{% for comment in comments %}
+   {% include "includes/comment.html" %}
+{% endfor %}
 
 {% endblock %}
