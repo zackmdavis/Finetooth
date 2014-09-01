@@ -57,6 +57,7 @@ def show_post(request, pk):
          'low_color': "ff0000", 'high_color': "0000ff"}
     )
 
+@csrf_exempt
 @login_required
 @require_POST
 def add_comment(request, pk):
@@ -64,7 +65,8 @@ def add_comment(request, pk):
     if comment_form.is_valid():
         Comment.objects.create(
             content=comment_form.cleaned_data['content'],
-            commenter=request.user, post_id=pk
+            commenter=request.user, post_id=pk,
+            parent_id=request.POST.get('parent')
         )
         return redirect(reverse("show_post", args=(pk,)))
 

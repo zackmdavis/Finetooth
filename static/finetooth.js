@@ -13,7 +13,7 @@ function vote(kind, pk, selection, value) {
 function setCommentFormShowHandlers() {
     $('.reply-form-link').on("click", function(event) {
 	var form_link = $(this);
-	var form = '<form action="/add_comment/' + form_link.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="comment" form="usrform"></textarea><input type="submit" value="Submit"></form>';
+	var form = '<form action="/add_comment/' + form_link.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="content"></textarea><input type="hidden" name="parent" value="' + form_link.data("comment-pk") + '"> <input type="submit" value="Submit"></form>';
 	$('.reply-form-holder[data-parent-pk="' + form_link.data("comment-pk") + '"]').append(form);
 	form_link.remove();
     });

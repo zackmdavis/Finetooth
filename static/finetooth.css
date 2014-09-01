@@ -8,3 +8,8 @@
 #brand a:visited { text-decoration: none; color: #000000; }
 #brand a:hover { text-decoration: none; color: #0000DD; }
 #brand a:active { text-decoration: none; color: #DD0000; }
+
+.comment {
+    border-width: 1px;
+    border-style: solid;
+}
