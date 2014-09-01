@@ -12,6 +12,8 @@ from django.db import IntegrityError
 from core.models import Post, Comment, FinetoothUser
 from core.colorize import stylesheet
 from core.forms import CommentForm
+from core.votable import VotingException
+
 
 def home(request):
     posts = Post.objects.all()
@@ -48,7 +50,7 @@ def show_post(request, pk):
     else:
         low_score, high_score = 0, 0
     comment_form = CommentForm()
-    top_level_comments = post.comment_set.filter(parent=None)    
+    top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
         {'post': post, 'comment_form': comment_form,
@@ -79,7 +81,7 @@ def sign_up(request):
             user = FinetoothUser.objects.create_user(username, email, password)
             return render(request, 'account_creation_successful.html', {})
         except IntegrityError:
-            return render(request, 'duplicate_user.html')        
+            return render(request, 'duplicate_user.html')
    else:
        return render(request, 'sign_up.html',)
 
@@ -104,20 +106,12 @@ def ballot_box(request, kind, pk):
     value = int(request.POST['value'])
     selection = request.POST['selection']
     item = kinds[kind].objects.get(pk=pk)
-    content = item.content
-    # XXX what about when the selection appears more than once?
-    start_index = content.find(selection)
-    if start_index != -1:
-        end_index = start_index + len(selection)
-        item.vote_set.create(
-            voter=request.user, value=value,
-            start_index=start_index, end_index=end_index
-        )
+    try:
+        item.accept_vote(request.user, selection, value)
         return HttpResponse(status=204)
-    else:
+    except VotingException:
         return HttpResponse(status=400)
 
-
 def show_profile(request, username):
-    the_user = FinetoothUser.objects.get(username=username)    
+    the_user = FinetoothUser.objects.get(username=username)
     return render(request, "profile.html", {'the_user': the_user})

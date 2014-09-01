@@ -23,11 +23,19 @@ class Tagnostic(HTMLParser):
         )
 
 
+class VotingException(Exception):
+    pass
+
+
 class VotableMixin:
 
     @property
     def score(self):
         return sum(v.value for v in self.vote_set.all())
+
+    @property
+    def plaintext(self):
+        return Tagnostic(self.content).plaintext()
 
     def scored_plaintext(self):
         votes = self.vote_set.all()
@@ -40,6 +48,20 @@ class VotableMixin:
             )
             scored_characters.append((c, score))
         return tuple(scored_characters)
+
+    def accept_vote(self, voter, selection, value):
+        # XXX what about when the selection appears more than
+        # once?--search by regex instead and disallow voting on
+        # non-unique phrases? Or can we do better?
+        start_index = self.plaintext.find(selection)
+        if start_index != -1:
+            end_index = start_index + len(selection)
+            return self.vote_set.create(
+                voter=voter, value=value,
+                start_index=start_index, end_index=end_index
+            )
+        else:
+            raise VotingException("can't find selection in content")
 
     def render(self):
         parsed_content = Tagnostic(self.content).content
