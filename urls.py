@@ -14,5 +14,5 @@ urlpatterns = patterns(
     url(r'^login/', login, {'template_name': "login.html"}, name="login"),
     url(r'^logout/$', 'core.views.logout_view', name='logout'),
     url(r'^signup/$', 'core.views.sign_up', name='sign_up'),
-    url(r'^add_comment/(\d+)$', 'core.views.add_comment', name='add_comment'),
+    url(r'^add_comment/(\d+)/$', 'core.views.add_comment', name='add_comment'),
 )

@@ -1,6 +1,10 @@
 <div class="comment" data-pk="{{ comment.pk }}">
 {{ comment.content }}
-
+<a href="javascript:void(0);" class="reply-form-link"
+   data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
+  Reply
+</a>
+<div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>
 {% for child in comment.comment_set.all %}
    {% with "includes/comment.html" as comment_template %}
       {% with child as comment %}
