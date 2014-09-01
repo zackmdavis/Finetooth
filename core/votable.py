@@ -1,10 +1,12 @@
+from markdown import markdown
 from html.parser import HTMLParser
+
 
 class Tagnostic(HTMLParser):
     def __init__(self, content):
         super().__init__(convert_charrefs=True)
         self.content = []
-        self.feed(content)
+        self.feed(markdown(content))
 
     def handle_starttag(self, tag, attrs):
         self.content.append((tag, dict(attrs)))
@@ -15,6 +17,11 @@ class Tagnostic(HTMLParser):
     def handle_data(self, data):
         self.content.append(data)
 
+    def plaintext(self):
+        return ''.join(
+            token for token in self.content if isinstance(token, str)
+        )
+
 
 class VotableMixin:
 
@@ -22,13 +29,12 @@ class VotableMixin:
     def score(self):
         return sum(v.value for v in self.vote_set.all())
 
-    @property
-    def scored_content(self):
+    def scored_plaintext(self):
         votes = self.vote_set.all()
         scored_characters = []
         # XXX FIXME: O(n^2) in the length of content; I think we can
         # and may need to do better than that
-        for i, c in enumerate(self.content):
+        for i, c in enumerate(Tagnostic(self.content).plaintext()):
             score = sum(
                 v.value for v in votes if v.start_index <= i < v.end_index
             )
@@ -36,13 +42,35 @@ class VotableMixin:
         return tuple(scored_characters)
 
     def render(self):
-        return "".join(
-            "<span data-value=\"{}\">{}</span>".format(value, character)
-            for character, value in self.scored_content
-        )
+        parsed_content = Tagnostic(self.content).content
+        # XXX parsing twice considered harmful
+        scored_plaintext_stack = list(reversed(self.scored_plaintext()))
+        join_to_render = []
+        for token in parsed_content:
+            if isinstance(token, str): # text
+                scored_characters = [scored_plaintext_stack.pop()
+                              for _ in range(len(token))]
+                join_to_render.append(
+                     "".join(
+                         "<span data-value=\"{}\">{}</span>".format(
+                             value, character
+                         )
+                         for character, value in scored_characters
+                     )
+                )
+            elif isinstance(token, tuple) and len(token) == 2: # open tag
+                join_to_render.append(
+                    "<{}{}>".format(
+                        token[0],
+                        " ".join('{}="{}"' for k, v in token[1])
+                    )
+                )
+            elif isinstance(token, tuple) and len(token) == 1: # close tag
+                join_to_render.append("<{}>".format(token[0]))
+        return "".join(join_to_render)
 
     def low_score(self):
-        return min(v for c, v in self.scored_content)
+        return min(v for c, v in self.scored_plaintext())
 
     def high_score(self):
-        return max(v for c, v in self.scored_content)
+        return max(v for c, v in self.scored_plaintext())

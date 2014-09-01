@@ -23,6 +23,6 @@ class BallotBoxTest(TestCase):
                              selection)
         self.assertEqual(3, self.the_post.score)
         self.assertEqual((('h', 2), ('e', 1)),
-                         self.the_post.scored_content[:2])
-        self.assertEqual(('D', 1), self.the_post.scored_content[6])
-        self.assertEqual(('d', 0), self.the_post.scored_content[-1])
+                         self.the_post.scored_plaintext()[:2])
+        self.assertEqual(('D', 1), self.the_post.scored_plaintext()[6])
+        self.assertEqual(('d', 0), self.the_post.scored_plaintext()[-1])
