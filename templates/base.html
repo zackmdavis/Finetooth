@@ -21,7 +21,7 @@
 	  <li><a href="/login">Log in</a></li>
 	  <li><a href="/signup">Sign up</a></li>
 	  {% else %}
-	  <li>{{ user.username }}</li>
+	  <li><a href="{% url 'show_profile' user.username %}">{{ user.username }}</a></li>
       <li> <a href="{% url 'new_post' %}"> New Post</a></li>
       <li> <a href="/logout">Log out</a></li>
       

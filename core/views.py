@@ -116,3 +116,8 @@ def ballot_box(request, kind, pk):
         return HttpResponse(status=204)
     else:
         return HttpResponse(status=400)
+
+
+def show_profile(request, username):
+    the_user = FinetoothUser.objects.get(username=username)    
+    return render(request, "profile.html", {'the_user': the_user})

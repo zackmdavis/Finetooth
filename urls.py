@@ -15,4 +15,5 @@ urlpatterns = patterns(
     url(r'^logout/$', 'core.views.logout_view', name='logout'),
     url(r'^signup/$', 'core.views.sign_up', name='sign_up'),
     url(r'^add_comment/(\d+)/$', 'core.views.add_comment', name='add_comment'),
+    url(r'^user/(.*)/$', 'core.views.show_profile', name='show_profile'),
 )

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block subtitle %} Profile for {{the_user.username}} {% endblock %}
+
+{% block content %}
+
+Profile for {{the_user.username}}.
+
+<p>
+
+Location: {{the_user.location}}
+
+<p>
+
+URL: {{the_user.url}} 
+
+<p>
+
+
+
+{% endblock %}
