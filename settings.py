@@ -28,7 +28,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
     'bootstrap3',
     'core',
 )
@@ -73,5 +72,3 @@ TEMPLATE_DIRS = ("templates",)
 STATICFILES_DIRS = ("static",)
 
 STATIC_URL = '/static/'
-
-
