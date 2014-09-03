@@ -1,5 +1,4 @@
 from django.test import TestCase
-from unittest import skip
 
 from core.colorize import (
     diffract, undiffract, interpolate, interpolate_stop, populate_stops
