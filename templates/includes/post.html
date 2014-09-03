@@ -1,7 +1,10 @@
 <h3><a href="/{{ post.pk }}/">{{ post.title }}</a></h3>
 <div><strong>by <a href="{% url 'show_profile' user.username %}">{{ post.author }}</a> </strong> </div>
 <span class="score" data-pk="{{ post.pk }}" data-score="{{ post.score }}">
-  <strong>score: {{ post.score }}</strong>
+  <p>
+    <i class="glyphicon glyphicon-time"></i> <em>{{ post.published_at }} </em>
+    <strong>score: {{ post.score }}</strong>
+  </p>
 </span>
 <div class="post well" data-pk="{{ post.pk }}" data-kind="post">
 {{ post.render|safe }}

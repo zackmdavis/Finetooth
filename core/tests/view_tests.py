@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
@@ -10,7 +12,8 @@ class BallotBoxTest(TestCase):
             username="test", password="password"
         )
         self.the_post = Post.objects.create(
-            author_id=2,content="hello Django world"
+            author_id=2,content="hello Django world",
+            published_at=datetime.now()
         )
 
     def test_can_vote_on_post(self):

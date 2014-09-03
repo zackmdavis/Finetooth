@@ -1,5 +1,8 @@
 <div class="comment" data-pk="{{ comment.pk }}">
-<div class="byline"><a href="{% url 'show_profile' user.username %}">{{ comment.commenter.username }}</a></div>
+<div class="byline">
+  <a href="{% url 'show_profile' user.username %}">{{ comment.commenter.username }}</a>
+  &bull; <em>{{ comment.published_at }}</em>
+</div>
 {{ comment.content }}
 <a href="javascript:void(0);" class="reply-form-link"
    data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">

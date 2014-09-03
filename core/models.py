@@ -6,11 +6,12 @@ class FinetoothUser(AbstractUser):
     location = models.CharField(max_length=100, null=True)
     url = models.URLField(null=True)
 
+
 class Post(models.Model, VotableMixin):
     author = models.ForeignKey("FinetoothUser")
     title = models.CharField(max_length=200)
     content = models.TextField()
-    # TODO: date published (a DateTimeField)
+    published_at = models.DateTimeField()
 
     def __str__(self):
         return "#{}: {}".format(self.pk, self.title)
@@ -25,13 +26,15 @@ class Comment(models.Model, VotableMixin):
     content = models.TextField()
     post = models.ForeignKey("Post")
     parent = models.ForeignKey("Comment", null=True)
+    published_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "#{} on \"{}\"".format(self.pk, self.post.title)
+        return "#{}; on \"{}\"".format(self.pk, self.post.title)
 
     @property
     def vote_set(self):
         return self.commentvote_set
+
 
 class Vote(models.Model):
     voter = models.ForeignKey("FinetoothUser")

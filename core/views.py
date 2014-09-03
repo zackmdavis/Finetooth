@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -91,7 +93,8 @@ def new_post(request):
         content = request.POST["content"]
         title = request.POST["title"]
         new_post = Post.objects.create(
-            content=content, title=title, author=request.user
+            content=content, title=title, author=request.user,
+            published_at=datetime.now()
         )
         return redirect(reverse("show_post", args=(new_post.pk,)))
     else:

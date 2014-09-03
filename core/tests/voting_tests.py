@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase
 
 from core.models import Post
@@ -24,7 +26,8 @@ class ScoringTest(TestCase):
 
     def setUp(self):
         self.the_post = Post.objects.create(
-            author_id=1, content="friendship", title="eponymous"
+            author_id=1, content="friendship", title="eponymous",
+            published_at=datetime.now()
         )
         for i in range(6):
             self.the_post.vote_set.create(
