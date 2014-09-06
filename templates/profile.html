@@ -1,28 +1,35 @@
 {% extends "base.html" %}
 
-{% block subtitle %} Profile for {{the_user.username}} {% endblock %}
+{% block subtitle %} Profile for {{ the_user.username }} {% endblock %}
 
 {% block content %}
 
-Profile for {{the_user.username}}.
+Profile for {{ the_user.username }}.
 
 <p>
-
-{% if viewing_user == the_user %}
-  This is you!
-{% else %}
-  This is not you...
-{% endif %}
-
-<p>
-
-Location: {{the_user.location}}
+  {% if viewing_user == the_user %}
+    This is you!
+  {% else %}
+    This is not you...
+  {% endif %}
+</p>
 
 <p>
-
-URL: <a href="{{the_user.url}}"> {{the_user.url}} </a> 
+  Karma: <span class="karma-bubble">&nbsp;{{ the_user.karma }}&nbsp;</span>
+</p>
 
 <p>
+  Location: {{ the_user.location }}
+</p>
+
+<p>
+  URL:
+  {% if the_user.url %}
+    <a href="{{ the_user.url }}"> {{ the_user.url }}</a>
+  {% else %}
+    none
+  {% endif %}
+</p>
 
 {% for post in posts %}
    {% include "includes/post.html" %}

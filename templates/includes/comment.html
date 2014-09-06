@@ -1,12 +1,16 @@
 <div class="comment" data-pk="{{ comment.pk }}">
 <div class="byline">
-  <a href="{% url 'show_profile' comment.commenter.username %}">{{ comment.commenter.username }}</a>
+  <a href="{% url 'show_profile' comment.commenter.username %}">
+    <strong>{{ comment.commenter.username }}</strong>
+  </a>
   &bull; <em>{{ comment.published_at }}</em>
 </div>
-{{ comment.content }}
-<a href="javascript:void(0);" class="reply-form-link"
-   data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
-  Reply
+{{ comment.render|safe }}
+<p>
+  <a href="javascript:void(0);" class="reply-form-link"
+     data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
+    <i class="glyphicon glyphicon-pencil"></i> Reply
+</p>
 </a>
 <div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>
 {% for child in comment.comment_set.all %}

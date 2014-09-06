@@ -121,6 +121,6 @@ def show_profile(request, username):
     posts = Post.objects.filter(author=the_user)
     comments = Comment.objects.filter(commenter=the_user)
     return render(request, "profile.html",
-                  {'the_user': the_user, 'viewing_user': viewing_user, 'posts': posts, 'comments': comments})
-
- 
+                  {'the_user': the_user,
+                   'viewing_user': viewing_user,
+                   'posts': posts, 'comments': comments})
