@@ -12,23 +12,25 @@ function vote(kind, pk, selection, value) {
 
 function setCommentFormShowHandlers() {
     $('.reply-form-link').on("click", function(event) {
-	var form_link = $(this);
-	var form = '<form action="/add_comment/' + form_link.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="content"></textarea><input type="hidden" name="parent" value="' + form_link.data("comment-pk") + '"> <input type="submit" value="Submit"></form>';
-	$('.reply-form-holder[data-parent-pk="' + form_link.data("comment-pk") + '"]').append(form);
-	form_link.remove();
+	var formLink = $(this);
+	var form = '<form action="/add_comment/' + formLink.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="content"></textarea><input type="hidden" name="parent" value="' + formLink.data("comment-pk") + '"><br><input type="submit" value="Submit"></form>';
+	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") + '"]').append(form);
+	formLink.remove();
     });
 }
 
 $(document).ready(function() {
     setCommentFormShowHandlers();
     $('.upvote').click(function(event) {
-	vote($(this).data("kind"), $(this).data("pk"),
+	var upvoteElement = $(this);
+	vote(upvoteElement.data("kind"), upvoteElement.data("pk"),
 	     window.getSelection().toString(), 1);
 	return true;
     });
     $('.downvote').click(function(event) {
-	vote($(this).data("kind"), $(this).data("pk"),
-	      window.getSelection().toString(), -1);
+	var downvoteElement = $(this);
+	vote(downvoteElement.data("kind"), downvoteElement.data("pk"),
+	     window.getSelection().toString(), -1);
 	return true;
     });
 });

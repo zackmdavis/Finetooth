@@ -14,6 +14,12 @@
 .comment {
     border-width: 1px;
     border-style: solid;
+    padding: 6px;
+    margin: 6px;
+}
+
+.reply-form-link {
+    font-size: 85%;
 }
 
 .karma-bubble {
