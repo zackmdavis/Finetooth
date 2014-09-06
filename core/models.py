@@ -2,10 +2,19 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from core.votable import VotableMixin
 
+
 class FinetoothUser(AbstractUser):
     location = models.CharField(max_length=100, null=True)
     url = models.URLField(null=True)
 
+    def post_karma(self):
+        return 3 * sum(post.score for post in self.post_set.all())
+
+    def comment_karma(self):
+        return sum(comment.score for comment in self.comment_set.all())
+
+    def karma(self):
+        return self.post_karma() + self.comment_karma()
 
 
 class Post(models.Model, VotableMixin):

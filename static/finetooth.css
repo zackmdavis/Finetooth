@@ -15,3 +15,10 @@
     border-width: 1px;
     border-style: solid;
 }
+
+.karma-bubble {
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #882288;
+    border-radius: 50%;
+}
