@@ -117,7 +117,10 @@ def ballot_box(request, kind, pk):
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)
+    viewing_user = request.user
     posts = Post.objects.filter(author=the_user)
     comments = Comment.objects.filter(commenter=the_user)
     return render(request, "profile.html",
-                  {'the_user': the_user, 'posts': posts, 'comments': comments})
+                  {'the_user': the_user, 'viewing_user': viewing_user, 'posts': posts, 'comments': comments})
+
+ 

@@ -7,6 +7,7 @@ class FinetoothUser(AbstractUser):
     url = models.URLField(null=True)
 
 
+
 class Post(models.Model, VotableMixin):
     author = models.ForeignKey("FinetoothUser")
     title = models.CharField(max_length=200)

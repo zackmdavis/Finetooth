@@ -8,6 +8,14 @@ Profile for {{the_user.username}}.
 
 <p>
 
+{% if viewing_user == the_user %}
+  This is you!
+{% else %}
+  This is not you...
+{% endif %}
+
+<p>
+
 Location: {{the_user.location}}
 
 <p>

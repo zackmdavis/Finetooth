@@ -1,6 +1,6 @@
 <div class="comment" data-pk="{{ comment.pk }}">
 <div class="byline">
-  <a href="{% url 'show_profile' user.username %}">{{ comment.commenter.username }}</a>
+  <a href="{% url 'show_profile' comment.commenter.username %}">{{ comment.commenter.username }}</a>
   &bull; <em>{{ comment.published_at }}</em>
 </div>
 {{ comment.content }}
