@@ -19,8 +19,7 @@ function setCommentFormShowHandlers() {
     });
 }
 
-$(document).ready(function() {
-    setCommentFormShowHandlers();
+function setVotingClickHandlers() {
     $('.upvote').click(function(event) {
 	var upvoteElement = $(this);
 	vote(upvoteElement.data("kind"), upvoteElement.data("pk"),
@@ -33,4 +32,10 @@ $(document).ready(function() {
 	     window.getSelection().toString(), -1);
 	return true;
     });
+}
+
+
+$(document).ready(function() {
+    setCommentFormShowHandlers();
+    setVotingClickHandlers()
 });

@@ -63,3 +63,11 @@ class CommentVote(Vote):
 
     def __str__(self):
         return "{} on comment #{}".format(self.value, self.comment.pk)
+
+
+class Tag(models.Model):
+    label = models.CharField(max_length=64, unique=True)
+    posts = models.ManyToManyField("Post")
+
+    def __str__(self):
+        return self.label

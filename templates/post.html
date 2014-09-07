@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load bootstrap3 %}
+
 {% block valuation %}
 <link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
 {% endblock %}
@@ -9,6 +11,18 @@
 {% include "includes/post.html" %}
 
 <br><br>
+
+<div id="tags">
+  {% bootstrap_icon 'tag' %}
+  {% for tag in post.tag_set.all %}
+    <span class="tag">{{ tag.label }}</span> &bull;
+  {% endfor %}
+</div>
+{{ tag_form.as_table }}
+<button id="new-tag-submit">submit</button>
+
+<br><br>
+
 <div id="comment-form">
 <p><em>Leave a Reply</em></p>
 <form action="{% url 'add_comment' post.pk %}" method="post">{% csrf_token %}
