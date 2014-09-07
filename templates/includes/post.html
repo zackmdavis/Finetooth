@@ -1,8 +1,10 @@
+{% load bootstrap3 %}
+
 <h3><a href="/{{ post.pk }}/">{{ post.title }}</a></h3>
 <div><strong>by <a href="{% url 'show_profile' user.username %}">{{ post.author }}</a> </strong> </div>
 <span class="score" data-pk="{{ post.pk }}" data-score="{{ post.score }}">
   <p>
-    <i class="glyphicon glyphicon-time"></i> <em>{{ post.published_at }} </em>
+    {% bootstrap_icon 'time' %} <em>{{ post.published_at }} </em>
     <strong>score: {{ post.score }}</strong>
   </p>
 </span>
@@ -12,10 +14,10 @@
 <a class="btn btn-success upvote"
    data-pk="{{ post.pk }}" data-kind="post"
    href="javascript:void(0)">
-  <i class="glyphicon glyphicon-thumbs-up"></i> upvote
+  {% bootstrap_icon 'thumbs-up' %} upvote
 </a>
 <a class="btn btn-danger downvote"
    data-pk="{{ post.pk }}" data-kind="post"
    href="javascript:void(0)">
-  <i class="glyphicon glyphicon-thumbs-down"></i> downvote
+  {% bootstrap_icon 'thumbs-down' %} downvote
 </a>
