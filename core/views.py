@@ -129,7 +129,20 @@ def edit_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)
     viewing_user = request.user
     if the_user == viewing_user:    
-        return render(request, "edit_profile.html")
+        if request.method == "POST":
+            url = request.POST["url"]
+            viewing_user.url = url
+            the_user.url = url # why do I have to do both of these when the_user == viewing_user??
+            viewing_user.save()
+            the_user.save()
+            if viewing_user.url == the_user.url:
+                return render(request, "profile_success.html")
+                # return HttpResponse("Profile updating successful!")
+            else:
+                return render(request, "profile_weirdness.html")
+                # return HttpResponse("viewing_user: {0} url: {1} <p> the_user: {2} url: {3}".format(viewing_user.username, viewing_user.url, the_user.username, the_user.url))
+        else:
+            return render(request, "edit_profile.html")
     else:
         return HttpResponse("You are not the user concerned!")
         
