@@ -8,7 +8,7 @@ Profile for {{ the_user.username }}.
 
 <p>
   {% if viewing_user == the_user %}
-    This is you!
+    This is you! <a href="/editprofile/{{viewing_user.username}}">Edit profile </a>
   {% else %}
     This is not you...
   {% endif %}

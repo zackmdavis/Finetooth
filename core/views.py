@@ -124,3 +124,15 @@ def show_profile(request, username):
                   {'the_user': the_user,
                    'viewing_user': viewing_user,
                    'posts': posts, 'comments': comments})
+                   
+def edit_profile(request, username):
+    the_user = FinetoothUser.objects.get(username=username)
+    viewing_user = request.user
+    if the_user == viewing_user:    
+        return render(request, "edit_profile.html")
+    else:
+        return HttpResponse("You are not the user concerned!")
+        
+    
+   
+    
