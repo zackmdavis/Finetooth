@@ -3,7 +3,10 @@ On this page, you can edit your profile.
 
 <form action="{% url 'edit_profile' user.username %}" method="post">
 {% csrf_token %}
-<p><label for="title">url: </label><input type="text" name="url" id="url"></p>
+<p><label for="location">Location: </label><input type="text" name="location" id="location"></p>
+
+<p><label for="url">URL: </label><input type="text" name="url" id="url"></p>
+
 <p><textarea id="content" name="content" rows="8" cols="40"></textarea></p>
 <p><input type="submit" value="Submit"></p>
 </form>
