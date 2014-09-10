@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
@@ -141,16 +141,24 @@ def edit_profile(request, username):
             viewing_user.save()
             the_user.save()
             if viewing_user.url == the_user.url:
-                return render(request, "profile_success.html")
+                return HttpResponseRedirect(reverse("profile_success"))
+                # return render(request, "profile_success.html")
                 # return HttpResponse("Profile updating successful!")
             else:
-                return render(request, "profile_weirdness.html")
+                return HttpResponseRedirect(reverse("profile_weirdness"))
+                # return render(request, "profile_weirdness.html")
                 # return HttpResponse("viewing_user: {0} url: {1} <p> the_user: {2} url: {3}".format(viewing_user.username, viewing_user.url, the_user.username, the_user.url))
         else:
             return render(request, "edit_profile.html")
     else:
         return HttpResponse("You are not the user concerned!")
         
+
+        
     
-   
+def profile_success(request):
+    return render(request, "profile_success.html")
+
+def profile_weirdness(request):
+        return render(request, "profile_weirdness.html")
     

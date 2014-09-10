@@ -17,4 +17,6 @@ urlpatterns = patterns(
     url(r'^add_comment/(\d+)/$', 'core.views.add_comment', name='add_comment'),
     url(r'^user/(.*)/$', 'core.views.show_profile', name='show_profile'),
     url(r'^editprofile/(.*)/$', 'core.views.edit_profile', name='edit_profile'),
+    url(r'^profile_success/', 'core.views.profile_success', name='profile_success'),
+    url(r'^profile_weirdness/', 'core.views.profile_weirdness', name='profile_weirdness'),
 )
