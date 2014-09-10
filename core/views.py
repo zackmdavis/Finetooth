@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
@@ -124,3 +124,34 @@ def show_profile(request, username):
                   {'the_user': the_user,
                    'viewing_user': viewing_user,
                    'posts': posts, 'comments': comments})
+                   
+def edit_profile(request, username):
+    the_user = FinetoothUser.objects.get(username=username)
+    viewing_user = request.user
+    if the_user == viewing_user:    
+        if request.method == "POST":            
+            url = request.POST["url"]
+            location = request.POST["location"]
+            if url != "":            
+                viewing_user.url = url
+                the_user.url = url # why do I have to do both of these when the_user == viewing_user??
+            if location != "":
+                viewing_user.location = location
+                the_user.location = location 
+            viewing_user.save()
+            the_user.save()
+            if viewing_user.url == the_user.url and viewing_user.location == the_user.location:
+                return HttpResponseRedirect(reverse("profile_success"))
+            else:
+                return HttpResponseRedirect(reverse("profile_weirdness"))
+        else:
+            return render(request, "edit_profile.html")
+    else:
+        return HttpResponse("You are not the user concerned!")      
+    
+def profile_success(request):
+    return render(request, "profile_success.html")
+
+def profile_weirdness(request):
+        return render(request, "profile_weirdness.html")
+    
