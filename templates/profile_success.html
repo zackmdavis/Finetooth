@@ -1,3 +1,11 @@
-Profile updating successful!
+{% extends "base.html" %}
+
+{% block subtitle %}profile edited{% endblock %}
+
+{% block content %}
+<p>
+  Profile updating successful!
+</p>
 
 <a href="{% url 'show_profile' user.username %}">Back</a>
+{% endblock %}

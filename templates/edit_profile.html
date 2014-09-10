@@ -1,5 +1,11 @@
-On this page, you can edit your profile.
+{% extends "base.html" %}
 
+{% block subtitle %}edit profile{% endblock %}
+
+{% block content %}
+<p>
+  On this page, you can edit your profile.
+</p>
 
 <form action="{% url 'edit_profile' user.username %}" method="post">
 {% csrf_token %}
@@ -9,3 +15,4 @@ On this page, you can edit your profile.
 
 <p><input type="submit" value="Submit"></p>
 </form>
+{% endblock %}

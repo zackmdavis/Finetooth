@@ -29,3 +29,40 @@ class BallotBoxTest(TestCase):
                          self.the_post.scored_plaintext()[:2])
         self.assertEqual(('D', 1), self.the_post.scored_plaintext()[6])
         self.assertEqual(('d', 0), self.the_post.scored_plaintext()[-1])
+
+
+class ProfileEditingTest(TestCase):
+
+    @classmethod
+    def setUpClass(self):
+        self.the_user = FinetoothUser.objects.create_user(
+            username="Jennifer_Userton", password="vmR9*sdfp["
+        )
+        self.the_user = FinetoothUser.objects.create_user(
+            username="Not_Jennifer", password="shsk$&hfio"
+        )
+
+    def test_can_edit_profile(self):
+        self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
+        response = self.client.post(
+            reverse('edit_profile', args=("Jennifer_Userton",)),
+            {'url': "http://example.com/ju",
+             'location': "Usertown, California"}
+        )
+        self.assertEqual(response.status_code, 302)
+        the_user_transformed = FinetoothUser.objects.get(
+            username="Jennifer_Userton"
+        )
+        self.assertEqual("http://example.com/ju",
+                         the_user_transformed.url)
+        self.assertEqual("Usertown, California",
+                         the_user_transformed.location)
+
+    def test_cannot_edit_profile_not_ones_own(self):
+        self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
+        response = self.client.post(
+            reverse('edit_profile', args=("Not_Jennifer",)),
+            {'url': "http://example.com/ju",
+             'location': "Usertown, California"}
+        )
+        self.assertEqual(403, response.status_code)
