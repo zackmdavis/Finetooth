@@ -1,5 +1,29 @@
+function tag(pk, label) {
+    $.ajax({
+	url: "/tag/" + pk + "/",
+	type: "POST",
+	data: {
+	    label: label
+	},
+	success: function() {
+	    renderNewTag(label)
+	}
+    });
+}
+
+function renderNewTag(label) {
+    var tags_div = $('#tags')
+    tags_div.append($('<span/>').text(label).addClass("tag").hide().fadeIn(400));
+    tags_div.append($('<span/>').html(' &bull; '));
+}
+
+function setTagSubmitHandler() {
+    $('#new-tag-submit').on("click", function(event) {
+	tag($(this).data('pk'), $('#new-tag-label').val());
+    });
+}
+
 function vote(kind, pk, selection, value) {
-    console.log(kind, pk, selection, value);
     $.ajax({
 	url: "/vote/" + kind + "/" + pk + "/",
 	type: "POST",
@@ -7,15 +31,6 @@ function vote(kind, pk, selection, value) {
 	    value: value,
 	    selection: selection
 	}
-    });
-}
-
-function setCommentFormShowHandlers() {
-    $('.reply-form-link').on("click", function(event) {
-	var formLink = $(this);
-	var form = '<form action="/add_comment/' + formLink.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="content"></textarea><input type="hidden" name="parent" value="' + formLink.data("comment-pk") + '"><br><input type="submit" value="Submit"></form>';
-	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") + '"]').append(form);
-	formLink.remove();
     });
 }
 
@@ -34,8 +49,17 @@ function setVotingClickHandlers() {
     });
 }
 
+function setCommentFormShowHandlers() {
+    $('.reply-form-link').on("click", function(event) {
+	var formLink = $(this);
+	var form = '<form action="/add_comment/' + formLink.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="content"></textarea><input type="hidden" name="parent" value="' + formLink.data("comment-pk") + '"><br><input type="submit" value="Submit"></form>';
+	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") + '"]').append(form);
+	formLink.remove();
+    });
+}
 
 $(document).ready(function() {
     setCommentFormShowHandlers();
-    setVotingClickHandlers()
+    setVotingClickHandlers();
+    setTagSubmitHandler();
 });

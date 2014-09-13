@@ -15,11 +15,13 @@
 <div id="tags">
   {% bootstrap_icon 'tag' %}
   {% for tag in post.tag_set.all %}
-    <span class="tag">{{ tag.label }}</span> &bull;
+    <span class="tag">{{ tag.label }}</span>
+    <span class="tag-separator">&bull;</span>
   {% endfor %}
 </div>
-{{ tag_form.as_table }}
-<button id="new-tag-submit">submit</button>
+<span><strong>Tag:</strong></span>
+<input id="new-tag-label" type="text">
+<button id="new-tag-submit" data-pk="{{ post.pk }}">submit</button>
 
 <br><br>
 

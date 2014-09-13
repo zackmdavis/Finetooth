@@ -5,6 +5,27 @@ from django.core.urlresolvers import reverse
 
 from core.models import FinetoothUser, Post
 
+class TaggingTest(TestCase):
+
+    @classmethod
+    def setUpClass(self):
+         self.the_user = FinetoothUser.objects.create_user(
+             username="Jennifer_Userton", password="vmR7*sefp["
+         )
+         self.the_post = Post.objects.create(
+             author=self.the_user, title="Tag Driven Development",
+             content="Lorum ipsum taggable", published_at=datetime.now()
+         )
+
+    def test_user_can_tag_own_post(self):
+        self.client.login(username="Jennifer_Userton", password="vmR7*sefp[")
+        self.client.post(reverse('tag', args=(self.the_post.pk,)),
+                         {'label': "user can tag own post"})
+        tags = self.the_post.tag_set
+        self.assertEqual(1, tags.count())
+        self.assertEqual("user can tag own post", tags.first().label)
+
+
 class BallotBoxTest(TestCase):
 
     def setUp(self):
