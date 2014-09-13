@@ -1,7 +1,9 @@
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import (
+    HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+)
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
@@ -99,12 +101,14 @@ def new_post(request):
     else:
         return render(request, "new_post.html", {})
 
-@login_required  # XXX maybe only the author should be able to tag a post
+@login_required
 @require_POST
 @csrf_exempt
 def tag(request, post_pk):
     label = request.POST['label']
     post = Post.objects.get(pk=post_pk)
+    if post.author != request.user:
+        return HttpResponseForbidden("You can't tag other user's posts.")
     tag = Tag.objects.filter(label=label).first()
     if tag:
         if post.tag_set.filter(pk=tag.pk):
