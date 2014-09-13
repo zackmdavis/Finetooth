@@ -7,8 +7,7 @@ from core.models import FinetoothUser, Post
 
 class TaggingTest(TestCase):
 
-    @classmethod
-    def setUpClass(self):
+    def setUp(self):
          self.the_user = FinetoothUser.objects.create_user(
              username="Jennifer_Userton", password="vmR7*sefp["
          )
@@ -24,9 +23,7 @@ class TaggingTest(TestCase):
              content="You can feel it; we are back",
              published_at=datetime.now()
          )
-
-    def setUp(self):
-        self.client.login(username="Jennifer_Userton", password="vmR7*sefp[")
+         self.client.login(username="Jennifer_Userton", password="vmR7*sefp[")
 
     def test_user_can_tag_own_post(self):
         self.client.post(reverse('tag', args=(self.the_post.pk,)),
