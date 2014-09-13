@@ -24,11 +24,13 @@
 	  <li><a href="{% url 'show_profile' user.username %}">{{ user.username }}</a></li>
       <li> <a href="{% url 'new_post' %}"> New Post</a></li>
       <li> <a href="/logout">Log out</a></li>
-      
+
 	  {% endif %}
 	</ul>
     </div>
   </div>
+
+  {% bootstrap_messages %}
 
   <div class="container">
   {% block content %}{% endblock %}

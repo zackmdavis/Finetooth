@@ -8,10 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-
-
+from django.contrib import messages
+from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 
 from core.models import Post, Comment, FinetoothUser
@@ -67,15 +66,21 @@ def show_post(request, pk):
 @csrf_exempt
 @login_required
 @require_POST
-def add_comment(request, pk):
+def add_comment(request, post_pk):
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
-        Comment.objects.create(
+        comment = Comment.objects.create(
             content=comment_form.cleaned_data['content'],
-            commenter=request.user, post_id=pk,
+            commenter=request.user, post_id=post_pk,
             parent_id=request.POST.get('parent')
         )
-        return redirect("show_post", pk)
+        fragment_identifier = "#comment-{}".format(comment.pk)
+        return redirect(
+            reverse("show_post", args=(post_pk,)) + fragment_identifier
+        )
+    else:
+        messages.error(request, "Comments may not be blank.")
+        return redirect('show_post', post_pk)
 
 def sign_up(request):
    if request.method == "POST":

@@ -5,6 +5,29 @@ from django.core.urlresolvers import reverse
 
 from core.models import FinetoothUser, Post
 
+class CommentingTest(TestCase):
+
+    def setUp(self):
+        # creating a user, &c. for every testcase is too much
+        # boilerplate, but maintaining a "clean" database between
+        # tests is desireable; is there some middle ground?
+        self.the_user = FinetoothUser.objects.create_user(
+            username="test", password="pd3sflkghf"
+        )
+        self.the_post = Post.objects.create(
+            author=self.the_user, content="But now you walk these halls",
+            published_at=datetime.now(), title="And I'm So Glad"
+        )
+
+    def test_do_not_panic_on_blank_comment(self):
+        self.client.login(username="test", password="pd3sflkghf")
+        response = self.client.post(
+            reverse("add_comment", args=(self.the_post.pk,)),
+            {'content': ""}
+        )
+        self.assertNotEqual(500, response.status_code)
+
+
 class BallotBoxTest(TestCase):
 
     def setUp(self):
@@ -12,7 +35,7 @@ class BallotBoxTest(TestCase):
             username="test", password="password"
         )
         self.the_post = Post.objects.create(
-            author_id=2,content="hello Django world",
+            author_id=2, content="hello Django world",
             published_at=datetime.now()
         )
 
