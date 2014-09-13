@@ -56,8 +56,7 @@ class BallotBoxTest(TestCase):
 
 class ProfileEditingTest(TestCase):
 
-    @classmethod
-    def setUpClass(self):
+    def setUp(self):
         FinetoothUser.objects.create_user(
             username="Jennifer_Userton", password="vmR9*sdfp["
         )
