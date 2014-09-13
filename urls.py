@@ -10,6 +10,7 @@ urlpatterns = patterns(
     url(r'^(\d+)/$', 'core.views.show_post', name="show_post"),
     url(r'^new_post/$', 'core.views.new_post', name="new_post"),
     url(r'^tag/(\d+)/$', 'core.views.tag', name="tag"),
+    url(r'^tagged/(.*)/$', 'core.views.tagged', name="tagged"),
     url(r'^vote/(?P<kind>.+)/(?P<pk>\d+)/$',
         'core.views.ballot_box', name="vote"),
     url(r'^login/', login, {'template_name': "login.html"}, name="login"),

@@ -15,7 +15,11 @@
 <div id="tags">
   {% bootstrap_icon 'tag' %}
   {% for tag in post.tag_set.all %}
-    <span class="tag">{{ tag.label }}</span>
+    <span class="tag">
+      <a href="{% url 'tagged' tag.label %}">
+	{{ tag.label }}
+      </a>
+    </span>
     <span class="tag-separator">&bull;</span>
   {% endfor %}
 </div>

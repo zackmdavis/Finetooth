@@ -62,6 +62,19 @@ def show_post(request, pk):
          'low_color': "ff0000", 'high_color': "0000ff"}
     )
 
+def tagged(request, label):
+    tag = Tag.objects.get(label=label)
+    posts = tag.posts.all()
+    if posts:  # XXX TODO FIXME: ugly code duplication; maybe can pull
+        low_score = min(p.low_score() for p in posts)  # into decorator?
+        high_score = max(p.high_score() for p in posts)
+    else:
+        low_score, high_score = 0, 0
+    return render(request, "tagged.html",
+                  {'tag': tag, 'posts': posts,
+                   'low_score': low_score, 'high_score': high_score,
+                   'low_color': "ff0000", 'high_color': "0000ff"})
+
 @csrf_exempt
 @login_required
 @require_POST
