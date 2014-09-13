@@ -35,10 +35,10 @@ class ProfileEditingTest(TestCase):
 
     @classmethod
     def setUpClass(self):
-        self.the_user = FinetoothUser.objects.create_user(
+        FinetoothUser.objects.create_user(
             username="Jennifer_Userton", password="vmR9*sdfp["
         )
-        self.the_user = FinetoothUser.objects.create_user(
+        FinetoothUser.objects.create_user(
             username="Not_Jennifer", password="shsk$&hfio"
         )
 

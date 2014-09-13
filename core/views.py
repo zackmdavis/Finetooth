@@ -1,13 +1,16 @@
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import (
+    HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+)
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+
 
 from django.db import IntegrityError
 
@@ -72,20 +75,20 @@ def add_comment(request, pk):
             commenter=request.user, post_id=pk,
             parent_id=request.POST.get('parent')
         )
-        return redirect(reverse("show_post", args=(pk,)))
+        return redirect("show_post", pk)
 
 def sign_up(request):
-   if  request.method == "POST":
+   if request.method == "POST":
         try:
             username = request.POST["username"]
             email = request.POST["email"]
             password = request.POST["password"]
             user = FinetoothUser.objects.create_user(username, email, password)
-            return render(request, 'account_creation_successful.html', {})
+            return render(request, 'account_creation_successful.html')
         except IntegrityError:
             return render(request, 'duplicate_user.html')
    else:
-       return render(request, 'sign_up.html',)
+       return render(request, 'sign_up.html')
 
 @login_required
 def new_post(request):
@@ -136,11 +139,11 @@ def edit_profile(request, username):
             if location:
                 the_user.location = location
             the_user.save()
-            return redirect(reverse("profile_success"))
+            return redirect("profile_success")
         else:
             return render(request, "edit_profile.html")
     else:
-        return HttpResponse("You are not the user concerned!", status=403)
+        return HttpResponseForbidden("You are not the user concerned!")
 
 def profile_success(request):
     return render(request, "profile_success.html")
