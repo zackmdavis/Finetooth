@@ -8,22 +8,22 @@ from core.models import FinetoothUser, Post
 class TaggingTest(TestCase):
 
     def setUp(self):
-         self.the_user = FinetoothUser.objects.create_user(
-             username="Jennifer_Userton", password="vmR7*sefp["
-         )
-         self.other_user = FinetoothUser.objects.create_user(
-             username="Not_Jennifer", password="N3gnt0p3"
-         )
-         self.the_post = Post.objects.create(
-             author=self.the_user, title="Tag Driven Development",
-             content="Lorum ipsum taggable", published_at=datetime.now()
-         )
-         self.other_post = Post.objects.create(
-             author=self.other_user, title="Better Than Ever",
-             content="You can feel it; we are back",
-             published_at=datetime.now()
-         )
-         self.client.login(username="Jennifer_Userton", password="vmR7*sefp[")
+        self.the_user = FinetoothUser.objects.create_user(
+            username="Jennifer_Userton", password="vmR7*sefp["
+        )
+        self.other_user = FinetoothUser.objects.create_user(
+            username="Not_Jennifer", password="N3gnt0p3"
+        )
+        self.the_post = Post.objects.create(
+            author=self.the_user, title="Tag Driven Development",
+            content="Lorum ipsum taggable", published_at=datetime.now()
+        )
+        self.other_post = Post.objects.create(
+            author=self.other_user, title="Better Than Ever",
+            content="You can feel it; we are back",
+            published_at=datetime.now()
+        )
+        self.client.login(username="Jennifer_Userton", password="vmR7*sefp[")
 
     def test_user_can_tag_own_post(self):
         self.client.post(reverse('tag', args=(self.the_post.pk,)),
