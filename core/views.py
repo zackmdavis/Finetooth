@@ -2,11 +2,11 @@ from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.http import (
-<<<<<<< HEAD
-    HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
-=======
+# <<<<<<< HEAD
+    HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
+# =======
     HttpResponse, HttpResponseRedirect, HttpResponseForbidden
->>>>>>> e053d910341b513a60ed6ae94feeb1c4f65fd260
+# >>>>>>> e053d910341b513a60ed6ae94feeb1c4f65fd260
 )
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
