@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block subtitle %}edit profile{% endblock %}
+
+{% block content %}
+<p>
+  On this page, you can edit your profile.
+</p>
+
+<form action="{% url 'edit_profile' user.username %}" method="post">
+{% csrf_token %}
+<p><label for="location">Location: </label><input type="text" name="location" id="location"></p>
+
+<p><label for="url">URL: </label><input type="text" name="url" id="url"></p>
+
+<p><input type="submit" value="Submit"></p>
+</form>
+{% endblock %}

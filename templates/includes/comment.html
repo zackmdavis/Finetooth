@@ -1,6 +1,6 @@
 {% load bootstrap3 %}
 
-<div class="comment" data-pk="{{ comment.pk }}">
+<div class="comment" id="comment-{{ comment.pk }}">
 <div class="byline">
   <a href="{% url 'show_profile' comment.commenter.username %}">
     <strong>{{ comment.commenter.username }}</strong>
@@ -9,11 +9,15 @@
 </div>
 {{ comment.render|safe }}
 <p>
-  <a href="javascript:void(0);" class="reply-form-link"
+  <a href="javascript:void(0);" class="comment-tool"
      data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
     {% bootstrap_icon 'pencil' %} Reply
+  </a>
+  &nbsp;&nbsp;
+  <a href="#comment-{{ comment.pk }}" class="comment-tool">
+     {% bootstrap_icon 'pushpin' %} Permalink
+  </a>
 </p>
-</a>
 <div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>
 {% for child in comment.comment_set.all %}
    {% with "includes/comment.html" as comment_template %}
