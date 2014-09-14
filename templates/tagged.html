@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block valuation %}
+<link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
+{% endblock %}
+
+{% block subtitle %}tagged {{ tag.label }}{% endblock %}
+
+{% block content %}
+<h4>Posts tagged '{{ tag.label }}'</h4>
+{% for post in posts %}
+{# XXX: duplication; another fragment, or comment link inside includes/post? #}
+<div class="row">
+  {% include "includes/post.html" %}
+  <p><a href="{{ post.pk }}/#comments">
+      <strong>{{ post.comment_set.count }} comments</strong>
+  </a></p>
+</div>
+{% endfor %}
+{% endblock %}

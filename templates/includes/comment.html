@@ -1,3 +1,5 @@
+{% load bootstrap3 %}
+
 <div class="comment" data-pk="{{ comment.pk }}">
 <div class="byline">
   <a href="{% url 'show_profile' comment.commenter.username %}">
@@ -9,7 +11,7 @@
 <p>
   <a href="javascript:void(0);" class="reply-form-link"
      data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
-    <i class="glyphicon glyphicon-pencil"></i> Reply
+    {% bootstrap_icon 'pencil' %} Reply
 </p>
 </a>
 <div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>
