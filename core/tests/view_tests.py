@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 from core.models import FinetoothUser, Post
 
-# <<<<<<< HEAD
+
 class TaggingTest(TestCase):
 
     def setUp(self):
@@ -41,7 +41,8 @@ class TaggingTest(TestCase):
         self.assertEqual(403, response.status_code)
         tags = self.other_post.tag_set
         self.assertEqual(0, tags.count())
-# =======
+
+
 class CommentingTest(TestCase):
 
     def setUp(self):

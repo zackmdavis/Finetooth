@@ -1,15 +1,15 @@
 {% load bootstrap3 %}
 
 <div class="comment" id="comment-{{ comment.pk }}">
-<div class="byline">
+  <div class="byline">
   <a href="{% url 'show_profile' comment.commenter.username %}">
     <strong>{{ comment.commenter.username }}</strong>
   </a>
   &bull; <em>{{ comment.published_at }}</em>
-</div>
+  </div>
 {{ comment.render|safe }}
-<p>
-  <a href="javascript:void(0);" class="comment-tool"
+  <p>
+  <a href="javascript:void(0);" class="comment-tool reply-form-link"
      data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
     {% bootstrap_icon 'pencil' %} Reply
   </a>

@@ -5,7 +5,6 @@ from django.contrib.auth.views import login
 urlpatterns = patterns(
     '',
     url(r'^$', 'core.views.home', name='home'),
-    url(r'home/$', 'core.views.home', name='home2'),
     url(r'^valuation_(-?\d+)-([0-9a-f]{6})_(-?\d+)-([0-9a-f]{6}).css$',
         'core.views.serve_stylesheet', name='stylesheet'),
     url(r'^(\d+)/$', 'core.views.show_post', name="show_post"),

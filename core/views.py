@@ -2,11 +2,8 @@ from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.http import (
-# <<<<<<< HEAD
-    HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
-# =======
-    HttpResponse, HttpResponseRedirect, HttpResponseForbidden
-# >>>>>>> e053d910341b513a60ed6ae94feeb1c4f65fd260
+    HttpResponse, HttpResponseRedirect, HttpResponseBadRequest,
+    HttpResponseForbidden
 )
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -135,8 +132,8 @@ def tag(request, post_pk):
     tag = Tag.objects.filter(label=label).first()
     if tag:
         if post.tag_set.filter(pk=tag.pk):
-            return HttpResponse(
-                "This post is already tagged {}".format(label), status=400
+            return HttpResponseBadRequest(
+                "This post is already tagged {}".format(label)
             )
         else:
             post.tag_set.add(tag)
