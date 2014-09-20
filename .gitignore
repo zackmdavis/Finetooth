@@ -17,3 +17,6 @@ pyvenv.cfg
 
 # the database
 db.sqlite3
+
+# local copy of jQuery
+static/jquery-2.1.1.min.js
