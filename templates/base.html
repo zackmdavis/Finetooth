@@ -36,7 +36,16 @@
       {% block content %}{% endblock %}
     </div>
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+    <script>
+     // Django-style template delimiters for Underscore; thanks to
+     // https://gist.github.com/thurloat/5355714
+     _.templateSettings = {
+       'interpolate':/\{\{(.+?)\}\}/g,
+       'evaluate':/\{%(.+?)%\}/g
+     };
+    </script>
     <script src="/static/finetooth.js"></script>
   </body>
 

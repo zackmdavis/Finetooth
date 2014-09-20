@@ -52,7 +52,18 @@ function setVotingClickHandlers() {
 function setCommentFormShowHandlers() {
     $('.reply-form-link').on("click", function(event) {
 	var formLink = $(this);
-	var form = '<form action="/add_comment/' + formLink.data("post-pk")  + '/" method="post"><textarea rows="4" cols="50" name="content"></textarea><input type="hidden" name="parent" value="' + formLink.data("comment-pk") + '"><br><input type="submit" value="Submit"></form>';
+        var form_template = _.template(
+            '<form action="/add_comment/{{ post_pk }}/" method="post">' +
+            '  <textarea rows="4" cols="50" name="content"></textarea>' +
+            '  <input type="hidden" name="parent" value="{{ comment_pk }}">' +
+            '  <br>' +
+            '  <input type="submit" value="Submit">' +
+            '</form>'
+        )
+        var form = form_template({
+            post_pk: formLink.data("post-pk"),
+            comment_pk: formLink.data("comment-pk")
+        });
 	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") + '"]').append(form);
 	formLink.remove();
     });
