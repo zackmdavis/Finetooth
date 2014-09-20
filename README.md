@@ -27,8 +27,7 @@ Requires Python 3.
 
 * Set up the database: `./manage.py syncdb --migrate`
 
-* You might want some Posts, Comments, and Votes in the database! You
-  can create them at the Django shell.
+* If you like, load the sample data (including an initial post, comment, and admin user: `./manage.py loaddata core/fixtures/initial_data.json`. (You can also reset the admin user's password with `./manage.py changepassword admin`.)
 
 * `./manage.py runserver` and visit http://localhost:8000/ in your
   favorite browser!
