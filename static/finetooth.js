@@ -5,7 +5,7 @@ function tag(pk, label) {
 	data: {
 	    label: label
 	},
-	success: function() {
+	success: function(data, status, jqxhr) {
 	    renderNewTag(label)
 	}
     });
