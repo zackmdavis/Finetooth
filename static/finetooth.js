@@ -1,3 +1,10 @@
+// Django-style template delimiters for Underscore; thanks to
+// https://gist.github.com/thurloat/5355714
+_.templateSettings = {
+    'interpolate':/\{\{(.+?)\}\}/g,
+    'evaluate':/\{%(.+?)%\}/g
+};
+
 function tag(pk, label) {
     $.ajax({
 	url: "/tag/" + pk + "/",
@@ -30,8 +37,28 @@ function vote(kind, pk, selection, value) {
 	data: {
 	    value: value,
 	    selection: selection
-	}
+	},
+        success: function(data, status, jqxhr) {
+            renderVoteStatus(pk, true, "Vote recorded!");
+        },
+        error: function(jqxhr, status, error) {
+            renderVoteStatus(pk, false, jqxhr.responseText);
+        }
     });
+}
+
+function voteStatusSelector(pk) {
+    return _.template(
+        // XXX TODO we're going to want to vote on comments, too
+        '.vote-status[data-pk={{ pk }}][data-kind="post"]'
+    )({ pk: pk })
+}
+
+function renderVoteStatus(pk, success, message) {
+    var statusClass = success ? "vote-status-success" : "vote-status-fail";
+    var notStatusClass = success ? "vote-status-fail" : "vote-status-success";
+    var statusSelector = voteStatusSelector(pk);
+    $(statusSelector).addClass(statusClass).removeClass(notStatusClass);
 }
 
 function setVotingClickHandlers() {

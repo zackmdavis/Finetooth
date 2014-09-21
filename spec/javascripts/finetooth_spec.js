@@ -65,3 +65,53 @@ describe("concerning the `setTagSubmitHandler`", function() {
     });
 
 });
+
+describe("concerning voting", function() {
+
+    beforeEach(function() {
+        $(document.body).append(
+            '<div class="voting-area">' +
+            '<a class="btn btn-success upvote" data-pk="2" data-kind="post"' +
+            'href="javascript:void(0)"> upvote</a>' +
+            '<div class="vote-status" data-pk="2" ' +
+            'data-kind="post"></div></div>'
+        );
+    });
+
+    afterEach(function() {
+        $('.voting-area').remove();
+    });
+
+    it("`renderVoteStatus` sets CSS classes when called upon", function() {
+        renderVoteStatus(2, true, "Vote recorded!");
+        expect(
+            $(voteStatusSelector(2)).hasClass("vote-status-success")
+        ).toBe(true);
+        renderVoteStatus(2, false, "Error!");
+        expect(
+            $(voteStatusSelector(2)).hasClass("vote-status-success")
+        ).toBe(false);
+        expect(
+            $(voteStatusSelector(2)).hasClass("vote-status-fail")
+        ).toBe(true);
+    });
+
+    it("gives feedback on success", function() {
+        spyOn($, "ajax").and.callFake(function(settings) {
+            settings.success();
+        });
+        spyOn(window, "renderVoteStatus");
+        vote("post", 2, "selected text", 1);
+        expect(renderVoteStatus).toHaveBeenCalledWith(2, true, "Vote recorded!");
+    });
+
+    it("gives feedback on failure", function() {
+        spyOn($, "ajax").and.callFake(function(settings) {
+            settings.error({'responseText': "Error!"});
+        });
+        spyOn(window, "renderVoteStatus");
+        vote("post", 2, "selected text", 1);
+        expect(renderVoteStatus).toHaveBeenCalledWith(2, false, "Error!");
+    });
+
+});

@@ -28,3 +28,10 @@
     background-color: #882288;
     border-radius: 50%;
 }
+
+.vote-status {
+    background-color: #eeeeee;
+    min-width: 200px;
+    max-width: 300px;
+    min-height: 25px;
+}

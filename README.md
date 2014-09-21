@@ -34,7 +34,7 @@ Requires Python 3.
 
   * JavaScript tests:
 
-    - Get a local copy of jQuery: `wget https://code.jquery.com/jquery-2.1.1.min.js -P static/`
+    - Get local copies of jQuery and Underscore: `wget http://code.jquery.com/jquery-2.1.1.min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.map -P static/lib/`
 
     - `jasmine`
 
