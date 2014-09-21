@@ -58,7 +58,9 @@ function renderVoteStatus(pk, success, message) {
     var statusClass = success ? "vote-status-success" : "vote-status-fail";
     var notStatusClass = success ? "vote-status-fail" : "vote-status-success";
     var statusSelector = voteStatusSelector(pk);
-    $(statusSelector).addClass(statusClass).removeClass(notStatusClass);
+    var $statusDiv = $(statusSelector)
+    $statusDiv.addClass(statusClass).removeClass(notStatusClass);
+    $statusDiv.text(message);
 }
 
 function setVotingClickHandlers() {
