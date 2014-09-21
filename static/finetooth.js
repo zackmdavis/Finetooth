@@ -50,22 +50,35 @@ function setVotingClickHandlers() {
 }
 
 function setCommentFormShowHandlers() {
-    $('.reply-form-link').on("click", function(event) {
+    $('#comments').on('click', '.reply-form-link', function(event) {
 	var formLink = $(this);
-        var form_template = _.template(
-            '<form action="/add_comment/{{ post_pk }}/" method="post">' +
+        var formTemplate = _.template(
+            '<form action="/add_comment/{{ post_pk }}/" method="post" ' +
+            '      class="reply-form" data-parent-pk="{{ parent_pk }}">' +
+            '  <p style="font-size: 80%;"><em>Reply to this comment:</em></p>' +
             '  <textarea rows="4" cols="50" name="content"></textarea>' +
-            '  <input type="hidden" name="parent" value="{{ comment_pk }}">' +
+            '  <input type="hidden" name="parent" value="{{ parent_pk }}">' +
             '  <br>' +
             '  <input type="submit" value="Submit">' +
+            '  <button class="cancel-comment"' +
+            '          data-parent-pk="{{ parent_pk }}">' +
+            '    Cancel' +
+            '  </button>' +
             '</form>'
         )
-        var form = form_template({
+        var form = formTemplate({
             post_pk: formLink.data("post-pk"),
-            comment_pk: formLink.data("comment-pk")
+            parent_pk: formLink.data("comment-pk")
         });
-	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") + '"]').append(form);
-	formLink.remove();
+	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") +
+          '"]').append(form);
+	formLink.hide();
+    });
+    $('#comments').on('click', '.cancel-comment', function(event) {
+        event.preventDefault();
+        var parent_pk = $(this).data("parent-pk");
+        $('.reply-form[data-parent-pk="' + parent_pk + '"]').remove();
+        $('.reply-form-link[data-comment-pk="' + parent_pk + '"]').show();
     });
 }
 
