@@ -61,7 +61,7 @@ class VotableMixin:
                 start_index=start_index, end_index=end_index
             )
         else:
-            raise VotingException("can't find selection in content")
+            raise VotingException("Can't find selection in content!")
 
     def render(self):
         parsed_content = Tagnostic(self.content).content

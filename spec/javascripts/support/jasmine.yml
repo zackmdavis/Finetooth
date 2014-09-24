@@ -1,0 +1,9 @@
+src_files:
+  - libs/jquery-2.1.1.min.js
+  - libs/underscore-min.js
+  - finetooth.js
+stylesheets:
+spec_files:
+  - "**/*[Ss]pec.js"
+src_dir: static/
+spec_dir: spec/javascripts

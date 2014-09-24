@@ -146,7 +146,7 @@ def tag(request, post_pk):
 @csrf_exempt
 def ballot_box(request, kind, pk):
     if not request.user.is_authenticated():
-        return HttpResponse(status=401)
+        return HttpResponse("You must be logged in to vote!", status=401)
     kinds = {"post": Post, "comment": Comment}
     value = int(request.POST['value'])
     selection = request.POST['selection']
@@ -154,8 +154,8 @@ def ballot_box(request, kind, pk):
     try:
         item.accept_vote(request.user, selection, value)
         return HttpResponse(status=204)
-    except VotingException:
-        return HttpResponse(status=400)
+    except VotingException as e:
+        return HttpResponse(str(e), status=400)
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)

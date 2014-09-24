@@ -20,14 +20,25 @@ Requires Python 3.
 
 * Clone the repository: `git clone git@github.com:zackmdavis/Finetooth.git`
 
-* *Recommended*: [set up a virtualenv including
-   Pip](https://docs.python.org/3/library/venv.html#an-example-of-extending-envbuilder)
+* *Recommended*: [set up a virtualenv including Pip](https://docs.python.org/3/library/venv.html#an-example-of-extending-envbuilder)
 
 * Install the requirements: `pip install -r requirements.txt`
 
 * Set up the database: `./manage.py syncdb --migrate`
 
+* Run the tests!
+
+  * Django tests: `./manage.py test core`
+
+  * JavaScript tests:
+
+    - Get local copies of jQuery and Underscore: `wget http://code.jquery.com/jquery-2.1.1.min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.map -P static/lib/`
+
+    - `jasmine`
+
+    - Visit *http://localhost:8888/* in your favorite browser!
+
 * If you like, load the sample data (including an initial post, comment, and admin user: `./manage.py loaddata core/fixtures/initial_data.json`. (You can also reset the admin user's password with `./manage.py changepassword admin`.)
 
-* `./manage.py runserver` and visit http://localhost:8000/ in your
-  favorite browser!
+* Use the site! `./manage.py runserver` and visit *http://localhost:8000/* in your favorite browser!
+

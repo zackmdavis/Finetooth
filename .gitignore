@@ -1,7 +1,7 @@
 # Things that should not be in version control---
 
 # Python 3 bytecode directories
-__pycache__
+__pycache__/
 
 # Python bytecode files
 *.pyc
@@ -14,6 +14,11 @@ bin/
 lib/
 lib64
 pyvenv.cfg
+
+# local copies of JavaScript libraries
+static/libs/jquery-2.1.1.min.js
+static/libs/underscore-min.js
+static/libs/underscore-min.map
 
 # the database
 db.sqlite3
