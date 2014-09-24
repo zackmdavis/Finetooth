@@ -32,13 +32,13 @@ Requires Python 3.
 
   * JavaScript tests:
 
-    - Get local copies of jQuery and Underscore: `wget http://code.jquery.com/jquery-2.1.1.min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.map -P static/lib/`
+    - Get local copies of jQuery and Underscore: `wget http://code.jquery.com/jquery-2.1.1.min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.map -P static/libs/`
 
     - `jasmine`
 
     - Visit *http://localhost:8888/* in your favorite browser!
 
-* If you like, load the sample data (including an initial post, comment, and admin user: `./manage.py loaddata core/fixtures/initial_data.json`. (You can also reset the admin user's password with `./manage.py changepassword admin`.)
+* If you like, load the sample data (including an initial post, comment, and admin user: `./manage.py loaddata core/fixtures/sample_data.json`. (You can also reset the admin user's password with `./manage.py changepassword admin`.)
 
 * Use the site! `./manage.py runserver` and visit *http://localhost:8000/* in your favorite browser!
 
