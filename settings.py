@@ -72,3 +72,35 @@ TEMPLATE_DIRS = ("templates",)
 STATICFILES_DIRS = ("static",)
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'log_format': {
+            'format' : ("[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] "
+                        "%(message)s")
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1 * (1024)**2,  # 1 MiB
+            'backupCount': 3,
+            'filename': 'logs/finetooth.log',
+            'formatter': 'log_format'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['file'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+        'core': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
+}

@@ -20,5 +20,8 @@ static/libs/jquery-2.1.1.min.js
 static/libs/underscore-min.js
 static/libs/underscore-min.map
 
+# logs
+logs/finetooth.log*
+
 # the database
 db.sqlite3
