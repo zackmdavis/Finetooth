@@ -20,18 +20,23 @@ from core.forms import CommentForm
 from core.votable import VotingException
 
 
-def home(request):
-    posts = Post.objects.all()
-    if posts:
-        low_score = min(p.low_score() for p in posts)
-        high_score = max(p.high_score() for p in posts)
+def scored_context(scoreables, context):
+    if scoreables:
+        low_score = min(s.low_score() for s in scoreables)
+        high_score = max(s.high_score() for s in scoreables)
     else:
         low_score, high_score = 0, 0
+    context.update({
+        'low_score': low_score, 'high_score': high_score,
+        'low_color': "ff0000", 'high_color': "0000ff"
+    })
+    return context
+
+def home(request):
+    posts = Post.objects.all()
     return render(
         request, "home.html",
-        {'posts': posts,
-         'low_score': low_score, 'high_score': high_score,
-         'low_color': "ff0000", 'high_color': "0000ff"}
+        scored_context(posts, {'posts': posts})
     )
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):
@@ -40,43 +45,32 @@ def serve_stylesheet(request, low_score, low_color, high_score, high_color):
         content_type="text/css"
     )
 
+# should @require_POST
 def logout_view(request):
     logout(request)
     return redirect("/")
 
 def show_post(request, pk):
     # TODO: looking up posts by ID number is super ugly; we probably
-    # want to store URL slugs in the post model (and index that
-    # column!) and look them up that way?
+    # want to store URL slugs in the post model (SlugField!) and look
+    # them up that way?
     post = Post.objects.get(pk=pk)
-    if post:
-        low_score = post.low_score()
-        high_score = post.high_score()
-    else:
-        low_score, high_score = 0, 0
     top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
-        {'post': post, 'comment_form': CommentForm(),
-         'top_level_comments': top_level_comments,
-         'low_score': low_score, 'high_score': high_score,
-         'low_color': "ff0000", 'high_color': "0000ff"}
+        scored_context([post], {'post': post, 'comment_form': CommentForm(),
+                                'top_level_comments': top_level_comments})
     )
 
 def tagged(request, label):
     tag = Tag.objects.get(label=label)
     posts = tag.posts.all()
-    if posts:  # XXX TODO FIXME: ugly code duplication; maybe can pull
-        low_score = min(p.low_score() for p in posts)  # into decorator?
-        high_score = max(p.high_score() for p in posts)
-    else:
-        low_score, high_score = 0, 0
-    return render(request, "tagged.html",
-                  {'tag': tag, 'posts': posts,
-                   'low_score': low_score, 'high_score': high_score,
-                   'low_color': "ff0000", 'high_color': "0000ff"})
+    return render(
+        request, "tagged.html",
+        scored_context(posts, {'tag': tag, 'posts': posts})
+    )
 
-@csrf_exempt
+@csrf_exempt # XXX
 @login_required
 @require_POST
 def add_comment(request, post_pk):
@@ -123,7 +117,7 @@ def new_post(request):
 
 @login_required
 @require_POST
-@csrf_exempt
+@csrf_exempt # XXX
 def tag(request, post_pk):
     label = request.POST['label']
     post = Post.objects.get(pk=post_pk)
@@ -143,7 +137,7 @@ def tag(request, post_pk):
         return HttpResponse(status=204)
 
 @require_POST
-@csrf_exempt
+@csrf_exempt # XXX
 def ballot_box(request, kind, pk):
     if not request.user.is_authenticated():
         return HttpResponse("You must be logged in to vote!", status=401)
