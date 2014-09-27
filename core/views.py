@@ -12,7 +12,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator
 from django.db import IntegrityError
+from django.conf import settings
 
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.colorize import stylesheet
@@ -32,11 +34,20 @@ def scored_context(scoreables, context):
     })
     return context
 
-def home(request):
-    posts = Post.objects.all()
+def home(request, page):
+    page = int(page) if page else 1
+    all_posts = Post.objects.all()
+    requested = request.GET.get('results')
+    posts_per_page = (int(requested) if (requested and requested.isdigit())
+                      else settings.POSTS_PER_PAGE)
+    paginator = Paginator(all_posts, posts_per_page)
+    if page > paginator.num_pages:
+        # pagination is 1-indexed
+        return redirect("home", paginator.num_pages)
+    posts = paginator.page(page)
     return render(
         request, "home.html",
-        scored_context(posts, {'posts': posts})
+        scored_context(posts, {'posts': posts, 'page': page})
     )
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):

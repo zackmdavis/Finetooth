@@ -14,4 +14,9 @@
   </a></p>
 </div>
 {% endfor %}
+
+<ul class="pager">
+  <li><a href="/page/{{ page|add:"-1" }}">Previous</a></li>
+  <li><a href="/page/{{ page|add:"1" }}">Next</a></li>
+</ul>
 {% endblock %}
