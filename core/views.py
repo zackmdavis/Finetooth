@@ -34,20 +34,29 @@ def scored_context(scoreables, context):
     })
     return context
 
-def home(request, page):
-    page = int(page) if page else 1
+
+def home(request, page_number):
+    page_number = int(page_number) if page_number else 1
     all_posts = Post.objects.all()
     requested = request.GET.get('results')
     posts_per_page = (int(requested) if (requested and requested.isdigit())
                       else settings.POSTS_PER_PAGE)
     paginator = Paginator(all_posts, posts_per_page)
-    if page > paginator.num_pages:
+    if page_number > paginator.num_pages:
         # pagination is 1-indexed
         return redirect("home", paginator.num_pages)
-    posts = paginator.page(page)
+    posts = paginator.page(page_number)
     return render(
         request, "home.html",
-        scored_context(posts, {'posts': posts, 'page': page})
+        scored_context(
+            posts,
+            {'posts': posts,
+             'previous_page_number': (page_number - 1 if posts.has_previous()
+                                      else None),
+             'next_page_number': (page_number + 1 if posts.has_next()
+                                  else None),
+             'requested': requested}
+        )
     )
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):
