@@ -14,17 +14,13 @@ from django.db import IntegrityError
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm
 from core.views.view_utils import (
-    scored_context, PaginationRedirection, paginated_context
+    scored_context, paginated_view, paginated_context
 )
 
+@paginated_view
 def home(request, page_number):
     all_posts = Post.objects.all()
-    try:
-        context = paginated_context(
-            request, 'posts', all_posts, page_number, {}
-        )
-    except PaginationRedirection as e:
-        return e.response
+    context = paginated_context(request, 'posts', all_posts, page_number, {})
     context = scored_context(context['posts'], context)
     return render(request, "home.html", context)
 
@@ -71,13 +67,15 @@ def new_post(request):
     else:
         return render(request, "new_post.html", {})
 
-def tagged(request, label):
+@paginated_view
+def tagged(request, label, page_number):
     tag = Tag.objects.get(label=label)
-    posts = tag.posts.all()
-    return render(
-        request, "tagged.html",
-        scored_context(posts, {'tag': tag, 'posts': posts})
+    tagged_posts = tag.posts.all()
+    context = paginated_context(
+        request, 'posts', tagged_posts, page_number, {'tag': tag}
     )
+    context = scored_context(context['posts'], context)
+    return render(request, "tagged.html", context)
 
 @csrf_exempt  # XXX
 @login_required

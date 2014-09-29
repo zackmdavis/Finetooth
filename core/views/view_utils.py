@@ -1,4 +1,5 @@
 import re
+from functools import wraps
 from urllib.parse import urlencode
 
 from django.http import HttpResponseRedirect
@@ -22,6 +23,15 @@ class PaginationRedirection(Exception):
     def __init__(self, response):
         super().__init__()
         self.response = response
+
+def paginated_view(view):
+    @wraps(view)
+    def pagination_redirection_wrapper(*args, **kwargs):
+        try:
+            return view(*args, **kwargs)
+        except PaginationRedirection as pr:
+            return pr.response
+    return pagination_redirection_wrapper
 
 def paginated_context(request, pageable_name, pageables, page_number, context):
     page_number = int(page_number) if page_number else 1
