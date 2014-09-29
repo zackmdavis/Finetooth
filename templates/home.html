@@ -15,20 +15,6 @@
 </div>
 {% endfor %}
 
-<ul class="pager">
-  {% if previous_page_number %}
-    <li>
-      <a href="/page/{{ previous_page_number }}{% if requested %}?results={{ requested }}{% endif %}">
-        Previous
-      </a>
-    </li>
-  {% endif %}
-  {% if next_page_number %}
-    <li>
-      <a href="/page/{{ next_page_number }}{% if requested %}?results={{ requested }}{% endif %}">
-        Next
-      </a>
-    </li>
-  {% endif %}
-</ul>
+{% include "includes/pagination.html" %}
+
 {% endblock %}
