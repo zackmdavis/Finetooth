@@ -1,3 +1,5 @@
+import re
+from urllib.parse import urlencode
 from datetime import datetime
 
 from django.shortcuts import render, redirect
@@ -34,30 +36,52 @@ def scored_context(scoreables, context):
     })
     return context
 
+class PaginationRedirection(Exception):
+    def __init__(self, response):
+        super().__init__()
+        self.response = response
+
+def paginated_context(request, pageable_name, pageables, page_number, context):
+    page_number = int(page_number) if page_number else 1
+    requested = request.GET.get('results')
+    pageables_per_page = (int(requested) if (requested and requested.isdigit())
+                          else settings.POSTS_PER_PAGE)
+    paginator = Paginator(pageables, pageables_per_page)
+    if page_number > paginator.num_pages:
+        true_destination = re.sub(
+            r'/page/(\d+)/',
+            ''.join([
+                "/page/{}/".format(paginator.num_pages),
+                "?", urlencode(request.GET)
+            ]),
+            request.path
+        )
+        messages.warning(
+            request, ("The page you requested is out of range; "
+                      "you have been redirected to the last page.")
+        )
+        raise PaginationRedirection(HttpResponseRedirect(true_destination))
+    paged = paginator.page(page_number)
+    context.update({
+        pageable_name: paged,
+        'previous_page_number': (page_number - 1 if paged.has_previous()
+                                 else None),
+        'next_page_number': (page_number + 1 if paged.has_next()
+                             else None),
+        'requested': requested
+    })
+    return context
 
 def home(request, page_number):
-    page_number = int(page_number) if page_number else 1
     all_posts = Post.objects.all()
-    requested = request.GET.get('results')
-    posts_per_page = (int(requested) if (requested and requested.isdigit())
-                      else settings.POSTS_PER_PAGE)
-    paginator = Paginator(all_posts, posts_per_page)
-    if page_number > paginator.num_pages:
-        # pagination is 1-indexed
-        return redirect("home", paginator.num_pages)
-    posts = paginator.page(page_number)
-    return render(
-        request, "home.html",
-        scored_context(
-            posts,
-            {'posts': posts,
-             'previous_page_number': (page_number - 1 if posts.has_previous()
-                                      else None),
-             'next_page_number': (page_number + 1 if posts.has_next()
-                                  else None),
-             'requested': requested}
+    try:
+        context = paginated_context(
+            request, 'posts', all_posts, page_number, {}
         )
-    )
+    except PaginationRedirection as e:
+        return e.response
+    context = scored_context(context['posts'], context)
+    return render(request, "home.html", context)
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):
     return HttpResponse(
