@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.utils.text import slugify
 
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm
@@ -42,11 +43,11 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def show_post(request, pk):
+def show_post(request, slug):
     # TODO: looking up posts by ID number is super ugly; we probably
     # want to store URL slugs in the post model (SlugField!) and look
     # them up that way?
-    post = Post.objects.get(pk=pk)
+    post = Post.objects.get(slug=slug)
     top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
@@ -59,11 +60,12 @@ def new_post(request):
     if request.method == "POST":
         content = request.POST["content"]
         title = request.POST["title"]
+        slug = slugify(title)
         new_post = Post.objects.create(
             content=content, title=title, author=request.user,
-            published_at=datetime.now()
+            published_at=datetime.now(), slug=slug
         )
-        return redirect(reverse("show_post", args=(new_post.pk,)))
+        return redirect(reverse("show_post", args=(new_post.slug,)))
     else:
         return render(request, "new_post.html", {})
 
@@ -79,21 +81,21 @@ def tagged(request, label, page_number):
 
 @login_required
 @require_POST
-def add_comment(request, post_pk):
+def add_comment(request, post_slug):
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = Comment.objects.create(
             content=comment_form.cleaned_data['content'],
-            commenter=request.user, post_id=post_pk,
+            commenter=request.user, post_id=post_slug,
             parent_id=request.POST.get('parent')
         )
         fragment_identifier = "#comment-{}".format(comment.pk)
         return redirect(
-            reverse("show_post", args=(post_pk,)) + fragment_identifier
+            reverse("show_post", args=(post_slug,)) + fragment_identifier
         )
     else:
         messages.error(request, "Comments may not be blank.")
-        return redirect('show_post', post_pk)
+        return redirect('show_post', post_slug)
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)

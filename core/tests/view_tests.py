@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 
 from core.models import FinetoothUser, Post
 from core.tests import factories as f
@@ -18,7 +19,7 @@ class TaggingTest(TestCase):
         )
 
     def test_user_can_tag_own_post(self):
-        self.client.post(reverse('tag', args=(self.the_post.pk,)),
+        self.client.post(reverse('tag', args=(self.the_post.slug,)),
                          {'label': "user can tag own post"})
         tags = self.the_post.tag_set
         self.assertEqual(1, tags.count())
@@ -26,7 +27,7 @@ class TaggingTest(TestCase):
 
     def test_user_cannot_tag_post_of_other(self):
         response = self.client.post(
-            reverse('tag', args=(self.other_post.pk,)),
+            reverse('tag', args=(self.other_post.slug,)),
             {'label': "user cannot tag other user's post"}
         )
         self.assertEqual(403, response.status_code)
@@ -45,7 +46,7 @@ class CommentingTest(TestCase):
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
         response = self.client.post(
-            reverse("add_comment", args=(self.the_post.pk,)),
+            reverse("add_comment", args=(self.the_post.slug,)),
             {'content': ""}
         )
         self.assertNotEqual(500, response.status_code)
@@ -108,3 +109,4 @@ class ProfileEditingTest(TestCase):
              'location': "Usertown, California"}
         )
         self.assertEqual(403, response.status_code)
+

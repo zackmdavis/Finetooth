@@ -19,9 +19,9 @@ def serve_stylesheet(request, low_score, low_color, high_score, high_color):
 
 @login_required
 @require_POST
-def tag(request, post_pk):
+def tag(request, post_slug):
     label = request.POST['label']
-    post = Post.objects.get(pk=post_pk)
+    post = Post.objects.get(slug=post_slug)
     if post.author != request.user:
         return HttpResponseForbidden("You can't tag other user's posts.")
     tag = Tag.objects.filter(label=label).first()
