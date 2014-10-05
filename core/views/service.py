@@ -19,7 +19,6 @@ def serve_stylesheet(request, low_score, low_color, high_score, high_color):
 
 @login_required
 @require_POST
-@csrf_exempt  # XXX
 def tag(request, post_pk):
     label = request.POST['label']
     post = Post.objects.get(pk=post_pk)
@@ -39,7 +38,6 @@ def tag(request, post_pk):
         return HttpResponse(status=204)
 
 @require_POST
-@csrf_exempt  # XXX
 def ballot_box(request, kind, pk):
     if not request.user.is_authenticated():
         return HttpResponse("You must be logged in to vote!", status=401)

@@ -5,6 +5,18 @@ _.templateSettings = {
     'evaluate':/\{%(.+?)%\}/g
 };
 
+function getCsrfToken() {
+    return /csrftoken=(\w+)/g.exec(document.cookie)[1];
+}
+
+$.ajaxSetup({
+    beforeSend: function(jqxhr, settings) {
+        if (settings.type == "POST" && !this.crossDomain) {
+            jqxhr.setRequestHeader("X-CSRFToken", getCsrfToken());
+        }
+    }
+});
+
 function tag(pk, label) {
     $.ajax({
 	url: "/tag/" + pk + "/",

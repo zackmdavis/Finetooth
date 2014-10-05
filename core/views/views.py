@@ -77,7 +77,6 @@ def tagged(request, label, page_number):
     context = scored_context(context['posts'], context)
     return render(request, "tagged.html", context)
 
-@csrf_exempt  # XXX
 @login_required
 @require_POST
 def add_comment(request, post_pk):
