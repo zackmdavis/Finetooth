@@ -73,6 +73,9 @@ function renderVoteStatus(pk, success, message) {
     var $statusDiv = $(statusSelector)
     $statusDiv.addClass(statusClass).removeClass(notStatusClass);
     $statusDiv.text(message);
+    setTimeout(function() {
+        $statusDiv.removeClass(statusClass).removeClass(notStatusClass).text('');
+    }, 1000);
 }
 
 function setVotingClickHandlers() {
