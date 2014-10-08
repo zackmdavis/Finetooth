@@ -6,6 +6,8 @@
 <form action="{% url 'new_post' %}" method="post">
 {% csrf_token %}
 <p><label for="title">Title: </label><input type="text" name="title" id="title"></p>
+<p><label for="url"> URL: {{ url }} </label><input type="text" name="url" id="url"></p>
+
 <p><textarea id="content" name="content" rows="8" cols="40"></textarea></p>
 <p><input type="submit" value="Submit"></p>
 </form>

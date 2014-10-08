@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
+from django.http import HttpRequest
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -57,6 +58,7 @@ def show_post(request, slug):
 
 @login_required
 def new_post(request):
+    url = HttpRequest.build_absolute_uri(request, reverse("home"))
     if request.method == "POST":
         content = request.POST["content"]
         title = request.POST["title"]
@@ -67,7 +69,7 @@ def new_post(request):
         )
         return redirect(reverse("show_post", args=(new_post.slug,)))
     else:
-        return render(request, "new_post.html", {})
+        return render(request, "new_post.html", {"url": url})
 
 @paginated_view
 def tagged(request, label, page_number):
