@@ -62,7 +62,8 @@ def new_post(request):
     if request.method == "POST":
         content = request.POST["content"]
         title = request.POST["title"]
-        slug = slugify(title)
+        #slug = slugify(title)
+        slug = request.POST["url"]
         new_post = Post.objects.create(
             content=content, title=title, author=request.user,
             published_at=datetime.now(), slug=slug
