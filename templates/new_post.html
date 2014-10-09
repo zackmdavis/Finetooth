@@ -3,9 +3,25 @@
 {% block subtitle %}new post{% endblock %}
 
 {% block content %}
+<script type="text/javascript">
+function convertToSlug(Text) /* courtesy 
+http://stackoverflow.com/questions/1053902/how-to-convert-a-title-to-a-url-slug-in-jquery */
+{
+    return Text
+        .toLowerCase()
+        .replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'')
+        ;
+}
+
+function FillURL(f) {   
+    f.url.value = convertToSlug(f.title.value);  
+}
+</script>
+
 <form action="{% url 'new_post' %}" method="post">
 {% csrf_token %}
-<p><label for="title">Title: </label><input type="text" name="title" id="title"></p>
+<p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="FillURL(this.form)"></p>
 <p><label for="url"> URL: {{ url }} </label><input type="text" name="url" id="url"></p>
 
 <p><textarea id="content" name="content" rows="8" cols="40"></textarea></p>
