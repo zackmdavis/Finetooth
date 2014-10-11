@@ -49,11 +49,8 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def show_post(request, slug):
-    # TODO: looking up posts by ID number is super ugly; we probably
-    # want to store URL slugs in the post model (SlugField!) and look
-    # them up that way?
-    post = Post.objects.get(slug=slug)
+def show_post(request, year, month, slug):
+    post = Post.objects.get(slug=slug, published_at__year=int(year), published_at__month=int(month))
     top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
@@ -73,7 +70,7 @@ def new_post(request):
             content=content, title=title, author=request.user,
             published_at=datetime.now(), slug=slug
         )
-        return redirect(reverse("show_post", args=(new_post.slug,)))
+        return redirect(reverse("show_post", args=(new_post.year(), new_post.month(), new_post.slug,)))
     else:
         return render(request, "new_post.html", {"url": url})
 
@@ -89,7 +86,7 @@ def tagged(request, label, page_number):
 
 @login_required
 @require_POST
-def add_comment(request, post_slug):
+def add_comment(request, post_year, post_month, post_slug):
     comment_form = CommentForm(request.POST)
     if comment_form.is_valid():
         comment = Comment.objects.create(
@@ -99,11 +96,11 @@ def add_comment(request, post_slug):
         )
         fragment_identifier = "#comment-{}".format(comment.pk)
         return redirect(
-            reverse("show_post", args=(post_slug,)) + fragment_identifier
+            reverse("show_post", args=(post_year, post_month, post_slug,)) + fragment_identifier
         )
     else:
         messages.error(request, "Comments may not be blank.")
-        return redirect('show_post', post_slug)
+        return redirect('show_post', post_year, post_month, post_slug)
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)

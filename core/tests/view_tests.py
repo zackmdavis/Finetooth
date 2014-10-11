@@ -46,7 +46,7 @@ class CommentingTest(TestCase):
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
         response = self.client.post(
-            reverse("add_comment", args=(self.the_post.slug,)),
+            reverse("add_comment", args=(self.the_post.year(), self.the_post.month(), self.the_post.slug,)),
             {'content': ""}
         )
         self.assertNotEqual(500, response.status_code)
@@ -109,4 +109,21 @@ class ProfileEditingTest(TestCase):
              'location': "Usertown, California"}
         )
         self.assertEqual(403, response.status_code)
+
+
+class SlugTest(TestCase):
+
+    def setUp(self):
+        FinetoothUser.objects.create_user(
+            username="Jennifer_Userton", password="vmR9*sdfp["
+        )
+        self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
+
+    def test_new_post_has_correct_slug(self):
+        response = self.client.post(
+            reverse("new_post"), {"content": "Entertaining content!", "title": "A very entertaining post", "url": slugify("A very entertaining post")}
+        )
+        post_query = Post.objects.filter(content="Entertaining content!", title="A very entertaining post", slug=slugify("A very entertaining post"))
+        self.assertEqual(len(post_query), 1)
+
 

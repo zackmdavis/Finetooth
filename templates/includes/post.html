@@ -1,6 +1,6 @@
 {% load bootstrap3 %}
 
-<h3><a href="/{{ post.slug }}/">{{ post.title }}</a></h3>
+<h3><a href="{% url 'show_post' post.year post.month post.slug %}">{{ post.title }}</a></h3>
 <div><strong>by <a href="{% url 'show_profile' post.author %}">{{ post.author }}</a> </strong> </div>
 <span class="score" data-pk="{{ post.slug }}" data-score="{{ post.score }}">
   <p>
