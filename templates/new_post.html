@@ -4,6 +4,20 @@
 
 {% block content %}
 <script type="text/javascript">
+/* function convertToSlug(Text) */ /* courtesy 
+http://stackoverflow.com/questions/1053902/how-to-convert-a-title-to-a-url-slug-in-jquery */
+/*{
+    return Text
+        .toLowerCase()
+        .replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'')
+        ;
+}
+
+function FillURL(f) {   
+    f.url.value = convertToSlug(f.title.value);  
+}  */
+
 function convertToSlug(Text) /* courtesy 
 http://stackoverflow.com/questions/1053902/how-to-convert-a-title-to-a-url-slug-in-jquery */
 {
@@ -14,18 +28,47 @@ http://stackoverflow.com/questions/1053902/how-to-convert-a-title-to-a-url-slug-
         ;
 }
 
-function FillURL(f) {   
-    f.url.value = convertToSlug(f.title.value);  
+function get_slug(f) {
+    return convertToSlug(f.title.value);
 }
+
+function react(data, response) { 
+    console.log("This is being called!")
+    console.log(data)
+    titleslug = convertToSlug($('#title').val())
+    if(data === "already exists") {    
+    $('#url').val(titleslug+"-2"); }
+    
+    else if(data === "doesn't exist") {$('#url').val(titleslug);}
+
+    
+     //console.log(data)
+    //console.log("You typed something!")
+}
+
+
+function failure(data, response) {
+    console.log("Failure!") 
+}
+  
+
+
 </script>
+
 
 <form action="{% url 'new_post' %}" method="post">
 {% csrf_token %}
-<p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="FillURL(this.form)"></p>
+<!-- <p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="FillURL(this.form)"></p> -->
+<!-- <p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="$.getJSON('/checkslug', {data: get_slug(this.form)}, react)"></p> -->
+<!-- <p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="$.getJSON('/checkslug', {data: get_slug(this.form)}, react)"></p> -->
+<!--<p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="$.ajax({url:'/checkslug', dataType: 'json', data: get_slug(this.form), success: react, error: failure})"></p> -->
+<p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="$.ajax({url:'/checkslug', data: {data: get_slug(this.form)}, success: react})"></p> 
+<!--<p><label for="title">Title: </label><input type="text" name="title" id="title" oninput="$.ajax({url:'/checkslug', dataType: 'json', success: react, error: failure})"></p>-->
 <p><label for="url"> URL: {{ url }} </label><input type="text" name="url" id="url"></p>
-
 <p><textarea id="content" name="content" rows="8" cols="40"></textarea></p>
 <p><input type="submit" value="Submit"></p>
 </form>
 {% endblock %}
+
+
 

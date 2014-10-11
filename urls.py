@@ -21,6 +21,8 @@ urlpatterns = patterns(
     url(r'^user/(.*)/$', 'core.views.show_profile', name='show_profile'),
     url(r'^editprofile/(.*)/$', 'core.views.edit_profile', name='edit_profile'),
     url(r'^profile_success/', 'core.views.profile_success', name='profile_success'), 
-    url(r'^add_comment/([a-z\-]+)/$', 'core.views.add_comment', name='add_comment'),    
+    url(r'^add_comment/([a-z\-]+)/$', 'core.views.add_comment', name='add_comment'), 
+    # url(r'^checkslug/(?P<data>[\w-]+)/$', 'core.views.checkslug', name='checkslug'),   
+    url(r'^checkslug/$', 'core.views.checkslug', name='checkslug'),     
     url(r'^([a-z\-]+)/$', 'core.views.show_post', name="show_post")
 )

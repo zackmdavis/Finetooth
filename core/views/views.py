@@ -1,7 +1,12 @@
+import simplejson
+import json
+
 from datetime import datetime
 
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.http import HttpResponseForbidden
+from django.http import HttpResponseBadRequest
 from django.http import HttpRequest
 
 from django.views.decorators.csrf import csrf_exempt
@@ -129,3 +134,26 @@ def edit_profile(request, username):
 
 def profile_success(request):
     return render(request, "profile_success.html")
+    
+def checkslug(request): # may want to move this to another file...?
+    # return HttpResponse(simplejson.dumps("text"), mimetype='application/json')
+    # print(request.read())
+    # print(request.is_ajax())    
+    # print(request.GET)
+    # ajax_check = request.is_ajax()
+    # print(ajax_check)
+    # string_thing = str(request.read())
+    # return HttpResponse(string_thing)
+    # string_thing = str(request.GET.values())
+    # print(string_thing)
+    # return HttpResponse(string_thing)
+    slug = request.GET.get('data')
+    # return HttpResponse(simplejson.dumps(slug))
+    if slug is None:
+       return HttpResponseBadRequest()   
+       # return HttpResponse("this is text!")
+    if Post.objects.filter(slug=slug).exists():
+        return HttpResponse("already exists")            
+    else:
+        return HttpResponse("doesn't exist")
+            
