@@ -1,6 +1,4 @@
-import simplejson
 import json
-
 from datetime import datetime
 
 from django.shortcuts import render, redirect
@@ -85,21 +83,23 @@ def tagged(request, label, page_number):
 
 @login_required
 @require_POST
-def add_comment(request, post_year, post_month, post_slug):
+def add_comment(request, post_pk):
     comment_form = CommentForm(request.POST)
+    post = Post.objects.get(pk=post_pk)
     if comment_form.is_valid():
         comment = Comment.objects.create(
             content=comment_form.cleaned_data['content'],
-            commenter=request.user, post_id=post_slug,
+            commenter=request.user, post_id=post_pk,
             parent_id=request.POST.get('parent')
         )
         fragment_identifier = "#comment-{}".format(comment.pk)
+
         return redirect(
-            reverse("show_post", args=(post_year, post_month, post_slug,)) + fragment_identifier
+            reverse("show_post", args=(post.year(), post.month(), post.slug)) + fragment_identifier
         )
     else:
         messages.error(request, "Comments may not be blank.")
-        return redirect('show_post', post_year, post_month, post_slug)
+        return redirect('show_post', post.year(), post.month(), post.slug)
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)

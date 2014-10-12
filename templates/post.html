@@ -31,7 +31,7 @@
 
 <div id="comment-form">
 <p><em>Leave a Reply</em></p>
-<form action="{% url 'add_comment' post.year post.month post.slug %}" method="post">{% csrf_token %}
+<form action="{% url 'add_comment' post.pk %}" method="post">{% csrf_token %}
 {{ comment_form.as_p }}
 <input type="submit" value="Submit" />
 </form>

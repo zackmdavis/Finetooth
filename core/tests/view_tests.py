@@ -46,7 +46,7 @@ class CommentingTest(TestCase):
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
         response = self.client.post(
-            reverse("add_comment", args=(self.the_post.year(), self.the_post.month(), self.the_post.slug,)),
+            reverse("add_comment", args=(self.the_post.pk,)),
             {'content': ""}
         )
         self.assertNotEqual(500, response.status_code)
