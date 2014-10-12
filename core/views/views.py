@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
@@ -32,6 +32,9 @@ def sign_up(request):
             password = request.POST["password"]
             FinetoothUser.objects.create_user(username, email, password)
             messages.success(request, "Account creation successful!")
+            new_user = authenticate(username=request.POST['username'],
+                                    password=request.POST['password'])
+            login(request, new_user)            
             return redirect("home")
         except IntegrityError:
             messages.error(request, "Username already exists.")
