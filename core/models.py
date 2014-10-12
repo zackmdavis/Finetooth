@@ -21,9 +21,8 @@ class Post(models.Model, VotableMixin):
     author = models.ForeignKey("FinetoothUser")
     title = models.CharField(max_length=200)
     content = models.TextField()
-    published_at = models.DateTimeField()    
+    published_at = models.DateTimeField()
     slug = models.SlugField(unique=True)
-    
 
     def __str__(self):
         return "#{}: {}".format(self.pk, self.title)
