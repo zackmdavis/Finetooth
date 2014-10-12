@@ -47,7 +47,7 @@ def sign_up(request):
     else:
         return render(request, 'sign_up.html')
 
-# should @require_POST
+@require_POST
 def logout_view(request):
     logout(request)
     return redirect("/")
@@ -74,7 +74,12 @@ def new_post(request):
             content=content, title=title, author=request.user,
             published_at=datetime.now(), slug=slug
         )
-        return redirect(reverse("show_post", args=(new_post.year(), new_post.month(), new_post.slug,)))
+        return redirect(
+            reverse(
+                "show_post",
+                args=(new_post.year, new_post.month, new_post.slug)
+            )
+        )
     else:
         return render(request, "new_post.html", {"url": url})
 
@@ -93,6 +98,7 @@ def tagged(request, label, page_number):
 def add_comment(request, post_pk):
     comment_form = CommentForm(request.POST)
     post = Post.objects.get(pk=post_pk)
+    year_month_slug = (post.year, post.month, post.slug)
     if comment_form.is_valid():
         comment = Comment.objects.create(
             content=comment_form.cleaned_data['content'],
@@ -100,13 +106,12 @@ def add_comment(request, post_pk):
             parent_id=request.POST.get('parent')
         )
         fragment_identifier = "#comment-{}".format(comment.pk)
-
         return redirect(
-            reverse("show_post", args=(post.year(), post.month(), post.slug)) + fragment_identifier
+            reverse("show_post", args=year_month_slug) + fragment_identifier
         )
     else:
         messages.error(request, "Comments may not be blank.")
-        return redirect('show_post', post.year(), post.month(), post.slug)
+        return redirect('show_post', *year_month_slug)
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)
@@ -135,6 +140,3 @@ def edit_profile(request, username):
             return render(request, "edit_profile.html")
     else:
         return HttpResponseForbidden("You are not the user concerned!")
-
-def profile_success(request):
-    return render(request, "profile_success.html")

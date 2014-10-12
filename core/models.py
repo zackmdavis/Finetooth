@@ -26,10 +26,12 @@ class Post(models.Model, VotableMixin):
 
     def __str__(self):
         return "#{}: {}".format(self.pk, self.title)
-        
+
+    @property
     def month(self):
         return str(self.published_at.month).zfill(2)
-        
+
+    @property
     def year(self):
         return str(self.published_at.year).zfill(4)
 

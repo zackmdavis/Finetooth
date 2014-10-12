@@ -1,25 +1,25 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import login
 
+from core import views
 
 urlpatterns = patterns(
     '',
-    url(r'^(?:page/(\d+)/)?$', 'core.views.home', name='home'),
+    url(r'^(?:page/(\d+)/)?$', views.home, name='home'),
     url(r'^valuation_(-?\d+)-([0-9a-f]{6})_(-?\d+)-([0-9a-f]{6}).css$',
-        'core.views.serve_stylesheet', name='stylesheet'),
-    url(r'^new_post/$', 'core.views.new_post', name="new_post"),
-    url(r'^tag/(\d+)/$', 'core.views.tag', name="tag"),
-    url(r'^tagged/([-\w\s]*)/(?:page/(\d+)/)?$', 'core.views.tagged',
-        name="tagged"),
+        views.serve_stylesheet, name='stylesheet'),
+    url(r'^new_post/$', views.new_post, name='new_post'),
+    url(r'^tag/(\d+)/$', views.tag, name='tag'),
+    url(r'^tagged/([-\w\s]*)/(?:page/(\d+)/)?$', views.tagged,
+        name='tagged'),
     url(r'^vote/(?P<kind>.+)/(?P<pk>\d+)/$',
-        'core.views.ballot_box', name="vote"),
-    url(r'^login/', login, {'template_name': "login.html"}, name="login"),
-    url(r'^logout/$', 'core.views.logout_view', name='logout'),
-    url(r'^signup/$', 'core.views.sign_up', name='sign_up'),
-    url(r'^user/(.*)/$', 'core.views.show_profile', name='show_profile'),
-    url(r'^edit_profile/(.*)/$', 'core.views.edit_profile', name='edit_profile'),
-    url(r'^profile_success/$', 'core.views.profile_success', name='profile_success'),
-    url(r'^add_comment/(\d+)/$', 'core.views.add_comment', name='add_comment'),
-    url(r'^check_slug/$', 'core.views.check_slug', name='checkslug'),
-    url(r'^(\d{4})/(\d{2})/([a-z\d\-]+)/$', 'core.views.show_post', name="show_post")
+        views.ballot_box, name='vote'),
+    url(r'^login/', login, {'template_name': "login.html"}, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
+    url(r'^signup/$', views.sign_up, name='sign_up'),
+    url(r'^user/(.+)/$', views.show_profile, name='show_profile'),
+    url(r'^edit_profile/(.+)/$', views.edit_profile, name='edit_profile'),
+    url(r'^add_comment/(\d+)/$', views.add_comment, name='add_comment'),
+    url(r'^check_slug/$', views.check_slug, name='check_slug'),
+    url(r'^(\d{4})/(\d{2})/([a-z\d\-]+)/$', views.show_post, name='show_post')
 )

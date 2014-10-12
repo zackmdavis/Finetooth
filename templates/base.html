@@ -23,7 +23,12 @@
 	  {% else %}
 	    <li><a href="{% url 'show_profile' user.username %}">{{ user.username }}</a></li>
             <li> <a href="{% url 'new_post' %}"> New Post</a></li>
-            <li> <a href="/logout">Log out</a></li>
+            <li>
+              <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <input class="btn btn-default" type="submit" value="Log out">
+              </form>
+            </li>
 
 	  {% endif %}
 	</ul>

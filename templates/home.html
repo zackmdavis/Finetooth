@@ -9,7 +9,7 @@
 {% for post in posts %}
 <div class="row">
   {% include "includes/post.html" %}
-  <p><a href="{{ post.pk }}/#comments">
+  <p><a href="{% url 'show_post' post.year post.month post.slug %}#comments">
       <strong>{{ post.comment_set.count }} comments</strong>
   </a></p>
 </div>
