@@ -1,6 +1,9 @@
-from markdown import markdown
+import logging
 from html.parser import HTMLParser
 
+from markdown import markdown
+
+logger = logging.getLogger(__name__)
 
 class Tagnostic(HTMLParser):
     def __init__(self, content):
@@ -61,6 +64,11 @@ class VotableMixin:
                 start_index=start_index, end_index=end_index
             )
         else:
+            logger.info(
+                "invalid vote selection on {} #{}: {}".format(
+                    self.__class__.__name__, self.pk, selection
+                )
+            )
             raise VotingException("Can't find selection in content!")
 
     def render(self):

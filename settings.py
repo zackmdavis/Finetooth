@@ -84,7 +84,7 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
             'maxBytes': 1 * (1024)**2,  # 1 MiB
             'backupCount': 3,
@@ -96,11 +96,12 @@ LOGGING = {
         'django': {
             'handlers':['file'],
             'propagate': True,
-            'level':'DEBUG',
+            'level':'INFO',
         },
         'core': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'propogate': True,
+            'level': 'INFO',
         },
     }
 }
