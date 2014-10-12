@@ -19,9 +19,9 @@ def serve_stylesheet(request, low_score, low_color, high_score, high_color):
 
 @login_required
 @require_POST
-def tag(request, post_slug):
+def tag(request, post_pk):
     label = request.POST['label']
-    post = Post.objects.get(slug=post_slug)
+    post = Post.objects.get(pk=post_pk)
     if post.author != request.user:
         return HttpResponseForbidden("You can't tag other user's posts.")
     tag = Tag.objects.filter(label=label).first()
@@ -50,3 +50,12 @@ def ballot_box(request, kind, pk):
         return HttpResponse(status=204)
     except VotingException as e:
         return HttpResponse(str(e), status=400)
+
+def checkslug(request):
+    slug = request.GET.get('data')
+    if slug is None:
+       return HttpResponseBadRequest()
+    if Post.objects.filter(slug=slug).exists():
+        return HttpResponse("already exists")
+    else:
+        return HttpResponse("doesn't exist")

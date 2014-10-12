@@ -19,7 +19,7 @@ class TaggingTest(TestCase):
         )
 
     def test_user_can_tag_own_post(self):
-        self.client.post(reverse('tag', args=(self.the_post.slug,)),
+        self.client.post(reverse('tag', args=(self.the_post.pk,)),
                          {'label': "user can tag own post"})
         tags = self.the_post.tag_set
         self.assertEqual(1, tags.count())
@@ -27,7 +27,7 @@ class TaggingTest(TestCase):
 
     def test_user_cannot_tag_post_of_other(self):
         response = self.client.post(
-            reverse('tag', args=(self.other_post.slug,)),
+            reverse('tag', args=(self.other_post.pk,)),
             {'label': "user cannot tag other user's post"}
         )
         self.assertEqual(403, response.status_code)

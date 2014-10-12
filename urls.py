@@ -8,7 +8,7 @@ urlpatterns = patterns(
     url(r'^valuation_(-?\d+)-([0-9a-f]{6})_(-?\d+)-([0-9a-f]{6}).css$',
         'core.views.serve_stylesheet', name='stylesheet'),
     url(r'^new_post/$', 'core.views.new_post', name="new_post"),
-    url(r'^tag/([a-z\d\-]+)/$', 'core.views.tag', name="tag"),
+    url(r'^tag/(\d+)/$', 'core.views.tag', name="tag"),
     url(r'^tagged/([-\w\s]*)/(?:page/(\d+)/)?$', 'core.views.tagged',
         name="tagged"),
     url(r'^vote/(?P<kind>.+)/(?P<pk>\d+)/$',
