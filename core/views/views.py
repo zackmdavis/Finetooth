@@ -1,7 +1,11 @@
+import json
 from datetime import datetime
 
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.http import HttpResponseForbidden
+from django.http import HttpResponseBadRequest
+from django.http import HttpRequest
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -10,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
+from django.utils.text import slugify
 
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm
@@ -47,11 +52,8 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
-def show_post(request, pk):
-    # TODO: looking up posts by ID number is super ugly; we probably
-    # want to store URL slugs in the post model (SlugField!) and look
-    # them up that way?
-    post = Post.objects.get(pk=pk)
+def show_post(request, year, month, slug):
+    post = Post.objects.get(slug=slug, published_at__year=int(year), published_at__month=int(month))
     top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
@@ -61,16 +63,18 @@ def show_post(request, pk):
 
 @login_required
 def new_post(request):
+    url = HttpRequest.build_absolute_uri(request, reverse("home"))
     if request.method == "POST":
         content = request.POST["content"]
         title = request.POST["title"]
+        slug = request.POST["url"]
         new_post = Post.objects.create(
             content=content, title=title, author=request.user,
-            published_at=datetime.now()
+            published_at=datetime.now(), slug=slug
         )
-        return redirect(reverse("show_post", args=(new_post.pk,)))
+        return redirect(reverse("show_post", args=(new_post.year(), new_post.month(), new_post.slug,)))
     else:
-        return render(request, "new_post.html", {})
+        return render(request, "new_post.html", {"url": url})
 
 @paginated_view
 def tagged(request, label, page_number):
@@ -86,6 +90,7 @@ def tagged(request, label, page_number):
 @require_POST
 def add_comment(request, post_pk):
     comment_form = CommentForm(request.POST)
+    post = Post.objects.get(pk=post_pk)
     if comment_form.is_valid():
         comment = Comment.objects.create(
             content=comment_form.cleaned_data['content'],
@@ -93,12 +98,13 @@ def add_comment(request, post_pk):
             parent_id=request.POST.get('parent')
         )
         fragment_identifier = "#comment-{}".format(comment.pk)
+
         return redirect(
-            reverse("show_post", args=(post_pk,)) + fragment_identifier
+            reverse("show_post", args=(post.year(), post.month(), post.slug)) + fragment_identifier
         )
     else:
         messages.error(request, "Comments may not be blank.")
-        return redirect('show_post', post_pk)
+        return redirect('show_post', post.year(), post.month(), post.slug)
 
 def show_profile(request, username):
     the_user = FinetoothUser.objects.get(username=username)
@@ -130,3 +136,4 @@ def edit_profile(request, username):
 
 def profile_success(request):
     return render(request, "profile_success.html")
+

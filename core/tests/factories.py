@@ -4,6 +4,8 @@ from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 from datetime import datetime
 from collections import OrderedDict
 
+from django.utils.text import slugify
+
 import factory
 
 from core.models import (
@@ -52,6 +54,7 @@ class PostFactory(factory.DjangoModelFactory):
     title = factory.Sequence(
         lambda n: "The Post About the Number {}".format(n)
     )
+    slug = factory.LazyAttribute(lambda p: slugify(p.title))
     content = """*Lorem Ipsum* is simply dummy text of the printing and
         typesetting industry. Lorem Ipsum has been the industry's standard
         dummy text ever since the *1500s*, when an unknown printer took a

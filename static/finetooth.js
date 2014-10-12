@@ -99,6 +99,7 @@ function setCommentFormShowHandlers() {
         var formTemplate = _.template(
             '<form action="/add_comment/{{ post_pk }}/" method="post" ' +
             '      class="reply-form" data-parent-pk="{{ parent_pk }}">' +
+            '  <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">' +
             '  <p style="font-size: 80%;"><em>Reply to this comment:</em></p>' +
             '  <textarea rows="4" cols="50" name="content"></textarea>' +
             '  <input type="hidden" name="parent" value="{{ parent_pk }}">' +
@@ -112,7 +113,8 @@ function setCommentFormShowHandlers() {
         )
         var form = formTemplate({
             post_pk: formLink.data("post-pk"),
-            parent_pk: formLink.data("comment-pk")
+            parent_pk: formLink.data("comment-pk"),
+            csrf_token: getCsrfToken()
         });
 	$('.reply-form-holder[data-parent-pk="' + formLink.data("comment-pk") +
           '"]').append(form);

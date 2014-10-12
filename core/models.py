@@ -22,9 +22,16 @@ class Post(models.Model, VotableMixin):
     title = models.CharField(max_length=200)
     content = models.TextField()
     published_at = models.DateTimeField()
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return "#{}: {}".format(self.pk, self.title)
+        
+    def month(self):
+        return str(self.published_at.month).zfill(2)
+        
+    def year(self):
+        return str(self.published_at.year).zfill(4)
 
     @property
     def vote_set(self):
