@@ -111,7 +111,7 @@ class ProfileEditingTest(TestCase):
         self.assertEqual(403, response.status_code)
 
 
-class SlugTest(TestCase):
+class PostTest(TestCase):
 
     def setUp(self):
         FinetoothUser.objects.create_user(
@@ -119,11 +119,17 @@ class SlugTest(TestCase):
         )
         self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
 
-    def test_new_post_has_correct_slug(self):
+    def test_new_post(self):
+        new_post_title = "A very entertaining post"
         response = self.client.post(
-            reverse("new_post"), {"content": "Entertaining content!", "title": "A very entertaining post", "url": slugify("A very entertaining post")}
+            reverse('new_post'),
+            {'content': "Entertaining content!",
+             'title': new_post_title,
+             'slug': slugify(new_post_title)}
         )
-        post_query = Post.objects.filter(content="Entertaining content!", title="A very entertaining post", slug=slugify("A very entertaining post"))
-        self.assertEqual(len(post_query), 1)
-
-
+        matching_posts = Post.objects.filter(
+            content="Entertaining content!",
+            title=new_post_title,
+            slug=slugify(new_post_title)
+        )
+        self.assertEqual(len(matching_posts), 1)

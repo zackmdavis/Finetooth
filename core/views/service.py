@@ -1,3 +1,5 @@
+import json
+
 from django.http import (
     HttpResponse, HttpResponseBadRequest,
     HttpResponseForbidden
@@ -51,11 +53,12 @@ def ballot_box(request, kind, pk):
     except VotingException as e:
         return HttpResponse(str(e), status=400)
 
-def checkslug(request):
-    slug = request.GET.get('data')
+def check_slug(request):
+    slug = request.GET.get('slug')
     if slug is None:
        return HttpResponseBadRequest()
-    if Post.objects.filter(slug=slug).exists():
-        return HttpResponse("already exists")
-    else:
-        return HttpResponse("doesn't exist")
+    already_exists = Post.objects.filter(slug=slug).exists()
+    return HttpResponse(
+        json.dumps({'alreadyExists': already_exists}),
+        content_type="application/json"
+    )

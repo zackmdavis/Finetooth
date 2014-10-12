@@ -20,6 +20,6 @@ urlpatterns = patterns(
     url(r'^edit_profile/(.*)/$', 'core.views.edit_profile', name='edit_profile'),
     url(r'^profile_success/$', 'core.views.profile_success', name='profile_success'),
     url(r'^add_comment/(\d+)/$', 'core.views.add_comment', name='add_comment'),
-    url(r'^checkslug/$', 'core.views.checkslug', name='checkslug'),
+    url(r'^check_slug/$', 'core.views.check_slug', name='checkslug'),
     url(r'^(\d{4})/(\d{2})/([a-z\d\-]+)/$', 'core.views.show_post', name="show_post")
 )

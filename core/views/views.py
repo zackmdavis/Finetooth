@@ -39,7 +39,7 @@ def sign_up(request):
             messages.success(request, "Account creation successful!")
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
-            login(request, new_user)            
+            login(request, new_user)
             return redirect("home")
         except IntegrityError:
             messages.error(request, "Username already exists.")
@@ -53,7 +53,9 @@ def logout_view(request):
     return redirect("/")
 
 def show_post(request, year, month, slug):
-    post = Post.objects.get(slug=slug, published_at__year=int(year), published_at__month=int(month))
+    post = Post.objects.get(
+        slug=slug, published_at__year=int(year), published_at__month=int(month)
+    )
     top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
@@ -67,7 +69,7 @@ def new_post(request):
     if request.method == "POST":
         content = request.POST["content"]
         title = request.POST["title"]
-        slug = request.POST["url"]
+        slug = request.POST["slug"]
         new_post = Post.objects.create(
             content=content, title=title, author=request.user,
             published_at=datetime.now(), slug=slug
@@ -136,4 +138,3 @@ def edit_profile(request, username):
 
 def profile_success(request):
     return render(request, "profile_success.html")
-

@@ -128,8 +128,40 @@ function setCommentFormShowHandlers() {
     });
 }
 
+function convertToSlug(text) {
+    // courtesy http://stackoverflow.com/q/1053902
+    return text.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
+}
+
+function verifySlug(slug) {
+    $.ajax({
+        url: '/check_slug/',
+        data: {
+            slug: slug
+        },
+        success: function(data, status, jqxhr) {
+            renderVerifiedSlug(slug, data.alreadyExists);
+        }
+    });
+}
+
+function renderVerifiedSlug(slug, alreadyExists) {
+    if (alreadyExists) {
+        $('#new-post-slug').val(slug+"-2");
+    } else {
+        $('#new-post-slug').val(slug);
+    }
+}
+
+function setSlugVerificationHandler() {
+    $('#new-post-title').on('input', function(event) {
+        verifySlug(convertToSlug($(this).val()));
+    });
+}
+
 $(document).ready(function() {
     setCommentFormShowHandlers();
     setVotingClickHandlers();
     setTagSubmitHandler();
+    setSlugVerificationHandler();
 });
