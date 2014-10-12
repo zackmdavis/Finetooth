@@ -31,9 +31,11 @@ def sign_up(request):
             email = request.POST["email"]
             password = request.POST["password"]
             FinetoothUser.objects.create_user(username, email, password)
-            return render(request, 'account_creation_successful.html')
+            messages.success(request, "Account creation successful!")
+            return redirect("home")
         except IntegrityError:
-            return render(request, 'duplicate_user.html')
+            messages.error(request, "Username already exists.")
+            return redirect("sign_up")
     else:
         return render(request, 'sign_up.html')
 
@@ -116,7 +118,8 @@ def edit_profile(request, username):
             if location:
                 the_user.location = location
             the_user.save()
-            return redirect("profile_success")
+            messages.success(request, "Profile editing successful!")
+            return redirect('show_profile', the_user)
         else:
             return render(request, "edit_profile.html")
     else:
