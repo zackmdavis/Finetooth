@@ -48,3 +48,11 @@
 .vote-status-fail {
     background-color: #ffaaaa;
 }
+
+#tag-cloud {
+    background-color: #e0e0e0;
+    max-width: 200px;
+}
+#tag-cloud a {
+    color: #400030;
+}

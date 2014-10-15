@@ -2,6 +2,7 @@ import re
 from functools import wraps
 from urllib.parse import urlencode
 
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -63,3 +64,15 @@ def paginated_context(request, pageable_name, pageables, page_number, context):
         'requested': requested
     })
     return context
+
+def tag_cloud_context(tags):
+    min_size = 9
+    max_size = 20
+    tags = tags.annotate(Count('posts')).order_by('posts__count')
+    # XXX TODO FIXME: handle edge cases of 0 or 1 tags
+    min_count = tags[0].posts__count
+    max_count = tags[tags.count()-1].posts__count
+    def font_size(count):
+        slope = (max_size - min_size) / (max_count - min_count)
+        return min_size + slope * count
+    return {tag: font_size(tag.posts__count) for tag in tags}

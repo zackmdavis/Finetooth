@@ -19,7 +19,7 @@ from django.utils.text import slugify
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm
 from core.views.view_utils import (
-    scored_context, paginated_view, paginated_context
+    scored_context, paginated_view, paginated_context, tag_cloud_context
 )
 
 @paginated_view
@@ -27,6 +27,8 @@ def home(request, page_number):
     all_posts = Post.objects.all()
     context = paginated_context(request, 'posts', all_posts, page_number, {})
     context = scored_context(context['posts'], context)
+    context['cloud'] = tag_cloud_context(Tag.objects.all())
+    print(context['cloud'])
     return render(request, "home.html", context)
 
 def sign_up(request):

@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 
 {% block valuation %}
-<link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
+  <link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
 {% endblock %}
 {% block subtitle %}Home{% endblock %}
 
 {% block content %}
-{% for post in posts %}
-<div class="row">
-  {% include "includes/post.html" %}
-  <p><a href="{% url 'show_post' post.year post.month post.slug %}#comments">
-      <strong>{{ post.comment_set.count }} comments</strong>
-  </a></p>
-</div>
-{% endfor %}
+  <div class="col-md-9">
+    {% for post in posts %}
+      <div class="row">
+        {% include "includes/post.html" %}
+        <p><a href="{% url 'show_post' post.year post.month post.slug %}#comments">
+          <strong>{{ post.comment_set.count }} comments</strong>
+        </a></p>
+      </div>
+    {% endfor %}
 
-{% include "includes/pagination.html" %}
 
+    {% include "includes/pagination.html" %}
+  </div>
+  <div class="col-md-3">
+    {% include "includes/tag_cloud.html" %}
+  </div>
 {% endblock %}

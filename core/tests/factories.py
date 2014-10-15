@@ -62,3 +62,13 @@ class PostFactory(factory.DjangoModelFactory):
         "galley of type and scrambled it to make a type specimen book."
     )
     published_at = datetime.now()
+
+
+with open('/usr/share/dict/words') as dictionary:
+    WORDS = [word for word in dictionary.read().split('\n') if "'" not in word]
+
+class TagFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Tag
+
+    label = factory.Sequence(lambda _: random.choice(WORDS))
