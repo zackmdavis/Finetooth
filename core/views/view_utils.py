@@ -70,9 +70,14 @@ def tag_cloud_context(tags):
     max_size = 20
     tags = tags.annotate(Count('posts')).order_by('posts__count')
     # XXX TODO FIXME: handle edge cases of 0 or 1 tags
+    if not tags:
+        return {}
     min_count = tags[0].posts__count
     max_count = tags[tags.count()-1].posts__count
     def font_size(count):
-        slope = (max_size - min_size) / (max_count - min_count)
-        return min_size + slope * count
+        if max_count == min_count:
+            return (max_size + min_size) / 2
+        else:
+            slope = (max_size - min_size) / (max_count - min_count)
+            return min_size + slope * count
     return {tag: font_size(tag.posts__count) for tag in tags}
