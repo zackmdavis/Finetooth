@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -18,7 +19,7 @@ from django.db import IntegrityError
 from django.utils.text import slugify
 
 from core.models import FinetoothUser, Post, Comment, Tag
-from core.forms import CommentForm
+from core.forms import CommentForm, SignupForm
 from core.views.view_utils import (
     scored_context, paginated_view, paginated_context, tag_cloud_context
 )
@@ -34,24 +35,23 @@ def home(request, page_number):
 @sensitive_post_parameters('password')
 def sign_up(request):
     if request.method == "POST":
-        try:
-            username = request.POST["username"]
-            email = request.POST["email"]
-            password = request.POST["password"]
-            # TODO: require confirm_password as well; it would be sad
-            # to be locked out of your new account because you
-            # mistyped your intended password and didn't notice
-            FinetoothUser.objects.create_user(username, email, password)
-            messages.success(request, "Account creation successful!")
-            new_user = authenticate(username=request.POST['username'],
-                                    password=request.POST['password'])
-            login(request, new_user)
-            return redirect("home")
-        except IntegrityError:
-            messages.error(request, "Username already exists.")
-            return redirect("sign_up")
+        signup_form = SignupForm(request.POST)
+        if signup_form.is_valid():
+            try: 
+                username = signup_form.cleaned_data["username"]
+                email = signup_form.cleaned_data["email"]
+                password = signup_form.cleaned_data["password"]           
+                FinetoothUser.objects.create_user(username, email, password)
+                messages.success(request, "Account creation successful!")
+                new_user = authenticate(username=username, password=password)
+                login(request, new_user)
+                return redirect("home")
+            except IntegrityError:                
+                messages.error(request, "Username already exists.")
+                return redirect("sign_up")
     else:
-        return render(request, 'sign_up.html')
+        form = SignupForm()
+        return render(request, 'sign_up.html', locals())
 
 @require_POST
 def logout_view(request):
