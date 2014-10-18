@@ -6,13 +6,13 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # TODO: review
-# https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+# https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # XXX TODO FIXME DANGER: the security warning on the previous line is
 # big deal; if/when deploying this somewhere, change this and DO NOT
 # keep the real value in a publicly-visible Git repo
-SECRET_KEY = '4y+opi-^iz@s+(#io3b2l1+w89c44vos%9npcxap8=#+4c11!n'
+SECRET_KEY = "fake_development_unsecret_key"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

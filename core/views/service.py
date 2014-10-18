@@ -28,7 +28,7 @@ def tag(request, post_pk):
         return HttpResponseForbidden("You can't tag other user's posts.")
     tag = Tag.objects.filter(label=label).first()
     if tag:
-        if post.tag_set.filter(pk=tag.pk):
+        if post.tag_set.filter(pk=tag.pk).exists():
             return HttpResponseBadRequest(
                 "This post is already tagged {}".format(label)
             )

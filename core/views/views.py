@@ -40,6 +40,9 @@ def sign_up(request):
             username = request.POST["username"]
             email = request.POST["email"]
             password = request.POST["password"]
+            # TODO: require confirm_password as well; it would be sad
+            # to be locked out of your new account because you
+            # mistyped your intended password and didn't notice
             FinetoothUser.objects.create_user(username, email, password)
             messages.success(request, "Account creation successful!")
             new_user = authenticate(username=request.POST['username'],

@@ -79,7 +79,7 @@ class VotableMixin:
         for token in parsed_content:
             if isinstance(token, str): # text
                 scored_characters = [scored_plaintext_stack.pop()
-                              for _ in range(len(token))]
+                                     for _ in range(len(token))]
                 join_to_render.append(
                      "".join(
                          "<span data-value=\"{}\">{}</span>".format(
