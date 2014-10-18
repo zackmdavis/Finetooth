@@ -24,7 +24,9 @@ else:
     # and haven't already done so
     if not os.path.exists(dictionary_path):
         # let's just grab a wordlist from the internet
-        urlretrieve("http://www.cs.duke.edu/~ola/ap/linuxwords")
+        urlretrieve(
+            "http://www.cs.duke.edu/~ola/ap/linuxwords", dictionary_path
+        )
 
 with open(dictionary_path) as dictionary:
     WORDS = [word for word in dictionary.read().split('\n') if "'" not in word]
@@ -78,6 +80,19 @@ class PostFactory(factory.DjangoModelFactory):
     )
     published_at = datetime.now()
 
+class PostVoteFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = PostVote
+
+    post = factory.SubFactory(PostFactory)
+    voter = factory.SubFactory(FinetoothUserFactory)
+    value = 1
+    start_index = factory.LazyAttribute(
+        lambda v: random.randint(0, len(v.post.plaintext)-1)
+    )
+    end_index = factory.LazyAttribute(
+        lambda v: random.randint(v.start_index, len(v.post.plaintext)-1)
+    )
 
 class TagFactory(factory.DjangoModelFactory):
     class Meta:

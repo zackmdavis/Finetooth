@@ -43,8 +43,7 @@ class VotableMixin:
     def scored_plaintext(self):
         votes = self.vote_set.all()
         scored_characters = []
-        # XXX FIXME: O(n^2) in the length of content; I think we can
-        # and may need to do better than that
+        # XXX inefficient
         for i, c in enumerate(Tagnostic(self.content).plaintext()):
             score = sum(
                 v.value for v in votes if v.start_index <= i < v.end_index
@@ -71,9 +70,31 @@ class VotableMixin:
             )
             raise VotingException("Can't find selection in content!")
 
+    @staticmethod
+    def _render_scored_substring(scored_characters):
+        join_to_render_partial = []
+        value_at_index = None
+        open_span = False
+        for character, value in scored_characters:
+            if value == value_at_index:
+                join_to_render_partial.append(character)
+            else:
+                if open_span:
+                    join_to_render_partial.append('</span>')
+                    open_span = False
+                join_to_render_partial.append(
+                    '<span data-value="{}">'.format(value)
+                )
+                open_span = True
+                value_at_index = value
+                join_to_render_partial.append(character)
+        if open_span:
+            join_to_render_partial.append('</span>')
+        return ''.join(join_to_render_partial)
+
     def render(self):
         parsed_content = Tagnostic(self.content).content
-        # XXX parsing twice considered harmful
+        # XXX inefficiency
         scored_plaintext_stack = list(reversed(self.scored_plaintext()))
         join_to_render = []
         for token in parsed_content:
@@ -81,12 +102,7 @@ class VotableMixin:
                 scored_characters = [scored_plaintext_stack.pop()
                                      for _ in range(len(token))]
                 join_to_render.append(
-                     "".join(
-                         "<span data-value=\"{}\">{}</span>".format(
-                             value, character
-                         )
-                         for character, value in scored_characters
-                     )
+                    self._render_scored_substring(scored_characters)
                 )
             elif isinstance(token, tuple) and len(token) == 2: # open tag
                 tag_type, attributes = token

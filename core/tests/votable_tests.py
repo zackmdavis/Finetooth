@@ -5,6 +5,8 @@ from django.test import TestCase
 from core.models import Post
 from core.votable import Tagnostic
 
+from core.tests.factories import PostFactory, PostVoteFactory
+
 class TagnosticismTest(TestCase):
 
     def setUp(self):
@@ -40,4 +42,29 @@ class ScoringTest(TestCase):
             self.the_post.scored_plaintext(),
             (('f', 1), ('r', 2), ('i', 3), ('e', 4), ('n', 5), ('d', 6),
              ('s', 6), ('h', 6), ('i', 6), ('p', 6))
+        )
+
+class RenderingTest(TestCase):
+
+    def setUp(self):
+        self.the_post = PostFactory.create(
+            content=("We'll *always find a way*; that's why the "
+                     "people of *this* world believe")
+        )
+        upvote_indices = ((0, 12), (8, 17))
+        for indices in upvote_indices:
+            PostVoteFactory.create(
+                post=self.the_post,
+                start_index=indices[0], end_index=indices[1]
+            )
+
+    def test_rendering(self):
+        self.assertEqual(
+            self.the_post.render(),
+            '<p><span data-value="1">We\'ll </span><em><span data-value="1">'
+            'al</span><span data-value="2">ways</span><span data-value="1"> '
+            'find</span><span data-value="0"> a way</span></em>'
+            '<span data-value="0">; that\'s why the people of </span>'
+            '<em><span data-value="0">this</span></em><span data-value="0"> '
+            'world believe</span></p>'
         )

@@ -18,12 +18,14 @@ class SignupTest(TestCase):
              'email': "signuptest@example.com"}
         )
         # XX: The call to assertRedirects was printing an empty
-        # dictionary to standard out (if accidentally left a debugging
-        # print statement in Django core (?!), I couldn't find it)
-        original_stdout = sys.stdout
-        sys.stdout = open(os.devnull, 'w')
-        self.assertRedirects(response, '/')
-        sys.stdout = original_stdout
+        # dictionary to standard out (if someone accidentally left a
+        # debugging print statement in Django core (?!), I couldn't
+        # find it)
+        with open(os.devnull, 'w') as dev_null:
+            original_stdout = sys.stdout
+            sys.stdout = dev_null
+            self.assertRedirects(response, '/')
+            sys.stdout = original_stdout
         self.assertTrue(
             FinetoothUser.objects.filter(username="signup_testr").exists()
         )
