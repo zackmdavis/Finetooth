@@ -20,8 +20,15 @@ static/libs/jquery-2.1.1.min.js
 static/libs/underscore-min.js
 static/libs/underscore-min.map
 
+# local wordlist
+static/libs/words
+
 # logs
 logs/finetooth.log*
+
+# Coverage reports
+.coverage
+htmlcov/
 
 # the database
 db.sqlite3

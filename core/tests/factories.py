@@ -1,8 +1,10 @@
+import os
 import random
 from math import log, ceil
 from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 from datetime import datetime
 from collections import OrderedDict
+from urllib.request import urlretrieve
 
 from django.utils.text import slugify
 
@@ -13,6 +15,19 @@ from core.models import (
 )
 
 FACTORY_USER_PASSWORD = "f:O>r<5H%UsBu"
+
+if os.name == "posix":
+    dictionary_path = '/usr/share/dict/words'
+else:
+    # if we're not on a Unix-like system (!?)
+    dictionary_path = os.path.join('static', 'libs', 'words')
+    # and haven't already done so
+    if not os.path.exists(dictionary_path):
+        # let's just grab a wordlist from the internet
+        urlretrieve("http://www.cs.duke.edu/~ola/ap/linuxwords")
+
+with open(dictionary_path) as dictionary:
+    WORDS = [word for word in dictionary.read().split('\n') if "'" not in word]
 
 def romanize_sort_of(n):
     pseudo_digits = OrderedDict(
@@ -63,9 +78,6 @@ class PostFactory(factory.DjangoModelFactory):
     )
     published_at = datetime.now()
 
-
-with open('/usr/share/dict/words') as dictionary:
-    WORDS = [word for word in dictionary.read().split('\n') if "'" not in word]
 
 class TagFactory(factory.DjangoModelFactory):
     class Meta:

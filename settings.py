@@ -58,6 +58,9 @@ AUTH_USER_MODEL = "core.FinetoothUser"
 
 AUTH_REDIRECT_URL = "/"
 
+if DEBUG:
+    PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'

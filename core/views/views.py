@@ -8,6 +8,7 @@ from django.http import HttpResponseBadRequest
 from django.http import HttpRequest
 
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -22,6 +23,7 @@ from core.views.view_utils import (
     scored_context, paginated_view, paginated_context, tag_cloud_context
 )
 
+
 @paginated_view
 def home(request, page_number):
     all_posts = Post.objects.all()
@@ -31,6 +33,7 @@ def home(request, page_number):
     print(context['cloud'])
     return render(request, "home.html", context)
 
+@sensitive_post_parameters('password')
 def sign_up(request):
     if request.method == "POST":
         try:
