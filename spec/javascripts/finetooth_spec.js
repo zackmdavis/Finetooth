@@ -85,14 +85,14 @@ describe("concerning voting", function() {
     it("`renderVoteStatus` sets CSS classes when called upon", function() {
         renderVoteStatus(2, true, "Vote recorded!");
         expect(
-            $(voteStatusSelector(2)).hasClass("vote-status-success")
+            $(voteStatusSelector(2)).hasClass("label-success")
         ).toBe(true);
         renderVoteStatus(2, false, "Error!");
         expect(
-            $(voteStatusSelector(2)).hasClass("vote-status-success")
+            $(voteStatusSelector(2)).hasClass("label-success")
         ).toBe(false);
         expect(
-            $(voteStatusSelector(2)).hasClass("vote-status-fail")
+            $(voteStatusSelector(2)).hasClass("label-danger")
         ).toBe(true);
     });
 
@@ -102,7 +102,9 @@ describe("concerning voting", function() {
         });
         spyOn(window, "renderVoteStatus");
         vote("post", 2, "selected text", 1);
-        expect(renderVoteStatus).toHaveBeenCalledWith(2, true, "Vote recorded!");
+        expect(renderVoteStatus).toHaveBeenCalledWith(
+            2, true, jasmine.any(String)
+        );
     });
 
     it("gives feedback on failure", function() {
@@ -111,7 +113,9 @@ describe("concerning voting", function() {
         });
         spyOn(window, "renderVoteStatus");
         vote("post", 2, "selected text", 1);
-        expect(renderVoteStatus).toHaveBeenCalledWith(2, false, "Error!");
+        expect(renderVoteStatus).toHaveBeenCalledWith(
+            2, false, jasmine.any(String)
+        );
     });
 
 });

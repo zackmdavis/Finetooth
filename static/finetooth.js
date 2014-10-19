@@ -89,10 +89,16 @@ function vote(kind, pk, ballot) {
 	type: "POST",
 	data: ballot,
         success: function(data, status, jqxhr) {
-            renderVoteStatus(pk, true, "Vote recorded!");
+            renderVoteStatus(
+                pk, true,
+                '<i class="glyphicon glyphicon-ok"></i> Vote recorded!'
+            );
         },
         error: function(jqxhr, status, error) {
-            renderVoteStatus(pk, false, jqxhr.responseText);
+            renderVoteStatus(
+                pk, false,
+                '<i class="glyphicon glyphicon-remove"></i> ' + jqxhr.responseText
+            );
         }
     });
 }
@@ -103,14 +109,15 @@ function voteStatusSelector(pk) {
 }
 
 function renderVoteStatus(pk, success, message) {
-    var statusClass = success ? "vote-status-success" : "vote-status-fail";
-    var notStatusClass = success ? "vote-status-fail" : "vote-status-success";
+    var statusClass = success ? "label-success" : "label-danger";
+    var notStatusClass = success ? "label-danger" : "label-success";
     var statusSelector = voteStatusSelector(pk);
     var $statusDiv = $(statusSelector)
     $statusDiv.addClass(statusClass).removeClass(notStatusClass);
-    $statusDiv.text(message);
+    $statusDiv.html(message);
     setTimeout(function() {
-        $statusDiv.removeClass(statusClass).removeClass(notStatusClass).text('');
+        $statusDiv.removeClass(statusClass).removeClass(notStatusClass)
+            .text(' ... ');
     }, 1000);
 }
 
@@ -128,7 +135,11 @@ function setVotingClickHandlers() {
                     ballot.value = valenceDescriptor[1];
                     vote(kind, pk, ballot);
                 } else {
-                    renderVoteStatus(pk, false, "invalid ballot!");
+                    renderVoteStatus(
+                        pk, false,
+                        '<i class="glyphicon glyphicon-remove"></i> ' +
+                        'Invalid vote not recorded!'
+                    );
                 }
             });
         }
