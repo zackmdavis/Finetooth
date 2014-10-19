@@ -45,9 +45,12 @@ def ballot_box(request, kind, pk):
         return HttpResponse("You must be logged in to vote!", status=401)
     kinds = {"post": Post, "comment": Comment}
     value = request.POST.get('value')
-    start_index = request.POST.get('startIndex')
-    end_index = request.POST.get('endIndex')
-    kinds[kind].objects.get(pk=pk).vote_set.create(
+    start_index = int(request.POST.get('startIndex'))
+    end_index = int(request.POST.get('endIndex'))
+    item = kinds[kind].objects.get(pk=pk)
+    if start_index < 0 or end_index > len(item.plaintext):
+        return HttpResponseBadRequest("Invalid vote not recorded!")
+    item.vote_set.create(
         voter=request.user, value=value,
         start_index=start_index, end_index=end_index
     )

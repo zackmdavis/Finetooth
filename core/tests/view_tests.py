@@ -132,7 +132,6 @@ class BallotBoxTest(TestCase):
         )
         self.assertEqual(response.status_code, 401)
 
-    @skip("XXX TODO FIXME")
     def test_cannot_submit_invalid_vote(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
