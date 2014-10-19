@@ -42,6 +42,47 @@ function setTagSubmitHandler() {
     });
 }
 
+function classKindPkSelector(theClass, kind, pk) {
+    return _.template(
+        '.{{ theClass }}[data-kind="{{ kind }}"][data-pk={{ pk }}]'
+    )({ theClass: theClass, kind: kind, pk: pk });
+}
+
+function kindSelector(kind, pk) {
+    return classKindPkSelector(kind, kind, pk);
+}
+
+function domTraversal(node, callback) {
+    callback(node);
+    var node = node.firstChild;
+    while (node) {
+        domTraversal(node, callback);
+        node = node.nextSibling;
+    }
+}
+
+function getVoteSelectionIndices(kind, pk) {
+    var range = window.getSelection().getRangeAt(0);
+    var ourIndex = 0;
+    var startIndex, endIndex;
+    domTraversal($(kindSelector(kind, pk))[0], function(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            if (node === range.startContainer) {
+                startIndex = ourIndex + range.startOffset;
+            }
+            if (node === range.endContainer) {
+                endIndex = ourIndex + range.endOffset;
+            }
+            ourIndex += node.data.length;
+        }
+    });
+    if (typeof startIndex != 'undefined' && typeof endIndex != 'undefined') {
+        return { startIndex: startIndex, endIndex: endIndex }
+    } else {
+        return false;
+    }
+}
+
 function vote(kind, pk, selection, value) {
     $.ajax({
 	url: "/vote/" + kind + "/" + pk + "/",
@@ -60,10 +101,8 @@ function vote(kind, pk, selection, value) {
 }
 
 function voteStatusSelector(pk) {
-    return _.template(
-        // XXX TODO we're going to want to vote on comments, too
-        '.vote-status[data-pk={{ pk }}][data-kind="post"]'
-    )({ pk: pk })
+    // XXX TODO we're going to want to vote on comments, too
+    return classKindPkSelector('vote-status', "post", pk)
 }
 
 function renderVoteStatus(pk, success, message) {

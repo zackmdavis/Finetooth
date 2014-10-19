@@ -8,9 +8,11 @@
     <strong>score: {{ post.score }}</strong>
   </p>
 </span>
-<div class="post well" data-pk="{{ post.pk }}" data-kind="post">
-  {{ post.render|safe }}
-</div>
+{% comment %}
+our JavaScript DOM traversal is simpler if there's no
+readability-whitespace in the markup for votables
+{% endcomment %}
+<div class="post well" data-pk="{{ post.pk }}" data-kind="post">{{ post.render|safe }}</div>
 <div class="voting-area">
   <a class="btn btn-success upvote"
      data-pk="{{ post.pk }}" data-kind="post"

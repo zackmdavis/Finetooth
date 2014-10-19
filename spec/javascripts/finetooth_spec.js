@@ -115,3 +115,37 @@ describe("concerning voting", function() {
     });
 
 });
+
+
+describe("concerning computing vote selection indices", function() {
+
+    beforeEach(function() {
+        $(document.body).append(
+            '<div class="post well" data-pk="5" data-kind="post">' +
+                '<p><span data-value="1">I threw myself </span>' +
+                '<span data-value="2">into my </span>' +
+                '<em><span data-value="2">studies</span></em>' +
+                '<span data-value="0">, to have </span>' +
+                '<span data-value="-1">the world</span>' +
+                '<span data-value="0"> in my control</span></p>' +
+            '</div>'
+        );
+    });
+
+    afterEach(function() {
+        $('.post[data-pk="5"]').remove();
+    });
+
+    it("we know how to traverse the document object model", function() {
+        var content = "";
+        domTraversal($('.post[data-pk="5"]')[0], function(ourNode) {
+            if (ourNode.nodeType === Node.TEXT_NODE) {
+                content += ourNode.data;
+            }
+        });
+        expect(content).toEqual(
+            "I threw myself into my studies, to have the world in my control"
+        );
+    });
+
+});
