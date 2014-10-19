@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
-from core.models import Post, Comment, Tag
+from core.models import Post, Comment, Tag, PostVote, CommentVote
 from core.colorize import stylesheet
 from core.votable import VotingException
 
@@ -44,14 +44,17 @@ def ballot_box(request, kind, pk):
     if not request.user.is_authenticated():
         return HttpResponse("You must be logged in to vote!", status=401)
     kinds = {"post": Post, "comment": Comment}
-    value = int(request.POST['value'])
-    selection = request.POST['selection']
+    value = request.POST.get('value')
+    start_index = int(request.POST.get('startIndex'))
+    end_index = int(request.POST.get('endIndex'))
     item = kinds[kind].objects.get(pk=pk)
-    try:
-        item.accept_vote(request.user, selection, value)
-        return HttpResponse(status=204)
-    except VotingException as e:
-        return HttpResponse(str(e), status=400)
+    if start_index < 0 or end_index > len(item.plaintext):
+        return HttpResponseBadRequest("Invalid vote not recorded!")
+    item.vote_set.create(
+        voter=request.user, value=value,
+        start_index=start_index, end_index=end_index
+    )
+    return HttpResponse(status=204)
 
 def check_slug(request):
     slug = request.GET.get('slug')

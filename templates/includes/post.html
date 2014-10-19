@@ -8,11 +8,13 @@
     <strong>score: {{ post.score }}</strong>
   </p>
 </span>
-<div class="post well" data-pk="{{ post.pk }}" data-kind="post">
-  {{ post.render|safe }}
-</div>
+{% comment %}
+our JavaScript DOM traversal is simpler if there's no
+readability-whitespace in the markup for votables
+{% endcomment %}
+<div class="post well" data-pk="{{ post.pk }}" data-kind="post">{{ post.render|safe }}</div>
 <div class="voting-area">
-  <a class="btn btn-success upvote"
+  <a class="btn btn-primary upvote"
      data-pk="{{ post.pk }}" data-kind="post"
      href="javascript:void(0)">
     {% bootstrap_icon 'thumbs-up' %} upvote
@@ -22,6 +24,7 @@
      href="javascript:void(0)">
     {% bootstrap_icon 'thumbs-down' %} downvote
   </a>
-  <div class="vote-status" data-pk="{{ post.pk }}" data-kind="post">
+  <div class="label label-default vote-status" data-pk="{{ post.pk }}" data-kind="post">
+     ...
   </div>
 </div>

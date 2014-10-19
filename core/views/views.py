@@ -30,7 +30,6 @@ def home(request, page_number):
     context = paginated_context(request, 'posts', all_posts, page_number, {})
     context = scored_context(context['posts'], context)
     context['cloud'] = tag_cloud_context(Tag.objects.all())
-    print(context['cloud'])
     return render(request, "home.html", context)
 
 @sensitive_post_parameters('password')
