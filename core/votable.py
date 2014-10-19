@@ -51,24 +51,6 @@ class VotableMixin:
             scored_characters.append((c, score))
         return tuple(scored_characters)
 
-    def accept_vote(self, voter, selection, value):
-        # XXX what about when the selection appears more than
-        # once?--search by regex instead and disallow voting on
-        # non-unique phrases? Or can we do better?
-        start_index = self.plaintext.find(selection)
-        if start_index != -1:
-            end_index = start_index + len(selection)
-            return self.vote_set.create(
-                voter=voter, value=value,
-                start_index=start_index, end_index=end_index
-            )
-        else:
-            logger.info(
-                "invalid vote selection on {} #{}: {}".format(
-                    self.__class__.__name__, self.pk, selection
-                )
-            )
-            raise VotingException("Can't find selection in content!")
 
     @staticmethod
     def _render_scored_substring(scored_characters):

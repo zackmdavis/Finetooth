@@ -83,14 +83,11 @@ function getVoteSelectionIndices(kind, pk) {
     }
 }
 
-function vote(kind, pk, selection, value) {
+function vote(kind, pk, ballot) {
     $.ajax({
 	url: "/vote/" + kind + "/" + pk + "/",
 	type: "POST",
-	data: {
-	    value: value,
-	    selection: selection
-	},
+	data: ballot,
         success: function(data, status, jqxhr) {
             renderVoteStatus(pk, true, "Vote recorded!");
         },
@@ -122,11 +119,17 @@ function setVotingClickHandlers() {
         [['.upvote', 1], ['.downvote', -1]],
         function(valenceDescriptor, index) {
             var classSelector = valenceDescriptor[0];
-            var value = valenceDescriptor[1];
             $(classSelector).click(function(event) {
-	        var voteElement = $(this);
-	        vote(voteElement.data("kind"), voteElement.data("pk"),
-	             window.getSelection().toString(), value);
+	        var votingElement = $(this);
+                var kind = votingElement.data("kind");
+                var pk = votingElement.data("pk");
+                var ballot = getVoteSelectionIndices(kind, pk);
+                if (ballot) {
+                    ballot.value = valenceDescriptor[1];
+                    vote(kind, pk, ballot);
+                } else {
+                    renderVoteStatus(pk, false, "invalid ballot!");
+                }
             });
         }
     );
