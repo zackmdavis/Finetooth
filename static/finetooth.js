@@ -79,18 +79,18 @@ function renderVoteStatus(pk, success, message) {
 }
 
 function setVotingClickHandlers() {
-    $('.upvote').click(function(event) {
-	var upvoteElement = $(this);
-	vote(upvoteElement.data("kind"), upvoteElement.data("pk"),
-	     window.getSelection().toString(), 1);
-	return true;
-    });
-    $('.downvote').click(function(event) {
-	var downvoteElement = $(this);
-	vote(downvoteElement.data("kind"), downvoteElement.data("pk"),
-	     window.getSelection().toString(), -1);
-	return true;
-    });
+    _.each(
+        [['.upvote', 1], ['.downvote', -1]],
+        function(valenceDescriptor, index) {
+            var classSelector = valenceDescriptor[0];
+            var value = valenceDescriptor[1];
+            $(classSelector).click(function(event) {
+	        var voteElement = $(this);
+	        vote(voteElement.data("kind"), voteElement.data("pk"),
+	             window.getSelection().toString(), value);
+            });
+        }
+    );
 }
 
 function setCommentFormShowHandlers() {

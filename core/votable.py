@@ -1,7 +1,7 @@
 import logging
 from html.parser import HTMLParser
 
-from markdown import markdown
+from markdown import markdown as markdown_to_html
 
 logger = logging.getLogger(__name__)
 
@@ -9,7 +9,7 @@ class Tagnostic(HTMLParser):
     def __init__(self, content):
         super().__init__(convert_charrefs=True)
         self.content = []
-        self.feed(markdown(content))
+        self.feed(markdown_to_html(content, lazy_ol=False))
 
     def handle_starttag(self, tag, attrs):
         self.content.append((tag, dict(attrs)))
