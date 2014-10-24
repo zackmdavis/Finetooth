@@ -29,7 +29,6 @@
                 <input class="btn btn-default" type="submit" value="Log out">
               </form>
             </li>
-
 	  {% endif %}
 	</ul>
       </div>
@@ -38,7 +37,12 @@
     {% bootstrap_messages %}
 
     <div class="container">
-      {% block content %}{% endblock %}
+      <div class="col-md-9">
+        {% block content %}{% endblock %}
+      </div>
+      <div class="col-md-3">
+        {% include "includes/tag_cloud.html" %}
+      </div>
     </div>
 
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>

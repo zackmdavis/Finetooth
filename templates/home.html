@@ -6,20 +6,16 @@
 {% block subtitle %}Home{% endblock %}
 
 {% block content %}
-  <div class="col-md-9">
-    {% for post in posts %}
-      <div class="row">
-        {% include "includes/post.html" %}
-        <p><a href="{% url 'show_post' post.year post.month post.slug %}#comments">
-          <strong>{{ post.comment_set.count }} comments</strong>
-        </a></p>
-      </div>
-    {% endfor %}
 
+  {% for post in posts %}
+    <div class="row">
+      {% include "includes/post.html" %}
+      <p><a href="{% url 'show_post' post.year post.month post.slug %}#comments">
+        <strong>{{ post.comment_set.count }} comments</strong>
+      </a></p>
+    </div>
+  {% endfor %}
 
-    {% include "includes/pagination.html" %}
-  </div>
-  <div class="col-md-3">
-    {% include "includes/tag_cloud.html" %}
-  </div>
+  {% include "includes/pagination.html" %}
+
 {% endblock %}
