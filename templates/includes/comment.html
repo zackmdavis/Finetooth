@@ -2,8 +2,8 @@
 
 <div class="comment" id="comment-{{ comment.pk }}">
   <div class="byline">
-  <a href="{% url 'show_profile' comment.commenter.username %}">
-    <strong>{{ comment.commenter.username }}</strong>
+  <a class="username" href="{% url 'show_profile' comment.commenter.username %}">
+    {{ comment.commenter.username }}
   </a>
   &bull; <em>{{ comment.published_at }}</em>
   </div>

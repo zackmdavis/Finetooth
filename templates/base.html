@@ -41,6 +41,9 @@
         {% block content %}{% endblock %}
       </div>
       <div class="col-md-3">
+        {% if user.is_authenticated %}
+          {% include "includes/sidebar_profile.html" %}
+        {% endif %}
         {% include "includes/tag_cloud.html" %}
       </div>
     </div>
