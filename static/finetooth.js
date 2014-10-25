@@ -61,6 +61,22 @@ function domTraversal(node, callback) {
     }
 }
 
+function instarender(range, value) {
+    var $hotscored = $('<span>').addClass('hotscored');
+    $hotscored[0].appendChild(range.extractContents());
+    range.insertNode($hotscored[0]);
+    $hotscored.contents().each(function(_index, node) {
+        $node = $(node);
+        if (node.nodeType === Node.TEXT_NODE) {
+            var oldValue = $node.parents('[data-value]').data('value');
+            $node.wrap($('<span>').attr('data-value', oldValue + value));
+        } else {
+            $node.attr('data-value', $node.data('value') + value);
+        }
+    });
+    window.getSelection().collapse($('body')[0],0);
+}
+
 function getVoteSelectionIndices(kind, pk) {
     var range = window.getSelection().getRangeAt(0);
     var ourIndex = 0;
@@ -83,7 +99,7 @@ function getVoteSelectionIndices(kind, pk) {
     }
 }
 
-function vote(kind, pk, ballot) {
+function vote(kind, pk, ballot, range) {
     $.ajax({
 	url: "/vote/" + kind + "/" + pk + "/",
 	type: "POST",
@@ -93,6 +109,7 @@ function vote(kind, pk, ballot) {
                 pk, true,
                 '<i class="glyphicon glyphicon-ok"></i> Vote recorded!'
             );
+            instarender(range, ballot.value);
         },
         error: function(jqxhr, status, error) {
             renderVoteStatus(
@@ -133,7 +150,7 @@ function setVotingClickHandlers() {
                 var ballot = getVoteSelectionIndices(kind, pk);
                 if (ballot) {
                     ballot.value = valenceDescriptor[1];
-                    vote(kind, pk, ballot);
+                    vote(kind, pk, ballot, window.getSelection().getRangeAt(0));
                 } else {
                     renderVoteStatus(
                         pk, false,

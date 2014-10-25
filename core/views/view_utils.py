@@ -15,7 +15,8 @@ def scored_context(scoreables, context):
     else:
         low_score, high_score = 0, 0
     context.update({
-        'low_score': low_score, 'high_score': high_score,
+        # leave room on the scale for instarendering
+        'low_score': low_score - 1, 'high_score': high_score + 1,
         'low_color': "ff0000", 'high_color': "0000ff"
     })
     return context
