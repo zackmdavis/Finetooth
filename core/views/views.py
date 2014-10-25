@@ -41,6 +41,10 @@ def sign_up(request):
                 username = signup_form.cleaned_data["username"]
                 email = signup_form.cleaned_data["email"]
                 password = signup_form.cleaned_data["password"]           
+                confirm_password = signup_form.cleaned_data["confirm_password"]
+                if password != confirm_password:
+                    messages.error(request, "Passwords do not match.")
+                    return render(request, 'sign_up.html', {'form': signup_form})
                 FinetoothUser.objects.create_user(username, email, password)
                 messages.success(request, "Account creation successful!")
                 new_user = authenticate(username=username, password=password)

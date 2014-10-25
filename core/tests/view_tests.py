@@ -16,7 +16,7 @@ class SignupTest(TestCase):
         response = self.client.post(
             reverse('sign_up'),
             {'username': "signup_testr", 'password': "moeDukr(,rpdCesLlrqr",
-             'email': "signuptest@example.com"}
+             'confirm_password': "moeDukr(,rpdCesLlrqr", 'email': "signuptest@example.com"}
         )
         # XX: The call to assertRedirects was printing an empty
         # dictionary to standard out (if someone accidentally left a
