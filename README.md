@@ -24,7 +24,7 @@ Requires Python 3.
 
 * Install the requirements: `pip install -r requirements.txt`
 
-* Set up the database: `./manage.py syncdb --migrate`
+* Set up the database: `./manage.py migrate`
 
 * Run the tests!
 
