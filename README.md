@@ -38,7 +38,5 @@ Requires Python 3.
 
     - Visit *http://localhost:8888/* in your favorite browser!
 
-* If you like, load the sample data (including an initial post, comment, and admin user: `./manage.py loaddata core/fixtures/sample_data.json`. (You can also reset the admin user's password with `./manage.py changepassword admin`.)
-
 * Use the site! `./manage.py runserver` and visit *http://localhost:8000/* in your favorite browser!
 
