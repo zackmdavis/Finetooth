@@ -1,13 +1,11 @@
 import json
 from datetime import datetime
 
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
 from django.http import HttpResponseBadRequest
 from django.http import HttpRequest
-
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
@@ -32,30 +30,28 @@ def home(request, page_number):
     context = scored_context(context['posts'], context)
     return render(request, "home.html", context)
 
-@sensitive_post_parameters('password')
+@sensitive_post_parameters('password', 'confirm_password')
 def sign_up(request):
     if request.method == "POST":
         signup_form = SignupForm(request.POST)
         if signup_form.is_valid():
-            try: 
-                username = signup_form.cleaned_data["username"]
-                email = signup_form.cleaned_data["email"]
-                password = signup_form.cleaned_data["password"]           
-                confirm_password = signup_form.cleaned_data["confirm_password"]
-                if password != confirm_password:
-                    messages.error(request, "Passwords do not match.")
-                    return render(request, 'sign_up.html', {'form': signup_form})
-                FinetoothUser.objects.create_user(username, email, password)
-                messages.success(request, "Account creation successful!")
-                new_user = authenticate(username=username, password=password)
-                login(request, new_user)
-                return redirect("home")
-            except IntegrityError:                
-                messages.error(request, "Username already exists.")
-                return redirect("sign_up")
+            username = signup_form.cleaned_data["username"]
+            email = signup_form.cleaned_data["email"]
+            password = signup_form.cleaned_data["password"]
+            confirm_password = signup_form.cleaned_data["confirm_password"]
+            FinetoothUser.objects.create_user(username, email, password)
+            messages.success(request, "Account creation successful!")
+            new_user = authenticate(username=username, password=password)
+            login(request, new_user)
+            return redirect("home")
+        else:
+            messages.warning(request, signup_form.errors)
+            return render(
+                request, 'sign_up.html', {'signup_form': signup_form}, status=422
+            )
     else:
-        form = SignupForm()
-        return render(request, 'sign_up.html', locals())
+        signup_form = SignupForm()
+        return render(request, 'sign_up.html', {'signup_form': signup_form})
 
 @require_POST
 def logout_view(request):

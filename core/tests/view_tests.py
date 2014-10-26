@@ -15,33 +15,55 @@ class SignupTest(TestCase):
     def test_can_sign_up(self):
         response = self.client.post(
             reverse('sign_up'),
-            {'username': "signup_testr", 'password': "moeDukr(,rpdCesLlrqr",
-             'confirm_password': "moeDukr(,rpdCesLlrqr", 'email': "signuptest@example.com"}
+            {'username': "signup_testr",
+             'password': "moeDukr(,rpdCesLlrq",
+             'confirm_password': "moeDukr(,rpdCesLlrq",
+             'email': "signuptest@example.com"}
         )
-        # XX: The call to assertRedirects was printing an empty
-        # dictionary to standard out (if someone accidentally left a
-        # debugging print statement in Django core (?!), I couldn't
-        # find it)
-        with open(os.devnull, 'w') as dev_null:
-            original_stdout = sys.stdout
-            sys.stdout = dev_null
-            self.assertRedirects(response, '/')
-            sys.stdout = original_stdout
-        self.assertTrue(
-            FinetoothUser.objects.filter(username="signup_testr").exists()
-        )
+        self.assertRedirects(response, '/')
+        user_queryset = FinetoothUser.objects.filter(username="signup_testr")
+        self.assertTrue(user_queryset.exists())
+        self.assertTrue(user_queryset[0].check_password("moeDukr(,rpdCesLlrq"))
 
-    @skip("an apparently spurious TransactionManagementError due to the issue "
-          "described at http://stackoverflow.com/a/23326971")  # TODO FIXME
     def test_cannnot_claim_extant_username(self):
         f.FinetoothUserFactory.create(username="username_squatter")
         response = self.client.post(
             reverse('sign_up'),
-            {'username': "username_squatter", 'password': "oclxJums^whyysmtam",
+            {'username': "username_squatter",
+             'password': "oclxJums^whyysmtam",
+             'confirm_password': "oclxJums^whyysmtam",
              'email': "metoo@example.com"},
             follow=True
         )
         self.assertIn(b"Username already exists.", response.content)
+
+    def test_confirm_password_must_match(self):
+        prior_user_count = FinetoothUser.objects.count()
+        response = self.client.post(
+            reverse('sign_up'),
+            {'username': "pentest",
+             'password': "*sd6f3mjdrt3y42",
+             'confirm_password': "not_the_same_password_is_it",
+             'email': "pt@example.com"},
+            follow=True
+        )
+        post_user_count = FinetoothUser.objects.count()
+        self.assertEqual(prior_user_count, post_user_count)
+        self.assertEqual(422, response.status_code)
+
+    def test_required_fields(self):
+        prior_user_count = FinetoothUser.objects.count()
+        response = self.client.post(
+            reverse('sign_up'),
+            {'username': '',
+             'password': "oclxJums^whyysmtam",
+             'confirm_password': "oclxJums^whyysmtam",
+             'email': ''},
+            follow=True
+        )
+        post_user_count = FinetoothUser.objects.count()
+        self.assertEqual(prior_user_count, post_user_count)
+        self.assertEqual(422, response.status_code)
 
 
 class TaggingTest(TestCase):
