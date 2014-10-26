@@ -31,17 +31,17 @@ def populate_stops(color_stops):
             )
     return full_stops
 
-def style_block(value, color):
-    return "\n".join(["[data-value=\"{}\"] {{".format(value),
+def style_block(value, color, prefix=''):
+    return "\n".join(["[data-{}value=\"{}\"] {{".format(prefix, value),
                       "    color: #{};".format(color),
                       "}\n"])
 
-def stylesheet(low_score, low_color, high_score, high_color):
+def stylesheet(low_score, low_color, high_score, high_color, prefix=''):
     stops = {0: "000000"}
     if low_score < 0:
         stops.update({low_score: low_color})
     if high_score > 0:
         stops.update({high_score: high_color})
     colors = populate_stops(stops)
-    return "\n".join(style_block(value, color)
+    return "\n".join(style_block(value, color, prefix)
                      for value, color in colors.items())

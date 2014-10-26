@@ -1,7 +1,9 @@
 <h3>Tags</h3>
 <div id="tag-cloud">
   {% for tag, size in cloud.items %}
-    <a href="{% url 'tagged' tag.label %}" style="font-size: {{ size }}px;">
+    <a href="{% url 'tagged' tag.label %}"
+       data-tag-value="{{ tag.score }}"
+       style="font-size: {{ size }}px;">
       {{ tag.label }}
     </a>
   {% endfor %}

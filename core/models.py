@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from core.votable import VotableMixin
+from core.votable import VotableMixin, IndirectlyScorableMixin
 
 
 class FinetoothUser(AbstractUser):
@@ -74,9 +74,13 @@ class CommentVote(Vote):
         return "{} on comment #{}".format(self.value, self.comment.pk)
 
 
-class Tag(models.Model):
+class Tag(models.Model, IndirectlyScorableMixin):
     label = models.CharField(max_length=64, unique=True)
     posts = models.ManyToManyField("Post")
+
+    @property
+    def associated_votable_set(self):
+        return self.posts
 
     def __str__(self):
         return self.label

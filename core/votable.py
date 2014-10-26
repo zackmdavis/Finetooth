@@ -91,7 +91,7 @@ class VotableMixin:
                 join_to_render.append(
                     "<{}{}{}>".format(
                         tag_type,
-                        " " if attributes else "",
+                        " " if attributes else '',
                         " ".join(
                             '{}="{}"'.format(k, v)
                             for k, v in attributes.items()
@@ -107,3 +107,24 @@ class VotableMixin:
 
     def high_score(self):
         return max(v for c, v in self.scored_plaintext())
+
+
+class IndirectlyScorableMixin:
+
+    @property
+    def score(self):
+        return sum(v.score for v in self.associated_votable_set.all())
+
+    @classmethod
+    def low_score(cls):
+        if cls.objects.exists():
+            return min(i.score for i in cls.objects.all())
+        else:
+            return 0
+
+    @classmethod
+    def high_score(cls):
+        if cls.objects.exists():
+            return max(i.score for i in cls.objects.all())
+        else:
+            return 0

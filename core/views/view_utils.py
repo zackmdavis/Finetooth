@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.conf import settings
 
-def scored_context(scoreables, context):
+def scored_context(scoreables, context, prefix=''):
     if scoreables:
         low_score = min(s.low_score() for s in scoreables)
         high_score = max(s.high_score() for s in scoreables)
@@ -16,7 +16,8 @@ def scored_context(scoreables, context):
         low_score, high_score = 0, 0
     context.update({
         # leave room on the scale for instarendering
-        'low_score': low_score - 1, 'high_score': high_score + 1,
+        prefix + 'low_score': low_score - 1,
+        prefix + 'high_score': high_score + 1,
         'low_color': "ff0000", 'high_color': "0000ff"
     })
     return context

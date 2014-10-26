@@ -15,7 +15,10 @@ from core.votable import VotingException
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):
     return HttpResponse(
-        stylesheet(int(low_score), low_color, int(high_score), high_color),
+        stylesheet(
+            int(low_score), low_color, int(high_score), high_color,
+            prefix=request.GET.get('prefix', '')
+        ),
         content_type="text/css"
     )
 
