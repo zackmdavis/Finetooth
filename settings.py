@@ -81,9 +81,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'core.context_processors.tag_cloud_context_processor',
+    'core.context_processors.contextual_static_serving_context_processor'
 )
 
 STATICFILES_DIRS = ('static',)
+SERVE_STATIC_LIBS_LOCALLY = True
 
 STATIC_URL = '/static/'
 
