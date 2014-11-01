@@ -21,5 +21,8 @@ urlpatterns = patterns(
     url(r'^edit_profile/(.+)/$', views.edit_profile, name='edit_profile'),
     url(r'^add_comment/(\d+)/$', views.add_comment, name='add_comment'),
     url(r'^check_slug/$', views.check_slug, name='check_slug'),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?:page/(?P<page>\d+)/)?$',
+        views.MonthlyArchive.as_view(),
+        name='monthly_archive'),
     url(r'^(\d{4})/(\d{2})/([a-z\d\-]+)/$', views.show_post, name='show_post')
 )

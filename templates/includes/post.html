@@ -28,3 +28,8 @@ readability-whitespace in the markup for votables
      ...
   </div>
 </div>
+<p>
+  <a href="{% url 'show_post' post.year post.month post.slug %}#comments">
+    <strong>{{ post.comment_set.count }} comments</strong>
+  </a>
+</p>

@@ -87,6 +87,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'core.context_processors.tag_cloud_context_processor',
     'core.context_processors.contextual_static_serving_context_processor',
     'core.context_processors.sidebar_login_form_context_processor',
+    'core.context_processors.monthly_archives_context_processor',
 )
 
 STATIC_ROOT = 'staticfiles'

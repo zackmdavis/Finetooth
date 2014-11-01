@@ -1,0 +1,12 @@
+<div id="sidebar-archives-list">
+  <h3>Archives</h3>
+  <ul>
+    {% for date_info, list_item in months %}
+      <li>
+        <a href="/{{ date_info.0 }}/{{ date_info.1 }}/">
+          {{ list_item }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>

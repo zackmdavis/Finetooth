@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block valuation %}
+  {# TODO #}
+{% endblock %}
+
+{% block subtitle %}posts during {{ month }} {{ year }}{% endblock %}
+
+{% block content %}
+  <h4>posts during {{ month }} {{ year }}</h4>
+
+{% for post in posts %}
+  <div class="row">
+    {% include "includes/post.html" %}
+  </div>
+{% endfor %}
+
+{% endblock %}

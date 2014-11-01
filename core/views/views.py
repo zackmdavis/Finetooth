@@ -1,8 +1,10 @@
 import json
 from datetime import datetime
+import calendar
 
 import bleach
 
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -11,6 +13,7 @@ from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
+from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -70,6 +73,28 @@ def show_post(request, year, month, slug):
         scored_context([post], {'post': post, 'comment_form': CommentForm(),
                                 'top_level_comments': top_level_comments})
     )
+
+class MonthlyArchive(ListView):
+    context_object_name = 'posts'
+    template_name = 'monthly_archive.html'
+    paginate_by = settings.POSTS_PER_PAGE
+
+    def get_queryset(self):
+        year = int(self.kwargs['year'])
+        month = int(self.kwargs['month'])
+        start_of_month = datetime(year=year, month=month, day=1)
+        end_year = year if month < 12 else (year + 1)
+        next_month = (month % 12) + 1
+        end_of_month = datetime(year=end_year, month=next_month, day=1)
+        return Post.objects.filter(
+            published_at__gte=start_of_month, published_at__lt=end_of_month
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['year'] = int(self.kwargs['year'])
+        context['month'] = calendar.month_name[int(self.kwargs['month'])]
+        return context
 
 @login_required
 def new_post(request):

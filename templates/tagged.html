@@ -8,13 +8,10 @@
 
 {% block content %}
 <h4>Posts tagged '{{ tag.label }}'</h4>
+
 {% for post in posts %}
-{# XXX: duplication; another fragment, or comment link inside includes/post? #}
 <div class="row">
   {% include "includes/post.html" %}
-  <p><a href="{{ post.pk }}/#comments">
-      <strong>{{ post.comment_set.count }} comments</strong>
-  </a></p>
 </div>
 {% endfor %}
 
