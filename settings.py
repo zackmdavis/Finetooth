@@ -29,7 +29,7 @@ INSTALLED_APPS = (
     'core',
 )
 
-if DEBUG:
+if DEBUG and IS_DEVELOPMENT:
     INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
