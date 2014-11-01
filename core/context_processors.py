@@ -1,10 +1,14 @@
 from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm
 
 from core.models import Tag
 from core.views.view_utils import tag_cloud_context
 
 def tag_cloud_context_processor(request):
     return {'cloud': tag_cloud_context(Tag.objects.all())}
+
+def sidebar_login_form_context_processor(request):
+    return {'sidebar_login_form': AuthenticationForm() }
 
 def contextual_static_serving_context_processor(request):
     if settings.SERVE_STATIC_LIBS_LOCALLY:

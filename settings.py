@@ -60,6 +60,7 @@ else:
 AUTH_USER_MODEL = "core.FinetoothUser"
 
 AUTH_REDIRECT_URL = "/"
+LOGIN_URL = "/login/"
 
 if DEBUG and IS_DEVELOPMENT:
     PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
@@ -84,7 +85,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
     'core.context_processors.tag_cloud_context_processor',
-    'core.context_processors.contextual_static_serving_context_processor'
+    'core.context_processors.contextual_static_serving_context_processor',
+    'core.context_processors.sidebar_login_form_context_processor',
 )
 
 STATIC_ROOT = 'staticfiles'
