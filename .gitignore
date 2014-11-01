@@ -15,6 +15,9 @@ lib/
 lib64
 pyvenv.cfg
 
+# collected static files for production-like environments
+collectstatic/
+
 # local copies of JavaScript libraries
 static/libs/jquery-2.1.1.min.js
 static/libs/underscore-min.js
@@ -30,5 +33,12 @@ logs/finetooth.log*
 .coverage
 htmlcov/
 
-# the database
+# the SQLite database
 db.sqlite3
+
+
+
+# sentinel file whose existence is used to decide whether it is the
+# case that we're in a dev environment (and should use the
+# corresponding Django settings)
+.development

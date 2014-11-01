@@ -5,21 +5,18 @@ Django settings for Finetooth.
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# TODO: review
-# https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+IS_DEVELOPMENT = os.path.exists('.development')
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# XXX TODO FIXME DANGER: the security warning on the previous line is
-# big deal; if/when deploying this somewhere, change this and DO NOT
-# keep the real value in a publicly-visible Git repo
-SECRET_KEY = "fake_development_unsecret_key"
+DEBUG = os.environ.get('DEBUG') or IS_DEVELOPMENT
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if IS_DEVELOPMENT:
+    SECRET_KEY = os.environ.get('SECRET_KEY') or "fake_development_unsecret_key"
+else:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -29,9 +26,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'debug_toolbar',
     'core',
 )
+
+if DEBUG and IS_DEVELOPMENT:
+    INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -46,14 +45,18 @@ ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'wsgi.application'
 
-DATABASES = {
-    'default': {
-        # I <3 SQLite but maybe consider Postgres if/when deploying this
-        # somewhere
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join('db.sqlite3'),
+if IS_DEVELOPMENT:
+    DATABASES = {
+        'default': {
+            # I <3 SQLite but maybe consider Postgres if/when deploying this
+            # somewhere
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join('db.sqlite3'),
+        }
     }
-}
+else:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config()}
 
 AUTH_USER_MODEL = "core.FinetoothUser"
 
@@ -85,8 +88,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'core.context_processors.contextual_static_serving_context_processor'
 )
 
+STATIC_ROOT = 'staticfiles'
+
 STATICFILES_DIRS = ('static',)
-SERVE_STATIC_LIBS_LOCALLY = True
+
+SERVE_STATIC_LIBS_LOCALLY = (os.environ.get('SERVE_STATIC_LIBS_LOCALLY')
+                             or IS_DEVELOPMENT)
 
 STATIC_URL = '/static/'
 
