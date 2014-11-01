@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class Tagnostic(HTMLParser):
     def __init__(self, content):
-        super().__init__(convert_charrefs=True)
+        super().__init__(convert_charrefs=False)
         self.content = []
         self.feed(markdown_to_html(content, lazy_ol=False))
 

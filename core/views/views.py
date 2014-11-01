@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 
+import bleach
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden
@@ -73,7 +75,7 @@ def show_post(request, year, month, slug):
 def new_post(request):
     url = HttpRequest.build_absolute_uri(request, reverse("home"))
     if request.method == "POST":
-        content = request.POST["content"]
+        content = bleach.clean(request.POST["content"])
         title = request.POST["title"]
         slug = request.POST["slug"]
         new_post = Post.objects.create(

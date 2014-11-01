@@ -132,6 +132,17 @@ class CommentingTest(TestCase):
             ) + fragment_identifier
         )
 
+    def test_against_html_injection(self):
+        self.client.login(
+            username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
+        )
+        response = self.client.post(
+            reverse("add_comment", args=(self.the_post.pk,)),
+            {'content': "and it's what my <textarea>"}
+        )
+        comment = self.the_post.comment_set.filter(commenter=self.the_user)[0]
+        self.assertNotIn("<textarea>", comment.content)
+
     def test_do_not_panic_on_blank_comment(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD

@@ -1,11 +1,17 @@
 from django import forms
 
+import bleach
+
 from core.models import FinetoothUser
 
 class CommentForm(forms.Form):
     content = forms.CharField(
         label="", widget=forms.Textarea(attrs={'rows': 6})
     )
+
+    def clean_content(self):
+        return bleach.clean(self.cleaned_data.get('content'))
+
 
 class SignupForm(forms.ModelForm):
     class Meta:

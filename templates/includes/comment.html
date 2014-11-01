@@ -7,7 +7,7 @@
   </a>
   &bull; <em>{{ comment.published_at }}</em>
   </div>
-{{ comment.render|safe }}
+  {{ comment.render|safe }}
   <p>
   <a href="javascript:void(0);" class="comment-tool reply-form-link"
      data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
