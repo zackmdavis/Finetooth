@@ -31,13 +31,6 @@ def monthly_archives_context_processor(request):
     ]
     return {'months': months_info}
 
-# [
-#         (k, "{} {} ({})".format(
-#             calendar.month_name[k[1]], k[0], v
-#         )
-#         for k, v in months_info}
-#     }
-
 def contextual_static_serving_context_processor(request):
     if settings.SERVE_STATIC_LIBS_LOCALLY:
         jquery_url = "/static/libs/jquery-2.1.1.min.js"

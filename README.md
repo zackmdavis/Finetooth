@@ -22,7 +22,9 @@ Requires Python 3.
 
 * *Recommended*: [set up a virtualenv including Pip](https://docs.python.org/3/library/venv.html#an-example-of-extending-envbuilder)
 
-* Install the requirements: `pip install -r requirements.txt`
+* Install the requirements: `pip install -r dev_requirements.txt`
+
+* Create a file called `.development` (the presence of this file is used to determine that we should use development rather than production-like Django settings): `touch .development`
 
 * Set up the database: `./manage.py migrate`
 
@@ -39,4 +41,3 @@ Requires Python 3.
     - Visit *http://localhost:8888/* in your favorite browser!
 
 * Use the site! `./manage.py runserver` and visit *http://localhost:8000/* in your favorite browser!
-
