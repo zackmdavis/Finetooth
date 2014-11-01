@@ -118,7 +118,7 @@ def add_comment(request, post_pk):
             reverse("show_post", args=year_month_slug) + fragment_identifier
         )
     else:
-        messages.error(request, "Comments may not be blank.")
+        messages.warning(request, "Comments may not be blank.")
         return redirect('show_post', *year_month_slug)
 
 def show_profile(request, username):

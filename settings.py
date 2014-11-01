@@ -10,7 +10,8 @@ IS_DEVELOPMENT = os.path.exists('.development')
 DEBUG = os.environ.get('DEBUG') or IS_DEVELOPMENT
 
 if IS_DEVELOPMENT:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or "fake_development_unsecret_key"
+    SECRET_KEY = (os.environ.get('SECRET_KEY')
+                  or "fake_development_unsecret_key")
 else:
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -48,8 +49,6 @@ WSGI_APPLICATION = 'wsgi.application'
 if IS_DEVELOPMENT:
     DATABASES = {
         'default': {
-            # I <3 SQLite but maybe consider Postgres if/when deploying this
-            # somewhere
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join('db.sqlite3'),
         }
@@ -62,7 +61,7 @@ AUTH_USER_MODEL = "core.FinetoothUser"
 
 AUTH_REDIRECT_URL = "/"
 
-if DEBUG:
+if DEBUG and IS_DEVELOPMENT:
     PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
 
 LANGUAGE_CODE = 'en-us'

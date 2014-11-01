@@ -27,18 +27,3 @@
    {% endwith %}
 {% endfor %}
 </div>
-
-<div class="voting-area">
-  <a class="btn btn-success upvote"
-     data-pk="{{ comment.pk }}" data-kind="post"
-     href="javascript:void(0)">
-    {% bootstrap_icon 'thumbs-up' %} upvote
-  </a>
-  <a class="btn btn-danger downvote"
-     data-pk="{{ comment.pk }}" data-kind="post"
-     href="javascript:void(0)">
-    {% bootstrap_icon 'thumbs-down' %} downvote
-  </a>
-  <div class="vote-status" data-pk="{{ comment.pk }}" data-kind="post">
-  </div>
-</div>

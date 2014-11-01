@@ -126,8 +126,8 @@ function voteStatusSelector(pk) {
 }
 
 function renderVoteStatus(pk, success, message) {
-    var statusClass = success ? "label-success" : "label-danger";
-    var notStatusClass = success ? "label-danger" : "label-success";
+    var statusClass = success ? "label-success" : "label-warning";
+    var notStatusClass = success ? "label-warning" : "label-success";
     var statusSelector = voteStatusSelector(pk);
     var $statusDiv = $(statusSelector)
     $statusDiv.addClass(statusClass).removeClass(notStatusClass);
