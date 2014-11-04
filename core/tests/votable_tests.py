@@ -59,12 +59,20 @@ class RenderingTest(TestCase):
             )
 
     def test_rendering(self):
-        self.assertEqual(
+        self.assertHTMLEqual(
             self.the_post.render(),
-            '<p><span data-value="1">We\'ll </span><em><span data-value="1">'
-            'al</span><span data-value="2">ways</span><span data-value="1"> '
-            'find</span><span data-value="0"> a way</span></em>'
-            '<span data-value="0">; that\'s why the people of </span>'
-            '<em><span data-value="0">this</span></em><span data-value="0"> '
-            'world believe</span></p>'
+            """<p>
+                 <span data-value="1">We\'ll </span>
+                 <em>
+                   <span data-value="1">al</span>
+                   <span data-value="2">ways</span>
+                   <span data-value="1">find</span>
+                   <span data-value="0"> a way</span>
+                 </em>
+                 <span data-value="0">; that\'s why the people of </span>
+                 <em>
+                   <span data-value="0">this</span>
+                 </em>
+                 <span data-value="0">world believe</span>
+               </p>"""
         )
