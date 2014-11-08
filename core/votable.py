@@ -1,3 +1,4 @@
+import itertools
 import logging
 from html.parser import HTMLParser
 
@@ -41,16 +42,12 @@ class VotableMixin:
         return Tagnostic(self.content).plaintext()
 
     def scored_plaintext(self):
-        votes = self.vote_set.all()
-        scored_characters = []
-        # XXX inefficient
-        for i, c in enumerate(Tagnostic(self.content).plaintext()):
-            score = sum(
-                v.value for v in votes if v.start_index <= i < v.end_index
-            )
-            scored_characters.append((c, score))
-        return tuple(scored_characters)
-
+        plaintext = Tagnostic(self.content).plaintext()
+        score_increments = [0] * (len(plaintext) + 1)
+        for vote in self.vote_set.all():
+            score_increments[vote.start_index] += vote.value
+            score_increments[vote.end_index] -= vote.value
+        return tuple(zip(plaintext, itertools.accumulate(score_increments)))
 
     @staticmethod
     def _render_scored_substring(scored_characters):
