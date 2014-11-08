@@ -92,30 +92,8 @@ describe("concerning voting", function() {
             $(voteStatusSelector(2)).hasClass("label-success")
         ).toBe(false);
         expect(
-            $(voteStatusSelector(2)).hasClass("label-danger")
+            $(voteStatusSelector(2)).hasClass("label-warning")
         ).toBe(true);
-    });
-
-    it("gives feedback on success", function() {
-        spyOn($, "ajax").and.callFake(function(settings) {
-            settings.success();
-        });
-        spyOn(window, "renderVoteStatus");
-        vote("post", 2, "selected text", 1);
-        expect(renderVoteStatus).toHaveBeenCalledWith(
-            2, true, jasmine.any(String)
-        );
-    });
-
-    it("gives feedback on failure", function() {
-        spyOn($, "ajax").and.callFake(function(settings) {
-            settings.error({'responseText': "Error!"});
-        });
-        spyOn(window, "renderVoteStatus");
-        vote("post", 2, "selected text", 1);
-        expect(renderVoteStatus).toHaveBeenCalledWith(
-            2, false, jasmine.any(String)
-        );
     });
 
 });
