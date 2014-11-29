@@ -33,6 +33,9 @@ logs/finetooth.log*
 .coverage
 htmlcov/
 
+# compiled translation files
+*.mo
+
 # the SQLite database
 db.sqlite3
 

@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load bootstrap3 %}
 
 <!DOCTYPE html>
@@ -14,7 +15,9 @@
 
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
-        <span id="brand" class="pull-left"><a href="/">Finetooth</a></span>
+        <span id="brand" class="pull-left">
+          <a href="/">{% trans "Finetooth" %}</a>
+        </span>
 	<ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
 	  {% if not user.is_authenticated %}
