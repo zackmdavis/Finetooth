@@ -1,5 +1,6 @@
+{% load i18n %}
 <div id="sidebar-archives-list">
-  <h3>Archives</h3>
+  <h3>{% trans "Archives" %}</h3>
   <ul>
     {% for date_info, list_item in months %}
       <li>

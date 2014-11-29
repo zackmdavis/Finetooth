@@ -20,6 +20,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.utils.text import slugify
+from django.utils.translation import ugettext as _
 
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm, SignupForm
@@ -45,7 +46,7 @@ def sign_up(request):
             password = signup_form.cleaned_data["password"]
             confirm_password = signup_form.cleaned_data["confirm_password"]
             FinetoothUser.objects.create_user(username, email, password)
-            messages.success(request, "Account creation successful!")
+            messages.success(request, _("Account creation successful!"))
             new_user = authenticate(username=username, password=password)
             login(request, new_user)
             return redirect("home")
@@ -93,7 +94,7 @@ class MonthlyArchive(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['year'] = int(self.kwargs['year'])
-        context['month'] = calendar.month_name[int(self.kwargs['month'])]
+        context['month'] = _(calendar.month_name[int(self.kwargs['month'])])
         return context
 
 @login_required
@@ -167,9 +168,9 @@ def edit_profile(request, username):
             if location:
                 the_user.location = location
             the_user.save()
-            messages.success(request, "Profile editing successful!")
+            messages.success(request, _("Profile editing successful!"))
             return redirect('show_profile', the_user)
         else:
             return render(request, "edit_profile.html")
     else:
-        return HttpResponseForbidden("You are not the user concerned!")
+        return HttpResponseForbidden(_("You are not the user concerned!"))
