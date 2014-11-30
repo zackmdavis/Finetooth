@@ -3,9 +3,11 @@ from collections import Counter
 
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
+from django.utils.translation import ugettext as _
 
 from core.models import Post, Tag
 from core.views.view_utils import tag_cloud_context
+
 
 def tag_cloud_context_processor(request):
     return {'cloud': tag_cloud_context(Tag.objects.all())}
@@ -20,16 +22,17 @@ def monthly_archives_context_processor(request):
         month_counts.items(),
         key=lambda k: (int(k[0][0]), int(k[0][1]))
     )
-    months_info = [
+    month_display_texts = [
         (
-            archive[0],
-            "{} {} ({})".format(
-                calendar.month_name[int(archive[0][1])], archive[0][0],
-                archive[1]
+            month,
+            "{month} {year} ({count})".format(
+                month=_(calendar.month_name[int(month[1])]),
+                year=month[0],
+                count=count
             )
-        ) for archive in month_counts
+        ) for month, count in month_counts
     ]
-    return {'months': months_info}
+    return {'months': month_display_texts}
 
 def contextual_static_serving_context_processor(request):
     if settings.SERVE_STATIC_LIBS_LOCALLY:

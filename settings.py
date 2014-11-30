@@ -3,6 +3,9 @@ Django settings for Finetooth.
 """
 
 import os
+
+from django.utils.translation import ugettext_lazy as _
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 IS_DEVELOPMENT = os.path.exists('.development')
@@ -35,6 +38,7 @@ if DEBUG and IS_DEVELOPMENT:
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -74,6 +78,13 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
+
+LANGUAGES = (
+  ('en', _('English')),
+  ('es', _('Spanish')),
+)
+
+LOCALE_PATHS = ('translations',)
 
 TEMPLATE_DIRS = ('templates',)
 TEMPLATE_CONTEXT_PROCESSORS = (

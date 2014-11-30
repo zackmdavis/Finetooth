@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load bootstrap3 %}
 
 <!DOCTYPE html>
@@ -8,25 +9,32 @@
 	  rel='stylesheet' type='text/css'>
     <link href="/static/finetooth.css" rel="stylesheet">
     {% block valuation %}{% endblock %}
-    <title>Finetooth &mdash; {% block subtitle %}{% endblock %}</title>
+    <title>{% trans "Finetooth" %} &mdash; {% block subtitle %}{% endblock %}</title>
   </head>
   <body>
 
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
-        <span id="brand" class="pull-left"><a href="/">Finetooth</a></span>
+        <span id="brand" class="pull-left">
+          <a href="/">{% trans "Finetooth" %}</a>
+        </span>
 	<ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
+          <li class="active"><a href="/">{% trans "Home" %}</a></li>
 	  {% if not user.is_authenticated %}
-	    <li><a href="/login">Log in</a></li>
-	    <li><a href="/signup">Sign up</a></li>
+	    <li><a href="/login">{% trans "Log in" %}</a></li>
+	    <li><a href="/signup">{% trans "Sign up" %}</a></li>
 	  {% else %}
-	    <li><a href="{% url 'show_profile' user.username %}">{{ user.username }}</a></li>
-            <li> <a href="{% url 'new_post' %}"> New Post</a></li>
+	    <li>
+              <a href="{% url 'show_profile' user.username %}">
+                {{ user.username }}
+              </a>
+            </li>
+            <li> <a href="{% url 'new_post' %}">{% trans "New post" %}</a></li>
             <li>
               <form action="{% url 'logout' %}" method="POST">
                 {% csrf_token %}
-                <input class="btn btn-default" type="submit" value="Log out">
+                <input class="btn btn-default" type="submit"
+                       value="{% trans "Log out" %}">
               </form>
             </li>
 	  {% endif %}
@@ -49,7 +57,7 @@
               {% csrf_token %}
               {{ sidebar_login_form.as_p }}
               <input type="hidden" name="next" value="/"/>
-              <input type="submit" value="log in">
+              <input type="submit" value="{% trans "log in" %}">
             </form>
           </div>
         {% endif %}

@@ -1,0 +1,146 @@
+# Spanish translation message file for Finetooth.
+# Copyright (C) 2014 Zack M. Davis
+# This file is distributed under the same license as Finetooth.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-29 03:55+0000\n"
+"Last-Translator: well, Google Translate is doing almost all of the actual "
+"work\n"
+"Language: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/views/views.py:49
+msgid "Account creation successful!"
+msgstr "La creación de cuentas de éxito!"
+
+#: core/views/views.py:171
+msgid "Profile editing successful!"
+msgstr "Perfil de editar éxito!"
+
+#: core/views/views.py:176
+msgid "You are not the user concerned!"
+msgstr "Usted no es el usuario en cuestión!"
+
+#: settings.py:83
+msgid "English"
+msgstr "Inglés"
+
+#: settings.py:84
+msgid "Spanish"
+msgstr "Español"
+
+#: templates/base.html:12 templates/base.html.py:19
+msgid "Finetooth"
+msgstr "Púas-finas"
+
+#: templates/base.html:22
+msgid "Home"
+msgstr "Casa"
+
+#: templates/base.html:24 templates/login.html:4
+msgid "Log in"
+msgstr "Iniciar sesión"
+
+#: templates/base.html:25
+msgid "Sign up"
+msgstr "Contratar"
+
+#: templates/base.html:32
+msgid "New post"
+msgstr "Nuevo mensaje"
+
+#: templates/base.html:37
+msgid "Log out"
+msgstr "Salir"
+
+#: templates/base.html:60 templates/login.html:25
+msgid "log in"
+msgstr "iniciar sesión"
+
+#: templates/edit_profile.html:4 templates/profile.html:16
+msgid "Edit profile"
+msgstr "Editar perfil"
+
+#: templates/edit_profile.html:8
+msgid "On this page, you can edit your profile."
+msgstr "En esta página, usted puede editar su perfil."
+
+#: templates/includes/sidebar_archives_list.html:3
+msgid "Archives"
+msgstr "Archivo"
+
+#: templates/includes/sidebar_profile.html:5 templates/profile.html:24
+msgid "Karma"
+msgstr "Karma"
+
+#: templates/includes/sidebar_profile.html:8 templates/profile.html:28
+msgid "Location"
+msgstr "Ubicación"
+
+#: templates/includes/sidebar_profile.html:11 templates/profile.html:32
+msgid "URL"
+msgstr "URL"
+
+#: templates/includes/tag_cloud.html:1
+msgid "Tags"
+msgstr "Etiquetas"
+
+#: templates/login.html:8
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+"Su nombre de usuario y la contraseña no coinciden. Por favor, inténtelo de "
+"nuevo."
+
+#: templates/monthly_archive.html:9 templates/monthly_archive.html.py:13
+msgid "posts during"
+msgstr "mensajes de trabajo durante"
+
+#: templates/new_post.html:4
+msgid "new post"
+msgstr "mensaje nuevo"
+
+#: templates/post.html:27
+msgid "Tag"
+msgstr "Etiqueta"
+
+#: templates/post.html:34
+msgid "Leave a Reply"
+msgstr "Dejar un Comentario"
+
+#: templates/post.html:37
+msgid "Submit"
+msgstr "Presentar"
+
+#: templates/post.html:42
+msgid "comments"
+msgstr "comentarios"
+
+#: templates/profile.html:5 templates/profile.html.py:10
+msgid "Profile for"
+msgstr "Perfil para"
+
+#: templates/profile.html:14
+msgid "This is you!"
+msgstr "Este eres tú!"
+
+#: templates/profile.html:19
+msgid "This is not you..."
+msgstr "No se trata de que ..."
+
+#: templates/profile.html:36
+msgid "none"
+msgstr "ninguno"
+
+#: templates/tagged.html:8
+msgid "tagged"
+msgstr "etiquetado"
+
+#: templates/tagged.html:11
+msgid "Posts tagged"
+msgstr "Mensajes etiquetados"

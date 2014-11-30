@@ -1,16 +1,17 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block valuation %}
 <link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
 {% endblock %}
 
-{% block subtitle %}tagged {{ tag.label }}{% endblock %}
+{% block subtitle %}{% trans "tagged" %} {{ tag.label }}{% endblock %}
 
 {% block content %}
-<h4>Posts tagged '{{ tag.label }}'</h4>
+  <h4>{% trans "Posts tagged" %} '{{ tag.label }}'</h4>
 
 {% for post in posts %}
-<div class="row">
+  <div class="row">
   {% include "includes/post.html" %}
 </div>
 {% endfor %}

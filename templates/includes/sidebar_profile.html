@@ -1,12 +1,13 @@
+{% load i18n %}
 <div id="sidebar-profile" class="well">
   <p><a class="username" href="{% url 'show_profile' user.username %}">{{ user.username }}</a></p>
   <p>
-    Karma: <span class="badge karma-bubble">&nbsp;{{ user.karma }}&nbsp;</span>
+    {% trans "Karma" %}: <span class="badge karma-bubble">&nbsp;{{ user.karma }}&nbsp;</span>
   </p>
   <p>
-    Location: {{ user.location|default_if_none:"—" }}
+    {% trans "Location" %}: {{ user.location|default_if_none:"—" }}
   </p>
   <p>
-    URL: {{ user.url|default_if_none:"—" }}
+    {% trans "URL" %}: {{ user.url|default_if_none:"—" }}
   </p>
 </div>

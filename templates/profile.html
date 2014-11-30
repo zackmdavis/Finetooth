@@ -1,36 +1,39 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block subtitle %} Profile for {{ the_user.username }} {% endblock %}
+{% block subtitle %}
+  {% trans "Profile for" %} {{ the_user.username }}
+{% endblock %}
 
 {% block content %}
 
-Profile for {{ the_user.username }}.
+{% trans "Profile for" %} {{ the_user.username }}.
 
 <p>
   {% if viewing_user == the_user %}
-    This is you!
+    {% trans "This is you!" %}
     <a href="{% url 'edit_profile' viewing_user.username %}">
-      Edit profile
+      {% trans "Edit profile" %}
     </a>
   {% else %}
-    This is not you...
+    {% trans "This is not you..." %}
   {% endif %}
 </p>
 
 <p>
-  Karma: <span class="badge karma-bubble">&nbsp;{{ the_user.karma }}&nbsp;</span>
+  {% trans "Karma" %}: <span class="badge karma-bubble">&nbsp;{{ the_user.karma }}&nbsp;</span>
 </p>
 
 <p>
-  Location: {{ the_user.location }}
+  {% trans "Location" %}: {{ the_user.location }}
 </p>
 
 <p>
-  URL:
+  {% trans "URL" %}:
   {% if the_user.url %}
     <a href="{{ the_user.url }}"> {{ the_user.url }}</a>
   {% else %}
-    none
+    {% trans "none" %}
   {% endif %}
 </p>
 

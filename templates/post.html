@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% load bootstrap3 %}
 
@@ -23,22 +24,22 @@
     <span class="tag-separator">&bull;</span>
   {% endfor %}
 </div>
-<span><strong>Tag:</strong></span>
+<span><strong>{% trans "Tag" %}:</strong></span>
 <input id="new-tag-label" type="text">
 <button id="new-tag-submit" data-pk="{{ post.pk }}">submit</button>
 
 <br><br>
 
 <div id="comment-form">
-<p><em>Leave a Reply</em></p>
+  <p><em>{% trans "Leave a Reply" %}</em></p>
 <form action="{% url 'add_comment' post.pk %}" method="post">{% csrf_token %}
 {{ comment_form.as_p }}
-<input type="submit" value="Submit" />
+<input type="submit" value="{% trans "Submit" %}" />
 </form>
 </div>
 
 <div id="comments">
-  <h4>{{ post.comment_set.count }} comments</h4>
+  <h4>{{ post.comment_set.count }} {% trans "comments" %}</h4>
   {% for comment in top_level_comments %}
   <hr>
   {% include "includes/comment.html" %}
