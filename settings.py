@@ -9,7 +9,9 @@ from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-Environment = Enum('Environment', ("development", "heroku_demo"))
+Environment = Enum('Environment', ("development", "heroku_demo",
+                                   # unused as yet---
+                                   "production"))
 
 # XXX: surely there must be a better way to detect deployment
 # environment at runtime?
@@ -50,6 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.FinetoothEnvironmentMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
