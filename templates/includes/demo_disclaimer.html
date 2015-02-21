@@ -1,0 +1,19 @@
+<div class="alert alert-warning">
+  <p>
+    <i class="glyphicon glyphicon-warning-sign"></i>
+    This instance of the Finetooth software is being run for
+    <strong>purposes of demonstration only</strong>. The site
+    operators make no promises about the integrity of your data. (That
+    is, if we take the site down or delete stuff for some reason or no
+    reason, we won't feel bad about it.)
+  </p>
+  <p>
+    {% if not request.is_secure %}
+      Relatedly, this page is <em><strong>not</strong></em> being
+      served over an encrypted connection! (Sorry.) It is
+      technologically feasible for third parties to intercept your
+      password! <strong>Don't reuse a password here</strong> that you
+      care about being kept secret!
+    {% endif %}
+  </p>
+</div>

@@ -3,16 +3,24 @@ Django settings for Finetooth.
 """
 
 import os
+from enum import Enum
 
 from django.utils.translation import ugettext_lazy as _
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-IS_DEVELOPMENT = os.path.exists('.development')
+Environment = Enum('Environment', ("development", "heroku_demo",
+                                   # unused as yet---
+                                   "production"))
 
-DEBUG = os.environ.get('DEBUG') or IS_DEVELOPMENT
+# XXX: surely there must be a better way to detect deployment
+# environment at runtime?
+ENVIRONMENT = (Environment.development if os.path.exists('.development')
+               else Environment.heroku_demo)
 
-if IS_DEVELOPMENT:
+DEBUG = os.environ.get('DEBUG') or ENVIRONMENT is Environment.development
+
+if ENVIRONMENT is Environment.development:
     SECRET_KEY = (os.environ.get('SECRET_KEY')
                   or "fake_development_unsecret_key")
 else:
@@ -33,7 +41,7 @@ INSTALLED_APPS = (
     'core',
 )
 
-if DEBUG and IS_DEVELOPMENT:
+if DEBUG and ENVIRONMENT is Environment.development:
     INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
@@ -44,13 +52,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.FinetoothEnvironmentMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'wsgi.application'
 
-if IS_DEVELOPMENT:
+if ENVIRONMENT is Environment.development:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -66,7 +75,7 @@ AUTH_USER_MODEL = "core.FinetoothUser"
 AUTH_REDIRECT_URL = "/"
 LOGIN_URL = "/login/"
 
-if DEBUG and IS_DEVELOPMENT:
+if DEBUG and ENVIRONMENT is Environment.development:
     PASSWORD_HASHERS = ('django.contrib.auth.hashers.MD5PasswordHasher',)
 
 LANGUAGE_CODE = 'en-us'
@@ -81,7 +90,7 @@ USE_TZ = False
 
 LANGUAGES = (
   ('en', _('English')),
-  ('es', _('Spanish')),
+#  ('es', _('Spanish')),
 )
 
 LOCALE_PATHS = ('translations',)
@@ -106,7 +115,7 @@ STATIC_ROOT = 'staticfiles'
 STATICFILES_DIRS = ('static',)
 
 SERVE_STATIC_LIBS_LOCALLY = (os.environ.get('SERVE_STATIC_LIBS_LOCALLY')
-                             or IS_DEVELOPMENT)
+                             or ENVIRONMENT is Environment.development)
 
 STATIC_URL = '/static/'
 

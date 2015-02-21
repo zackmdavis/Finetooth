@@ -3,6 +3,11 @@
 {% block subtitle %}Sign up{% endblock %}
 
 {% block content %}
+
+{% if request.environment != request.possible_environments.production %}
+  {% include "includes/demo_disclaimer.html" %}
+{% endif %}
+
 <form action="{% url 'sign_up' %}" method="post">
 {% csrf_token %}
 {{ signup_form.as_p }}

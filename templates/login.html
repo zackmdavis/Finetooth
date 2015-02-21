@@ -9,6 +9,11 @@
   <p>{{ form.errors }}</p>
 {% endif %}
 
+{% if request.environment != request.possible_environments.production %}
+  {% include "includes/demo_disclaimer.html" %}
+{% endif %}
+
+
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>
