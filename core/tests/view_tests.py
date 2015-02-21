@@ -1,7 +1,3 @@
-import os, sys
-from datetime import datetime
-from unittest import skip
-
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify

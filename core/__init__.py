@@ -1,6 +1,5 @@
 from django.apps import AppConfig
 
-from core.signals import log_failed_login
 
 class FinetoothConfig(AppConfig):
     name = "core"

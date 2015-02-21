@@ -1,7 +1,5 @@
 import os
 import random
-from math import log, ceil
-from string import ascii_lowercase, ascii_uppercase, digits, punctuation
 from datetime import datetime
 from collections import OrderedDict
 from urllib.request import urlretrieve

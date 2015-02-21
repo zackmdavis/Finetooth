@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 import calendar
 
@@ -6,11 +5,7 @@ import bleach
 
 from django.conf import settings
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.http import HttpResponseForbidden
-from django.http import HttpResponseBadRequest
-from django.http import HttpRequest
-from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseForbidden, HttpRequest
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.http import require_POST
 from django.views.generic.list import ListView
@@ -18,14 +13,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.db import IntegrityError
 from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm, SignupForm
 from core.views.view_utils import (
-    scored_context, paginated_view, paginated_context, tag_cloud_context
+    scored_context, paginated_view, paginated_context
 )
 
 
@@ -44,7 +38,6 @@ def sign_up(request):
             username = signup_form.cleaned_data["username"]
             email = signup_form.cleaned_data["email"]
             password = signup_form.cleaned_data["password"]
-            confirm_password = signup_form.cleaned_data["confirm_password"]
             FinetoothUser.objects.create_user(username, email, password)
             messages.success(request, _("Account creation successful!"))
             new_user = authenticate(username=username, password=password)
@@ -53,7 +46,8 @@ def sign_up(request):
         else:
             messages.warning(request, signup_form.errors)
             return render(
-                request, 'sign_up.html', {'signup_form': signup_form}, status=422
+                request, 'sign_up.html', {'signup_form': signup_form},
+                status=422
             )
     else:
         signup_form = SignupForm()

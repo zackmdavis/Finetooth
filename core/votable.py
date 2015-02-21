@@ -77,13 +77,13 @@ class VotableMixin:
         scored_plaintext_stack = list(reversed(self.scored_plaintext()))
         join_to_render = []
         for token in parsed_content:
-            if isinstance(token, str): # text
+            if isinstance(token, str):  # text
                 scored_characters = [scored_plaintext_stack.pop()
                                      for _ in range(len(token))]
                 join_to_render.append(
                     self._render_scored_substring(scored_characters)
                 )
-            elif isinstance(token, tuple) and len(token) == 2: # open tag
+            elif isinstance(token, tuple) and len(token) == 2:  # open tag
                 tag_type, attributes = token
                 join_to_render.append(
                     "<{}{}{}>".format(
@@ -95,7 +95,7 @@ class VotableMixin:
                         )
                     )
                 )
-            elif isinstance(token, tuple) and len(token) == 1: # close tag
+            elif isinstance(token, tuple) and len(token) == 1:  # close tag
                 join_to_render.append("<{}>".format(token[0]))
         return "".join(join_to_render)
 

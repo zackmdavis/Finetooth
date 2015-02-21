@@ -13,7 +13,7 @@ def tag_cloud_context_processor(request):
     return {'cloud': tag_cloud_context(Tag.objects.all())}
 
 def sidebar_login_form_context_processor(request):
-    return {'sidebar_login_form': AuthenticationForm() }
+    return {'sidebar_login_form': AuthenticationForm()}
 
 def monthly_archives_context_processor(request):
     month_counts = Counter([(p.year, p.month)

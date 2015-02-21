@@ -4,13 +4,11 @@ from django.http import (
     HttpResponse, HttpResponseBadRequest,
     HttpResponseForbidden
 )
-from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
-from core.models import Post, Comment, Tag, PostVote, CommentVote
+from core.models import Post, Comment, Tag
 from core.colorize import stylesheet
-from core.votable import VotingException
 
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):
@@ -59,7 +57,7 @@ def ballot_box(request, kind, pk):
 def check_slug(request):
     slug = request.GET.get('slug')
     if slug is None:
-       return HttpResponseBadRequest()
+        return HttpResponseBadRequest()
     already_exists = Post.objects.filter(slug=slug).exists()
     return HttpResponse(
         json.dumps({'alreadyExists': already_exists}),
