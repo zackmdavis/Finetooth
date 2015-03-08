@@ -95,19 +95,28 @@ LANGUAGES = (
 
 LOCALE_PATHS = ('translations',)
 
-TEMPLATE_DIRS = ('templates',)
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'core.context_processors.tag_cloud_context_processor',
-    'core.context_processors.contextual_static_serving_context_processor',
-    'core.context_processors.sidebar_login_form_context_processor',
-    'core.context_processors.monthly_archives_context_processor',
+TEMPLATES = (
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ('templates',),
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': (
+                'django.contrib.auth.context_processors.auth',
+                'django.core.context_processors.debug',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.media',
+                'django.core.context_processors.static',
+                'django.core.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'core.context_processors.tag_cloud_context_processor',
+                ('core.context_processors'
+                 '.contextual_static_serving_context_processor'),
+                'core.context_processors.sidebar_login_form_context_processor',
+                'core.context_processors.monthly_archives_context_processor',
+            ),
+        },
+    },
 )
 
 STATIC_ROOT = 'staticfiles'

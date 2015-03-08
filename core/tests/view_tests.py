@@ -31,7 +31,8 @@ class SignupTest(TestCase):
              'email': "metoo@example.com"},
             follow=True
         )
-        self.assertIn(b"Username already exists.", response.content)
+        self.assertIn(b"A user with that username already exists.",
+                      response.content)
 
     def test_confirm_password_must_match(self):
         prior_user_count = FinetoothUser.objects.count()

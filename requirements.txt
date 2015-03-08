@@ -1,5 +1,5 @@
 bleach==1.4
-Django==1.7
+git+https://github.com/django/django.git@1.8b1#egg=Django
 django-bootstrap3==4.11.0
 Markdown==2.4.1
 dj-database-url==0.3.0

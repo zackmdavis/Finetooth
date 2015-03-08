@@ -1,7 +1,7 @@
 bleach==1.4
-Django==1.7
+git+https://github.com/django/django.git@1.8b1#egg=Django
 django-bootstrap3==4.11.0
-django-debug-toolbar==1.2.1
+git+https://github.com/django-debug-toolbar/django-debug-toolbar.git@0e1c35449c#egg=django-debug-toolbar
 Markdown==2.4.1
 jasmine==2.0.1
 factory_boy==2.4.1
