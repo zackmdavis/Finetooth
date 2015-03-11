@@ -1,8 +1,6 @@
 from datetime import datetime
 import calendar
 
-import bleach
-
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden, HttpRequest
@@ -12,9 +10,12 @@ from django.views.generic.list import ListView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext as _
+
+import bleach
 
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm, SignupForm
@@ -98,10 +99,19 @@ def new_post(request):
         content = bleach.clean(request.POST["content"])
         title = request.POST["title"]
         slug = request.POST["slug"]
-        new_post = Post.objects.create(
+        new_post = Post(
             content=content, title=title, author=request.user,
             published_at=datetime.now(), slug=slug
         )
+        try:
+            new_post.full_clean()
+        # XXX: we really should just be using a ModelForm
+        except ValidationError as e:
+            # XXX: this way of rendering the error message ends up
+            # looking too JSONy from a user's perspective
+            messages.error(request, str(e))
+            return redirect(reverse('new_post'))
+        new_post.save()
         return redirect(
             reverse(
                 "show_post",

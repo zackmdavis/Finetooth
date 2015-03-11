@@ -1,5 +1,7 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import AbstractUser
+
 from core.votable import VotableMixin
 
 
@@ -20,7 +22,12 @@ class FinetoothUser(AbstractUser):
 class Post(models.Model, VotableMixin):
     author = models.ForeignKey("FinetoothUser")
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = models.TextField(
+        validators=[
+            MinLengthValidator(
+                5, "Posts must contain at least five characters."),
+        ]
+    )
     published_at = models.DateTimeField()
     slug = models.SlugField(unique=True)
 
