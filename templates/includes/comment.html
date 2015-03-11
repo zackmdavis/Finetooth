@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load bootstrap3 %}
 
 <div class="comment" id="comment-{{ comment.pk }}">
   <div class="byline">
@@ -12,11 +11,11 @@
   <p>
   <a href="javascript:void(0);" class="comment-tool reply-form-link"
      data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
-    {% bootstrap_icon 'pencil' %} Reply
+    <i class="glyphicon glyphicon-pencil"></i> Reply
   </a>
   &nbsp;&nbsp;
   <a href="#comment-{{ comment.pk }}" class="comment-tool">
-     {% bootstrap_icon 'pushpin' %} Permalink
+    <i class="glyphicon glyphicon-pushpin"></i> Permalink
   </a>
 </p>
 <div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>

@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% load bootstrap3 %}
-
 {% block valuation %}
 <link href="/valuation_{{ low_score }}-{{ low_color }}_{{ high_score }}-{{ high_color }}.css" rel="stylesheet">
 {% endblock %}
@@ -14,7 +12,7 @@
 <br><br>
 
 <div id="tags">
-  {% bootstrap_icon 'tag' %}
+  <i class="glyphicon glyphicon-tag"></i>
   {% for tag in post.tag_set.all %}
     <span class="tag">
       <a href="{% url 'tagged' tag.label %}">

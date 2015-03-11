@@ -1,10 +1,9 @@
 {% load i18n %}
-{% load bootstrap3 %}
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    {% bootstrap_css %}
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" media="screen" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Italianno'
 	  rel='stylesheet' type='text/css'>
     <link href="/static/finetooth.css" rel="stylesheet">
@@ -42,7 +41,12 @@
       </div>
     </div>
 
-    {% bootstrap_messages %}
+    {% for message in messages %}
+      <div class="alert{% if message.tags %} alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}{% endif %} alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+        {{ message|safe }}
+      </div>
+    {% endfor %}
 
     <div class="container">
       <div class="col-md-9">
