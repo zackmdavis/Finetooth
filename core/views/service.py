@@ -2,7 +2,7 @@ import json
 
 from django.http import (
     HttpResponse, HttpResponseBadRequest,
-    HttpResponseForbidden
+    HttpResponseForbidden, JsonResponse
 )
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -59,7 +59,4 @@ def check_slug(request):
     if slug is None:
         return HttpResponseBadRequest()
     already_exists = Post.objects.filter(slug=slug).exists()
-    return HttpResponse(
-        json.dumps({'alreadyExists': already_exists}),
-        content_type="application/json"
-    )
+    return JsonResponse({'alreadyExists': already_exists})
