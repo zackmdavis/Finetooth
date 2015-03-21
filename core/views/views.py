@@ -26,7 +26,10 @@ from core.views.view_utils import (
 
 @paginated_view
 def home(request, page_number):
-    all_posts = Post.objects.all()
+    all_posts = Post.objects.all() \
+                            .prefetch_related('vote_set') \
+                            .prefetch_related('comment_set') \
+                            .select_related('author')
     context = paginated_context(request, 'posts', all_posts, page_number, {})
     context = scored_context(context['posts'], context)
     return render(request, "home.html", context)

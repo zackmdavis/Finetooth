@@ -67,7 +67,7 @@ def paginated_context(request, pageable_name, pageables, page_number, context):
     return context
 
 def tag_cloud_context(tags):
-    if not tags:
+    if not tags.exists():
         return {}
     min_size = 9
     max_size = 20
