@@ -1,8 +1,16 @@
+from string import digits
+from unittest import skip
+
 from django.test import TestCase
+
+from hypothesis import given, assume
+from hypothesis.specifiers import integers_in_range
 
 from core.colorize import (
     diffract, undiffract, interpolate, interpolate_stop, populate_stops
 )
+
+HEX_DIGITS = digits + "abcdef"
 
 class ColorTest(TestCase):
 
@@ -19,6 +27,11 @@ class ColorTest(TestCase):
     def test_can_interpolate_stop(self):
         self.assertEqual("7f7f7f",
                          interpolate_stop({1: "000000", 3: "fefefe"}, 2))
+
+    @given([integers_in_range(0, 255)])
+    def test_undiffrect_roundtrip(self, rgb):
+        assume(len(rgb) == 3)
+        self.assertEqual(rgb, diffract(undiffract(rgb)))
 
 class StyleTest(TestCase):
 

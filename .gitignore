@@ -43,3 +43,5 @@ db.sqlite3
 # case that we're in a dev environment (and should use the
 # corresponding Django settings)
 .development
+
+.hypothesis/

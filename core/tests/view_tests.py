@@ -1,3 +1,5 @@
+from hypothesis import given, assume
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
@@ -175,6 +177,19 @@ class BallotBoxTest(TestCase):
              'value': 1}
         )
         self.assertEqual(response.status_code, 400)
+
+    @given(int, int, int)
+    def test_machine_generated_hypotheses(self, start_index, end_index, value):
+        self.client.login(
+            username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
+        )
+        response = self.client.post(
+            reverse('vote', args=("post", self.the_post.pk)),
+            {'startIndex': start_index,
+             'endIndex': end_index,
+             'value': value}
+        )
+        self.assertIn(response.status_code, (204, 400, 401))
 
 
 class ProfileEditingTest(TestCase):
