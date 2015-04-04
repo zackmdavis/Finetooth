@@ -65,16 +65,19 @@ class SignupTest(TestCase):
 
 class TaggingTest(TestCase):
 
+    @classmethod
+    def setUpTestData(cls):
+        cls.the_user = f.FinetoothUserFactory.create()
+        cls.other_user = f.FinetoothUserFactory.create()
+        cls.the_post = f.PostFactory.create(author=cls.the_user)
+        cls.other_post = f.PostFactory.create()
+        cls.extant_tag = f.TagFactory.create()
+        cls.the_post.tag_set.add(cls.extant_tag)
+
     def setUp(self):
-        self.the_user = f.FinetoothUserFactory.create()
-        self.other_user = f.FinetoothUserFactory.create()
-        self.the_post = f.PostFactory.create(author=self.the_user)
-        self.other_post = f.PostFactory.create()
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
-        self.extant_tag = f.TagFactory.create()
-        self.the_post.tag_set.add(self.extant_tag)
 
     def test_user_can_tag_own_post(self):
         self.client.post(reverse('tag', args=(self.the_post.pk,)),
@@ -105,9 +108,10 @@ class TaggingTest(TestCase):
 
 class CommentingTest(TestCase):
 
-    def setUp(self):
-        self.the_user = f.FinetoothUserFactory.create()
-        self.the_post = f.PostFactory.create()
+    @classmethod
+    def setUpTestData(cls):
+        cls.the_user = f.FinetoothUserFactory.create()
+        cls.the_post = f.PostFactory.create()
 
     def test_can_submit_comment(self):
         self.client.login(
@@ -153,9 +157,10 @@ class CommentingTest(TestCase):
 
 class BallotBoxTest(TestCase):
 
-    def setUp(self):
-        self.the_user = f.FinetoothUserFactory.create()
-        self.the_post = f.PostFactory.create(content="hello Django world")
+    @classmethod
+    def setUpTestData(cls):
+        cls.the_user = f.FinetoothUserFactory.create()
+        cls.the_post = f.PostFactory.create(content="hello Django world")
 
     def test_canot_vote_if_not_logged_in(self):
         response = self.client.post(
@@ -179,7 +184,8 @@ class BallotBoxTest(TestCase):
 
 class ProfileEditingTest(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         FinetoothUser.objects.create_user(
             username="Jennifer_Userton", password="vmR9*sdfp["
         )
@@ -215,10 +221,13 @@ class ProfileEditingTest(TestCase):
 
 class PostTest(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         FinetoothUser.objects.create_user(
             username="Jennifer_Userton", password="vmR9*sdfp["
         )
+
+    def setUp(self):
         self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
 
     def test_new_post(self):

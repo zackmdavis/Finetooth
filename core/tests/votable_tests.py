@@ -9,7 +9,8 @@ from core.tests.factories import PostFactory, PostVoteFactory
 
 class TagnosticismTest(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(self):
         content = "*Hello* [Python](python.org) world"
         self.tag_skeptic = Tagnostic(content)
 
@@ -26,7 +27,8 @@ class TagnosticismTest(TestCase):
 
 class ScoringTest(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(self):
         self.the_post = Post.objects.create(
             author_id=1, content="friendship", title="eponymous",
             published_at=datetime.now()
@@ -46,7 +48,8 @@ class ScoringTest(TestCase):
 
 class RenderingTest(TestCase):
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(self):
         self.the_post = PostFactory.create(
             content=("We'll *always find a way*; that's why the "
                      "people of *this* world believe")
