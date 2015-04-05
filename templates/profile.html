@@ -10,9 +10,9 @@
 {% trans "Profile for" %} {{ the_user.username }}.
 
 <p>
-  {% if viewing_user == the_user %}
+  {% if request.user == the_user %}
     {% trans "This is you!" %}
-    <a href="{% url 'edit_profile' viewing_user.username %}">
+    <a href="{% url 'edit_profile' request.user.username %}">
       {% trans "Edit profile" %}
     </a>
   {% else %}

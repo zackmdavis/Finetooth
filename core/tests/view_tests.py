@@ -182,7 +182,7 @@ class BallotBoxTest(TestCase):
         self.assertEqual(response.status_code, 400)
 
 
-class ProfileEditingTest(TestCase):
+class ProfileTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -192,6 +192,11 @@ class ProfileEditingTest(TestCase):
         FinetoothUser.objects.create_user(
             username="Not_Jennifer", password="shsk$&hfio"
         )
+
+    def test_do_not_choke_on_nonexistent_user(self):
+        response = self.client.get(
+            reverse('show_profile', args=("nonexistent2507",)), follow=True)
+        self.assertContains(response, "That user does not exist.")
 
     def test_can_edit_profile(self):
         self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")

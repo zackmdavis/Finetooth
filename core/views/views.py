@@ -155,13 +155,16 @@ def add_comment(request, post_pk):
         return redirect('show_post', *year_month_slug)
 
 def show_profile(request, username):
-    the_user = FinetoothUser.objects.get(username=username)
+    the_user = FinetoothUser.objects.filter(username=username).first()
+    if the_user is None:
+        messages.error(request, "That user does not exist.")
+        return redirect('home')
     viewing_user = request.user
-    posts = Post.objects.filter(author=the_user)
+    posts = Post.objects.filter(author=the_user).prefetch_related(
+        'comment_set').prefetch_related('vote_set')
     comments = Comment.objects.filter(commenter=the_user)
     return render(request, "profile.html",
                   {'the_user': the_user,
-                   'viewing_user': viewing_user,
                    'posts': posts, 'comments': comments})
 
 def edit_profile(request, username):
