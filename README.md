@@ -16,7 +16,7 @@ where highlighted substrings overlap. character-by-character feedback
 
 ## Development Setup
 
-Requires Python 3.
+Developed on Python 3.4 (earlier Python 3s may or may not work).
 
 * Clone the repository: `git clone git@github.com:zackmdavis/Finetooth.git`
 
@@ -26,15 +26,19 @@ Requires Python 3.
 
 * Create a file called `.development` (the presence of this file is used to determine that we should use development rather than production-like Django settings): `touch .development`
 
+* Configure static files!
+
+  * If you want to serve static JavaScripts and CSS locally, download them with `./manage.py download_statics`.
+
+  * If you want to use CDNs, export a truthy "NONLOCAL_STATIC_LIBS" environment variable: `export NONLOCAL_STATIC_LIBS=1`.
+
 * Set up the database: `./manage.py migrate`
 
-* Run the tests!
+* *Optional*: run the tests maybe!
 
-  * Django tests: `./manage.py test core`
+  * Django tests: `./manage.py test`
 
   * JavaScript tests:
-
-    - Get local copies of jQuery and Underscore: `wget http://code.jquery.com/jquery-2.1.1.min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.map -P static/libs/`
 
     - `jasmine`
 
