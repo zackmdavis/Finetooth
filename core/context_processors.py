@@ -38,8 +38,11 @@ def contextual_static_serving_context_processor(request):
     if settings.SERVE_STATIC_LIBS_LOCALLY:
         jquery_url = "/static/libs/jquery-2.1.1.min.js"
         underscore_url = "/static/libs/underscore-min.js"
+        bootstrap_url = "/static/libs/css/bootstrap.min.css"
     else:
         jquery_url = "//code.jquery.com/jquery-2.1.1.min.js"
         underscore_url = ("//cdnjs.cloudflare.com/ajax/libs/underscore.js/"
                           "1.7.0/underscore-min.js")
+        bootstrap_url = ("//netdna.bootstrapcdn.com/bootstrap/3.2.0/"
+                         "css/bootstrap.min.css")
     return locals()

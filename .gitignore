@@ -18,10 +18,13 @@ pyvenv.cfg
 # collected static files for production-like environments
 collectstatic/
 
-# local copies of JavaScript libraries
+# local copies of static libraries
 static/libs/jquery-2.1.1.min.js
 static/libs/underscore-min.js
 static/libs/underscore-min.map
+static/libs/css/bootstrap.min.css
+static/libs/fonts/glyphicons-halflings-regular.ttf
+static/libs/fonts/glyphicons-halflings-regular.woff
 
 # local wordlist
 static/libs/words
@@ -43,3 +46,6 @@ db.sqlite3
 # case that we're in a dev environment (and should use the
 # corresponding Django settings)
 .development
+
+# sentinel file to disable the Django Debug Toolbar
+.disable_debug_toolbar

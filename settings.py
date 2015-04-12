@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'core',
 )
 
-if DEBUG and ENVIRONMENT is Environment.development:
+if (DEBUG and ENVIRONMENT is Environment.development and
+    not os.path.exists(".disable_debug_toolbar")):
     INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE_CLASSES = (
@@ -122,8 +123,8 @@ STATIC_ROOT = 'staticfiles'
 
 STATICFILES_DIRS = ('static',)
 
-SERVE_STATIC_LIBS_LOCALLY = (os.environ.get('SERVE_STATIC_LIBS_LOCALLY')
-                             or ENVIRONMENT is Environment.development)
+SERVE_STATIC_LIBS_LOCALLY = (ENVIRONMENT is Environment.development and
+                             not os.environ.get('NONLOCAL_STATIC_LIBS'))
 
 STATIC_URL = '/static/'
 
