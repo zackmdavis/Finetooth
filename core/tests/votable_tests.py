@@ -7,7 +7,7 @@ from core.votable import Tagnostic
 
 from core.tests.factories import PostFactory, PostVoteFactory
 
-class TagnosticismTest(TestCase):
+class TagnosticismTestCase(TestCase):
 
     @classmethod
     def setUpTestData(self):
@@ -25,7 +25,7 @@ class TagnosticismTest(TestCase):
     def test_plaintext(self):
         self.assertEqual(self.tag_skeptic.plaintext(), "Hello Python world")
 
-class ScoringTest(TestCase):
+class ScoringTestCase(TestCase):
 
     @classmethod
     def setUpTestData(self):
@@ -46,7 +46,7 @@ class ScoringTest(TestCase):
              ('s', 6), ('h', 6), ('i', 6), ('p', 6))
         )
 
-class RenderingTest(TestCase):
+class RenderingTestCase(TestCase):
 
     @classmethod
     def setUpTestData(self):

@@ -4,7 +4,7 @@ from core.colorize import (
     diffract, undiffract, interpolate, interpolate_stop, populate_stops
 )
 
-class ColorTest(TestCase):
+class ColorTestCase(TestCase):
 
     def test_can_diffract(self):
         self.assertEqual([127, 2, 255], diffract("7f02ff"))
@@ -20,7 +20,7 @@ class ColorTest(TestCase):
         self.assertEqual("7f7f7f",
                          interpolate_stop({1: "000000", 3: "fefefe"}, 2))
 
-class StyleTest(TestCase):
+class StyleTestCase(TestCase):
 
     def test_can_populate_stops(self):
         self.assertEqual(

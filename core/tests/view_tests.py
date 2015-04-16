@@ -6,7 +6,7 @@ from core.models import FinetoothUser, Post
 from core.tests import factories as f
 
 
-class SignupTest(TestCase):
+class SignupTestCase(TestCase):
 
     def test_can_sign_up(self):
         response = self.client.post(
@@ -63,7 +63,7 @@ class SignupTest(TestCase):
         self.assertEqual(422, response.status_code)
 
 
-class TaggingTest(TestCase):
+class TaggingTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -106,7 +106,7 @@ class TaggingTest(TestCase):
             [repr(t) for t in tags_before]
         )
 
-class CommentingTest(TestCase):
+class CommentingTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -155,7 +155,7 @@ class CommentingTest(TestCase):
         self.assertNotEqual(500, response.status_code)
 
 
-class BallotBoxTest(TestCase):
+class BallotBoxTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -182,7 +182,7 @@ class BallotBoxTest(TestCase):
         self.assertEqual(response.status_code, 400)
 
 
-class ProfileTest(TestCase):
+class ProfileTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
@@ -224,7 +224,7 @@ class ProfileTest(TestCase):
         self.assertEqual(403, response.status_code)
 
 
-class PostTest(TestCase):
+class PostTestCase(TestCase):
 
     @classmethod
     def setUpTestData(cls):
