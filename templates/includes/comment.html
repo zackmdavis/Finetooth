@@ -18,6 +18,31 @@
     <i class="glyphicon glyphicon-pushpin"></i> Permalink
   </a>
 </p>
+<span class="score" data-pk="{{ comment.slug }}" data-score="{{ comment.score }}">
+  <p>
+    <i class="glyphicon glyphicon-time"></i>
+    <em>{{ comment.published_at }} </em>
+    <strong>score: {{ comment.score }}</strong>
+  </p>
+</span>
+<div class="comment well" data-pk="{{ comment.pk }}" data-kind="comment">{{ comment.render|safe }}</div>
+<div class="voting-area">
+  <a class="btn btn-primary upvote"
+     data-pk="{{ comment.pk }}" data-kind="comment"
+     href="javascript:void(0)">
+    <i class="glyphicon glyphicon-thumbs-up"></i>
+    upvote
+  </a>
+  <a class="btn btn-danger downvote"
+     data-pk="{{ comment.pk }}" data-kind="comment"
+     href="javascript:void(0)">
+    <i class="glyphicon glyphicon-thumbs-down""></i>
+    downvote
+  </a>
+  <div class="label label-default vote-status" data-pk="{{ comment.pk }}" data-kind="comment">
+     ...
+  </div>
+</div>  
 <div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>
 {% for child in comment.comment_set.all %}
    {% with "includes/comment.html" as comment_template %}
@@ -27,3 +52,4 @@
    {% endwith %}
 {% endfor %}
 </div>
+
