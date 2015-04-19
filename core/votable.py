@@ -43,20 +43,26 @@ class VotableMixin:
     def plaintext(self):
         return Tagnostic(self.content).plaintext()
 
-    def scored_plaintext(self):
+    def scored_plaintext(self, for_voter=None):
         plaintext = Tagnostic(self.content).plaintext()
         score_increments = [0] * (len(plaintext) + 1)
+        mark_increments = [0] * (len(plaintext) + 1)
         for vote in self.vote_set.all():
             score_increments[vote.start_index] += vote.value
             score_increments[vote.end_index] -= vote.value
-        return tuple(zip(plaintext, itertools.accumulate(score_increments)))
+            if for_voter and vote.voter == for_voter:
+                mark_increments[vote.start_index] += vote.value
+                mark_increments[vote.end_index] -= vote.value
+        return tuple(zip(plaintext,
+                         itertools.accumulate(score_increments),
+                         itertools.accumulate(mark_increments)))
 
     @staticmethod
     def _render_scored_substring(scored_characters):
         join_to_render_partial = []
         value_at_index = None
         open_span = False
-        for character, value in scored_characters:
+        for character, value, mark in scored_characters:
             if value == value_at_index:
                 join_to_render_partial.append(character)
             else:
@@ -102,10 +108,10 @@ class VotableMixin:
         return "".join(join_to_render)
 
     def low_score(self):
-        return min(v for c, v in self.scored_plaintext())
+        return min(v for c, v, _m in self.scored_plaintext())
 
     def high_score(self):
-        return max(v for c, v in self.scored_plaintext())
+        return max(v for c, v, _m in self.scored_plaintext())
 
     def vote_in_range_for_user(self, voter,
                                ballot_start_index, ballot_end_index):

@@ -43,8 +43,8 @@ class ScoringTestCase(TestCase):
     def test_scored_plaintext(self):
         self.assertEqual(
             self.the_post.scored_plaintext(),
-            (('f', 1), ('r', 2), ('i', 3), ('e', 4), ('n', 5), ('d', 6),
-             ('s', 6), ('h', 6), ('i', 6), ('p', 6))
+            (('f', 1, 0), ('r', 2, 0), ('i', 3, 0), ('e', 4, 0), ('n', 5, 0),
+             ('d', 6, 0), ('s', 6, 0), ('h', 6, 0), ('i', 6, 0), ('p', 6, 0))
         )
 
 class RenderingTestCase(TestCase):
