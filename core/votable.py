@@ -61,28 +61,32 @@ class VotableMixin:
     def _render_scored_substring(scored_characters):
         join_to_render_partial = []
         value_at_index = None
+        mark_at_index = None
         open_span = False
         for character, value, mark in scored_characters:
-            if value == value_at_index:
+            if value == value_at_index and mark == mark_at_index:
                 join_to_render_partial.append(character)
             else:
                 if open_span:
                     join_to_render_partial.append('</span>')
                     open_span = False
                 join_to_render_partial.append(
-                    '<span data-value="{}">'.format(value)
+                    '<span data-value="{}" data-mark="{}">'.format(value, mark)
                 )
                 open_span = True
                 value_at_index = value
+                mark_at_index = mark
                 join_to_render_partial.append(character)
         if open_span:
             join_to_render_partial.append('</span>')
         return ''.join(join_to_render_partial)
 
     def render(self):
+        for_voter = getattr(self, 'request_user', None)
         parsed_content = Tagnostic(self.content).content
         # XXX inefficiency
-        scored_plaintext_stack = list(reversed(self.scored_plaintext()))
+        scored_plaintext_stack = list(
+            reversed(self.scored_plaintext(for_voter)))
         join_to_render = []
         for token in parsed_content:
             if isinstance(token, str):  # text

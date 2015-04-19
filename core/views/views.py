@@ -30,6 +30,8 @@ def home(request, page_number):
                             .prefetch_related('vote_set') \
                             .prefetch_related('comment_set') \
                             .select_related('author')
+    for post in all_posts:
+        post.request_user = request.user
     context = paginated_context(request, 'posts', all_posts, page_number, {})
     context = scored_context(context['posts'], context)
     return render(request, "home.html", context)
@@ -66,6 +68,7 @@ def show_post(request, year, month, slug):
     post = Post.objects.get(
         slug=slug, published_at__year=int(year), published_at__month=int(month)
     )
+    post.request_user = request.user
     top_level_comments = post.comment_set.filter(parent=None)
     return render(
         request, "post.html",
@@ -85,6 +88,8 @@ class MonthlyArchive(ListView):
         end_year = year if month < 12 else (year + 1)
         next_month = (month % 12) + 1
         end_of_month = datetime(year=end_year, month=next_month, day=1)
+        # XXX: is it possible to use my post.request_user hack with
+        # class-based views??
         return Post.objects.filter(
             published_at__gte=start_of_month, published_at__lt=end_of_month
         )
@@ -128,6 +133,8 @@ def new_post(request):
 def tagged(request, label, page_number):
     tag = Tag.objects.get(label=label)
     tagged_posts = tag.posts.all()
+    for post in tagged_posts:
+        post.request_user = request.user
     context = paginated_context(
         request, 'posts', tagged_posts, page_number, {'tag': tag}
     )
