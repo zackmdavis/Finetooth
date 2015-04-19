@@ -162,7 +162,20 @@ class BallotBoxTestCase(TestCase):
         cls.the_user = f.FinetoothUserFactory.create()
         cls.the_post = f.PostFactory.create(content="hello Django world")
 
-    def test_canot_vote_if_not_logged_in(self):
+    def test_can_vote(self):
+        self.client.login(
+            username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
+        )
+        for start_index, end_index in ((0, 1), (1, 3), (5, 8)):
+            response = self.client.post(
+                reverse('vote', args=("post", self.the_post.pk)),
+                {'startIndex': start_index, 'endIndex': end_index,
+                 'value': 1}
+            )
+            self.assertEqual(response.status_code, 204)
+
+
+    def test_cannot_vote_if_not_logged_in(self):
         response = self.client.post(
             reverse('vote', args=("post", self.the_post.pk)),
             {'startIndex': 1, 'endIndex': 5, 'value': 1}
@@ -181,6 +194,21 @@ class BallotBoxTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 400)
 
+    def test_one_user_one_vote(self):
+        self.client.login(
+            username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
+        )
+        response = self.client.post(
+            reverse('vote', args=("post", self.the_post.pk)),
+            {'startIndex': 0, 'endIndex': 5, 'value': 1}
+        )
+        self.assertEqual(response.status_code, 204)
+        response = self.client.post(
+            reverse('vote', args=("post", self.the_post.pk)),
+            {'startIndex': 2, 'endIndex': 4, 'value': 1}
+        )
+        self.assertContains(response, "Overlapping votes are not allowed!",
+                            status_code=403)
 
 class ProfileTestCase(TestCase):
 

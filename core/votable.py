@@ -4,6 +4,8 @@ from html.parser import HTMLParser
 
 from markdown import markdown as markdown_to_html
 
+from django.db.models import Q
+
 logger = logging.getLogger(__name__)
 
 class Tagnostic(HTMLParser):
@@ -104,3 +106,10 @@ class VotableMixin:
 
     def high_score(self):
         return max(v for c, v in self.scored_plaintext())
+
+    def vote_in_range_for_user(self, voter,
+                               ballot_start_index, ballot_end_index):
+        return self.vote_set.filter(
+            end_index__gt=ballot_start_index, start_index__lt=ballot_end_index,
+            voter=voter
+        ).first()

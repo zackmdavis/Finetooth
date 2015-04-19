@@ -5,7 +5,8 @@ from django.test import TestCase
 from core.models import Post
 from core.votable import Tagnostic
 
-from core.tests.factories import PostFactory, PostVoteFactory
+from core.tests.factories import (
+    FinetoothUserFactory, PostFactory, PostVoteFactory)
 
 class TagnosticismTestCase(TestCase):
 
