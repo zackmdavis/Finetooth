@@ -1,3 +1,5 @@
+import itertools
+
 def diffract(hex_encoding):
     return [int(band, 16) for band in (hex_encoding[i:i+2] for i in (0, 2, 4))]
 
@@ -31,10 +33,18 @@ def populate_stops(color_stops):
             )
     return full_stops
 
-def style_block(value, color):
-    return "\n".join(["[data-value=\"{}\"] {{".format(value),
-                      "    color: #{};".format(color),
+
+def style_block(data_attribute, style_property, state, color):
+    return "\n".join(["[data-{}=\"{}\"] {{".format(data_attribute, state),
+                      "    {}: #{};".format(style_property, color),
                       "}\n"])
+
+def value_style_block(value, color):
+    return style_block("value", "color", value, color)
+
+def mark_style_block(mark, color):
+    return style_block("mark", "background-color", mark, color)
+
 
 def stylesheet(low_score, low_color, high_score, high_color):
     stops = {0: "000000"}
@@ -43,5 +53,11 @@ def stylesheet(low_score, low_color, high_score, high_color):
     if high_score > 0:
         stops.update({high_score: high_color})
     colors = populate_stops(stops)
-    return "\n".join(style_block(value, color)
-                     for value, color in colors.items())
+    return "\n".join(
+        itertools.chain(
+            (value_style_block(value, color)
+             for value, color in colors.items()),
+            (mark_style_block(mark, color)
+             for mark, color in ((-1, "FFD6D6"), (1, "D6D6FF")))
+        )
+    )
