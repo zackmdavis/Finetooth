@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.core.validators import MinLengthValidator
 from django.contrib.auth.models import AbstractUser
 
@@ -31,6 +32,9 @@ class Post(models.Model, VotableMixin):
     published_at = models.DateTimeField()
     slug = models.SlugField(unique=True)
 
+    def get_absolute_url(self):
+        return reverse('show_post', args=(self.year, self.month, self.slug))
+
     def __str__(self):
         return "#{}: {}".format(self.pk, self.title)
 
@@ -45,6 +49,9 @@ class Post(models.Model, VotableMixin):
     @property
     def vote_set(self):
         return self.postvote_set
+
+    class Meta:
+        ordering = ('-published_at',)
 
 
 class Comment(models.Model, VotableMixin):

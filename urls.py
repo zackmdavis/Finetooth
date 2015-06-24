@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import login
 
-from core import views
+from core import views, feeds
 
 urlpatterns = patterns(
     '',
@@ -24,5 +24,7 @@ urlpatterns = patterns(
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?:page/(?P<page>\d+)/)?$',
         views.MonthlyArchive.as_view(),
         name='monthly_archive'),
-    url(r'^(\d{4})/(\d{2})/([a-z\d\-]+)/$', views.show_post, name='show_post')
+    url(r'^(\d{4})/(\d{2})/([a-z\d\-]+)/$', views.show_post, name='show_post'),
+
+    url(r'feeds/rss/', feeds.LatestPostsFeed(), name='main_rss'),
 )
