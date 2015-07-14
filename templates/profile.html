@@ -37,6 +37,19 @@
   {% endif %}
 </p>
 
+<p>
+  <a href="{% url 'user_posts_rss' the_user.username %}">
+    <img class="feed-icon"
+         src="/static/images/feed_icon.png">{% trans "Posts RSS" %}
+  </a>
+</p>
+<p>
+  <a href="{% url 'user_comments_rss' the_user.username %}">
+    <img class="feed-icon"
+         src="/static/images/feed_icon.png">{% trans "Comments RSS" %}
+  </a>
+</p>
+
 {% for post in posts %}
    {% include "includes/post.html" %}
 {% endfor %}
