@@ -1,7 +1,7 @@
 from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
 
-from core.models import FinetoothUser, Post, Comment
+from core.models import FinetoothUser, Post, Comment, Tag
 
 class LatestAbstractContentFeed(Feed):
 
@@ -54,3 +54,20 @@ class AuthorFeed(AbstractUserContentFeed):
 class CommenterFeed(AbstractUserContentFeed):
     model = Comment
     model_creator_job_title = "commenter"
+
+
+class TagFeed(LatestAbstractContentFeed):
+    def get_object(self, request, label):
+        return get_object_or_404(Tag, label=label)
+
+    def title(self, tag):
+        return "Latest Finetooth Posts Tagged With '{}'".format(tag.label)
+
+    def link(self, tag):
+        return "/tagged/{}/feeds/rss/".format(tag.label)
+
+    def description(self, tag):
+        return "latest Finetooth posts tagged with '{}'".format(tag.label)
+
+    def items(self, tag):
+        return tag.posts.order_by('-published_at')[:20]

@@ -30,6 +30,6 @@ urlpatterns = patterns(
     url(r'^user/(.+)/feeds/posts/rss/$', feeds.AuthorFeed(),
         name='user_posts_rss'),
     url(r'^user/(.+)/feeds/comments/rss/$', feeds.CommenterFeed(),
-        name='user_comments_rss')
-
+        name='user_comments_rss'),
+    url(r'^tagged/([-\w\s]*)/feeds/rss/$', feeds.TagFeed(), name='tag_rss')
 )
