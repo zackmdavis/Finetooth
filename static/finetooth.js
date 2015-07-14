@@ -106,29 +106,28 @@ function vote(kind, pk, ballot, range) {
 	data: ballot,
         success: function(data, status, jqxhr) {
             renderVoteStatus(
-                pk, true,
+                kind, pk, true,
                 '<i class="glyphicon glyphicon-ok"></i> Vote recorded!'
             );
             instarender(range, ballot.value);
         },
         error: function(jqxhr, status, error) {
             renderVoteStatus(
-                pk, false,
+                kind, pk, false,
                 '<i class="glyphicon glyphicon-remove"></i> ' + jqxhr.responseText
             );
         }
     });
 }
 
-function voteStatusSelector(pk) {
-    // XXX TODO we're going to want to vote on comments, too
-    return classKindPkSelector('vote-status', "post", pk)
+function voteStatusSelector(kind, pk) {
+    return classKindPkSelector('vote-status', kind, pk)
 }
 
-function renderVoteStatus(pk, success, message) {
+function renderVoteStatus(kind, pk, success, message) {
     var statusClass = success ? "label-success" : "label-warning";
     var notStatusClass = success ? "label-warning" : "label-success";
-    var statusSelector = voteStatusSelector(pk);
+    var statusSelector = voteStatusSelector(kind, pk);
     var $statusDiv = $(statusSelector)
     $statusDiv.addClass(statusClass).removeClass(notStatusClass);
     $statusDiv.html(message);
@@ -153,7 +152,7 @@ function setVotingClickHandlers() {
                     vote(kind, pk, ballot, window.getSelection().getRangeAt(0));
                 } else {
                     renderVoteStatus(
-                        pk, false,
+                        kind, pk, false,
                         '<i class="glyphicon glyphicon-remove"></i> ' +
                         'Invalid vote not recorded!'
                     );

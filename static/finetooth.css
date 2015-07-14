@@ -15,7 +15,7 @@ a {
 
 .post a:link { text-decoration: underline }
 
-.comment {
+.comment-frame {
     border-width: 1px;
     border-style: solid;
     padding: 6px;
