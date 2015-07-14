@@ -1,40 +1,56 @@
 from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
 
-from core.models import FinetoothUser, Post
+from core.models import FinetoothUser, Post, Comment
 
-class LatestPostsFeed(Feed):
-    title = "Finetooth Latest Posts"
-    link = "/feeds/rss/"
-    description = "latest posts on Finetooth"
+class LatestAbstractContentFeed(Feed):
 
     def items(self):
         return Post.objects.order_by('-published_at')[:20]
 
-    def item_title(self, post):
-        return post.title
+    def item_title(self, content):
+        return content.title
 
-    def item_description(self, post):
-        return post.content[:500] + "[...]"
+    def item_description(self, content):
+        return content.content[:500] + "[...]"
 
-    def item_pubdate(self, post):
-        return post.published_at
+    def item_pubdate(self, content):
+        return content.published_at
 
 
-class AuthorFeed(LatestPostsFeed):
+class LatestPostsFeed(LatestAbstractContentFeed):
+    title = "Finetooth Latest Posts"
+    link = "/feeds/rss/"
+    description = "latest posts on Finetooth"
 
+
+class AbstractUserContentFeed(LatestAbstractContentFeed):
     def get_object(self, request, username):
         return get_object_or_404(FinetoothUser, username=username)
 
-    def title(self, author):
-        return "Latest Finetooth Posts for {}".format(author.username)
+    def title(self, user):
+        return "Latest Finetooth {}s for {}".format(
+            self.model.__name__.title(), user.username)
 
-    def link(self, author):
-        return "/user/{}/feeds/posts/rss/".format(author.username)
+    def link(self, user):
+        return "/user/{}/feeds/{}s/rss/".format(
+            user.username, self.model.__name__.lower())
 
-    def description(self, author):
-        return "latest Finetooth posts by {}".format(author.username)
+    def description(self, user):
+        return "latest Finetooth {}s by {}".format(
+            self.model.__name__.lower(), user.username)
 
-    def items(self, author):
-        return Post.objects.filter(
-            author__username=author.username).order_by('-published_at')[:20]
+    def items(self, user):
+        return self.model.objects.filter(
+            **{'{}__username'.format(
+                self.model_creator_job_title): user.username}
+        ).order_by('-published_at')[:20]
+
+
+class AuthorFeed(AbstractUserContentFeed):
+    model = Post
+    model_creator_job_title = "author"
+
+class CommenterFeed(AbstractUserContentFeed):
+    model = Comment
+    model_creator_job_title = "commenter"

@@ -28,5 +28,8 @@ urlpatterns = patterns(
 
     url(r'^feeds/rss/$', feeds.LatestPostsFeed(), name='main_rss'),
     url(r'^user/(.+)/feeds/posts/rss/$', feeds.AuthorFeed(),
-        name='user_posts_rss')
+        name='user_posts_rss'),
+    url(r'^user/(.+)/feeds/comments/rss/$', feeds.CommenterFeed(),
+        name='user_comments_rss')
+
 )

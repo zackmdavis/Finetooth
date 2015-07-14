@@ -64,6 +64,19 @@ class Comment(models.Model, VotableMixin):
     def __str__(self):
         return "#{}; on \"{}\"".format(self.pk, self.post.title)
 
+    def get_absolute_url(self):
+        return (
+            reverse('show_post',
+                    args=(self.post.year, self.post.month, self.post.slug)) +
+            "#comment-{}".format(self.pk)
+        )
+
+    @property
+    def title(self):
+        return "comment by {} on {} at {:%d %B %Y %H:%M}".format(
+            self.commenter.username, self.post.title, self.published_at
+        )
+
     @property
     def vote_set(self):
         return self.commentvote_set
