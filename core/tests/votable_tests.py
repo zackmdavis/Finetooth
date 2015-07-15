@@ -5,7 +5,8 @@ from django.test import TestCase
 from core.models import Post
 from core.votable import Tagnostic
 
-from core.tests.factories import PostFactory, PostVoteFactory
+from core.tests.factories import (
+    FinetoothUserFactory, PostFactory, PostVoteFactory)
 
 class TagnosticismTestCase(TestCase):
 
@@ -42,8 +43,8 @@ class ScoringTestCase(TestCase):
     def test_scored_plaintext(self):
         self.assertEqual(
             self.the_post.scored_plaintext(),
-            (('f', 1), ('r', 2), ('i', 3), ('e', 4), ('n', 5), ('d', 6),
-             ('s', 6), ('h', 6), ('i', 6), ('p', 6))
+            (('f', 1, 0), ('r', 2, 0), ('i', 3, 0), ('e', 4, 0), ('n', 5, 0),
+             ('d', 6, 0), ('s', 6, 0), ('h', 6, 0), ('i', 6, 0), ('p', 6, 0))
         )
 
 class RenderingTestCase(TestCase):
@@ -65,17 +66,19 @@ class RenderingTestCase(TestCase):
         self.assertHTMLEqual(
             self.the_post.render(),
             """<p>
-                 <span data-value="1">We\'ll </span>
+                 <span data-value="1" data-mark="0">We\'ll </span>
                  <em>
-                   <span data-value="1">al</span>
-                   <span data-value="2">ways</span>
-                   <span data-value="1">find</span>
-                   <span data-value="0"> a way</span>
+                   <span data-value="1" data-mark="0">al</span>
+                   <span data-value="2" data-mark="0">ways</span>
+                   <span data-value="1" data-mark="0">find</span>
+                   <span data-value="0" data-mark="0"> a way</span>
                  </em>
-                 <span data-value="0">; that\'s why the people of </span>
+                 <span data-value="0" data-mark="0">
+                    ; that\'s why the people of
+                 </span>
                  <em>
-                   <span data-value="0">this</span>
+                   <span data-value="0" data-mark="0">this</span>
                  </em>
-                 <span data-value="0">world believe</span>
+                 <span data-value="0" data-mark="0">world believe</span>
                </p>"""
         )

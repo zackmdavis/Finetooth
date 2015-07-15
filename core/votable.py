@@ -4,6 +4,8 @@ from html.parser import HTMLParser
 
 from markdown import markdown as markdown_to_html
 
+from django.db.models import Q
+
 logger = logging.getLogger(__name__)
 
 class Tagnostic(HTMLParser):
@@ -41,40 +43,50 @@ class VotableMixin:
     def plaintext(self):
         return Tagnostic(self.content).plaintext()
 
-    def scored_plaintext(self):
+    def scored_plaintext(self, for_voter=None):
         plaintext = Tagnostic(self.content).plaintext()
         score_increments = [0] * (len(plaintext) + 1)
+        mark_increments = [0] * (len(plaintext) + 1)
         for vote in self.vote_set.all():
             score_increments[vote.start_index] += vote.value
             score_increments[vote.end_index] -= vote.value
-        return tuple(zip(plaintext, itertools.accumulate(score_increments)))
+            if for_voter and vote.voter == for_voter:
+                mark_increments[vote.start_index] += vote.value
+                mark_increments[vote.end_index] -= vote.value
+        return tuple(zip(plaintext,
+                         itertools.accumulate(score_increments),
+                         itertools.accumulate(mark_increments)))
 
     @staticmethod
     def _render_scored_substring(scored_characters):
         join_to_render_partial = []
         value_at_index = None
+        mark_at_index = None
         open_span = False
-        for character, value in scored_characters:
-            if value == value_at_index:
+        for character, value, mark in scored_characters:
+            if value == value_at_index and mark == mark_at_index:
                 join_to_render_partial.append(character)
             else:
                 if open_span:
                     join_to_render_partial.append('</span>')
                     open_span = False
                 join_to_render_partial.append(
-                    '<span data-value="{}">'.format(value)
+                    '<span data-value="{}" data-mark="{}">'.format(value, mark)
                 )
                 open_span = True
                 value_at_index = value
+                mark_at_index = mark
                 join_to_render_partial.append(character)
         if open_span:
             join_to_render_partial.append('</span>')
         return ''.join(join_to_render_partial)
 
     def render(self):
+        for_voter = getattr(self, 'request_user', None)
         parsed_content = Tagnostic(self.content).content
         # XXX inefficiency
-        scored_plaintext_stack = list(reversed(self.scored_plaintext()))
+        scored_plaintext_stack = list(
+            reversed(self.scored_plaintext(for_voter)))
         join_to_render = []
         for token in parsed_content:
             if isinstance(token, str):  # text
@@ -100,7 +112,14 @@ class VotableMixin:
         return "".join(join_to_render)
 
     def low_score(self):
-        return min(v for c, v in self.scored_plaintext())
+        return min(v for c, v, _m in self.scored_plaintext())
 
     def high_score(self):
-        return max(v for c, v in self.scored_plaintext())
+        return max(v for c, v, _m in self.scored_plaintext())
+
+    def vote_in_range_for_user(self, voter,
+                               ballot_start_index, ballot_end_index):
+        return self.vote_set.filter(
+            end_index__gt=ballot_start_index, start_index__lt=ballot_end_index,
+            voter=voter
+        ).first()

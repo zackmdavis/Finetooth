@@ -48,11 +48,14 @@ def ballot_box(request, kind, pk):
     item = kinds[kind].objects.get(pk=pk)
     if start_index < 0 or end_index > len(item.plaintext):
         return HttpResponseBadRequest("Invalid vote not recorded!")
-    item.vote_set.create(
-        voter=request.user, value=value,
-        start_index=start_index, end_index=end_index
-    )
-    return HttpResponse(status=204)
+    if item.vote_in_range_for_user(request.user, start_index, end_index):
+        return HttpResponseForbidden("Overlapping votes are not allowed!")
+    else:
+        item.vote_set.create(
+            voter=request.user, value=value,
+            start_index=start_index, end_index=end_index
+        )
+        return HttpResponse(status=204)
 
 def check_slug(request):
     slug = request.GET.get('slug')

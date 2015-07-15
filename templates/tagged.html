@@ -10,6 +10,13 @@
 {% block content %}
   <h4>{% trans "Posts tagged" %} '{{ tag.label }}'</h4>
 
+  <p>
+    <a href="{% url 'tag_rss' tag.label %}">
+      <img class="feed-icon"
+           src="/static/images/feed_icon.png">{% trans "RSS" %}
+    </a>
+  </p>
+
 {% for post in posts %}
   <div class="row">
   {% include "includes/post.html" %}

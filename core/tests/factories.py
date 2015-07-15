@@ -29,14 +29,30 @@ else:
 with open(dictionary_path) as dictionary:
     WORDS = [word for word in dictionary.read().split('\n') if "'" not in word]
 
-def romanize_sort_of(n):
+
+def romanize(n):
     pseudo_digits = OrderedDict(
-        ((100, 'C'), (50, 'L'), (10, 'X'), (5, 'V'), (1, 'I'))
+        ((1000, 'M'), (500, 'D'), (100, 'C'), (50, 'L'),
+         (10, 'X'), (5, 'V'), (1, 'I'))
     )
+    pseudo_digit_array = list(pseudo_digits.items())
+    remaining = n
     suffix_segments = []
-    for value, letter in pseudo_digits.items():
-        factor, n = divmod(n, value)
-        suffix_segments.append(factor * letter)
+    for index, (value, figure) in enumerate(pseudo_digits.items()):
+        factor, remaining = divmod(remaining, value)
+
+        if figure == 'M' or factor < 4:
+            suffix_segments.append(factor * figure)
+
+        smaller_unit_index = index + 2 - (index % 2)
+        if smaller_unit_index < len(pseudo_digit_array):
+            smaller_unit_value, smaller_unit_figure = pseudo_digit_array[
+                smaller_unit_index]
+            if value - remaining <= smaller_unit_value:
+                suffix_segments.append(smaller_unit_figure)
+                suffix_segments.append(figure)
+                remaining -= (value - smaller_unit_value)
+
     return ''.join(suffix_segments)
 
 
@@ -45,14 +61,14 @@ class FinetoothUserFactory(factory.DjangoModelFactory):
         model = FinetoothUser
 
     username = factory.Sequence(
-        lambda n: "Jennifer_Userton_{}".format(romanize_sort_of(n))
+        lambda n: "Jennifer_Userton_{}".format(romanize(n))
     )
     password = factory.PostGenerationMethodCall(
         'set_password', FACTORY_USER_PASSWORD
     )
     first_name = "Jennifer"
     last_name = factory.Sequence(
-        lambda n: "Userton_{}".format(romanize_sort_of(n))
+        lambda n: "Userton_{}".format(romanize(n))
     )
     email = factory.Sequence(
         lambda n: "ju{}@example.com".format(n)

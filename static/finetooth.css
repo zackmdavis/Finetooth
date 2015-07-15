@@ -44,3 +44,7 @@ a {
 #tag-cloud a {
     color: #303030;
 }
+
+.feed-icon {
+    margin-right: 5px;
+}

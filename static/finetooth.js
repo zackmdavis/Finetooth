@@ -69,9 +69,12 @@ function instarender(range, value) {
         $node = $(node);
         if (node.nodeType === Node.TEXT_NODE) {
             var oldValue = $node.parents('[data-value]').data('value');
-            $node.wrap($('<span>').attr('data-value', oldValue + value));
+            $node.wrap($('<span>')
+                       .attr('data-value', oldValue + value)
+                       .attr('data-mark', value));
         } else {
-            $node.attr('data-value', $node.data('value') + value);
+            $node.attr('data-value', $node.data('value') + value)
+                .attr('data-mark', value);
         }
     });
     window.getSelection().collapse($('body')[0],0);
