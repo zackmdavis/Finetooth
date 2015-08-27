@@ -8,18 +8,32 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from django.conf import settings
 
-def scored_context(scoreables, context):
-    if scoreables:
-        low_score = min(s.low_score() for s in scoreables)
-        high_score = max(s.high_score() for s in scoreables)
+
+def score_bound_context_supplement(scorables):
+    if scorables:
+        low_score = min(s.low_score() for s in scorables)
+        high_score = max(s.high_score() for s in scorables)
     else:
         low_score, high_score = 0, 0
-    context.update({
+    return {
         # leave room on the scale for instarendering
         'low_score': low_score - 1, 'high_score': high_score + 1,
         'low_color': "ff0000", 'high_color': "0000ff"
-    })
-    return context
+    }
+
+def scored_view(scorable_key):
+    def derived_decorator(view):
+        @wraps(view)
+        def derived_view(*args, **kwargs):
+            response = view(*args, **kwargs)
+            response.context_data.update(
+                score_bound_context_supplement(
+                    response.context_data[scorable_key])
+            )
+            return response
+        return derived_view
+    return derived_decorator
+
 
 class PaginationRedirection(Exception):
     def __init__(self, response):
