@@ -5,13 +5,13 @@ from core import views, feeds
 
 urlpatterns = patterns(
     '',
-    url(r'^(?:page/(\d+)/)?$', views.home, name='home'),
+    url(r'^(?:page/(?P<page_number>\d+)/)?$', views.home, name='home'),
     url(r'^valuation_(-?\d+)-([0-9a-f]{6})_(-?\d+)-([0-9a-f]{6}).css$',
         views.serve_stylesheet, name='stylesheet'),
     url(r'^new_post/$', views.new_post, name='new_post'),
     url(r'^tag/(\d+)/$', views.tag, name='tag'),
-    url(r'^tagged/([-\w\s]*)/(?:page/(\d+)/)?$', views.tagged,
-        name='tagged'),
+    url(r'^tagged/(?P<label>[-\w\s]*)/(?:page/(?P<page_number>\d+)/)?$',
+        views.tagged, name='tagged'),
     url(r'^vote/(?P<kind>.+)/(?P<pk>\d+)/$',
         views.ballot_box, name='vote'),
     url(r'^login/', login, {'template_name': "login.html"}, name='login'),

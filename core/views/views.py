@@ -22,21 +22,20 @@ from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm, SignupForm
 from core.views.view_utils import (
     score_bound_context_supplement, scored_view,
-    paginated_view, paginated_context
+    paginated_view
 )
 
 
-@paginated_view
+@paginated_view('posts')
 @scored_view('posts')
-def home(request, page_number):
+def home(request, page_number=None):
     all_posts = Post.objects.all() \
                             .prefetch_related('vote_set') \
                             .prefetch_related('comment_set') \
                             .select_related('author')
     for post in all_posts:
         post.request_user = request.user
-    context = paginated_context(request, 'posts', all_posts, page_number, {})
-    return TemplateResponse(request, "home.html", context)
+    return TemplateResponse(request, "home.html", {'posts': all_posts})
 
 
 @sensitive_post_parameters('password', 'confirm_password')
@@ -135,17 +134,15 @@ def new_post(request):
     else:
         return render(request, "new_post.html", {"url": url})
 
-@paginated_view
+@paginated_view('posts')
 @scored_view('posts')
-def tagged(request, label, page_number):
+def tagged(request, label, page_number=None):
     tag = Tag.objects.get(label=label)
     tagged_posts = tag.posts.all()
     for post in tagged_posts:
         post.request_user = request.user
-    context = paginated_context(
-        request, 'posts', tagged_posts, page_number, {'tag': tag}
-    )
-    return TemplateResponse(request, "tagged.html", context)
+    return TemplateResponse(request, "tagged.html",
+                            {'tag': tag, 'posts': tagged_posts})
 
 @login_required
 @require_POST

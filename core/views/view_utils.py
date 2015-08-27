@@ -35,50 +35,49 @@ def scored_view(scorable_key):
     return derived_decorator
 
 
-class PaginationRedirection(Exception):
-    def __init__(self, response):
-        super().__init__()
-        self.response = response
+def paginated_view(pageable_name):
+    def derived_decorator(view):
+        @wraps(view)
+        def derived_view(*args, **kwargs):
+            request, *_groups = args
+            page_number = kwargs['page_number']
+            response = view(*args, **kwargs)
+            page_number = int(page_number) if page_number else 1
+            requested = request.GET.get('results')
+            pageables_per_page = (int(requested)
+                                  if (requested and requested.isdigit())
+                                  else settings.POSTS_PER_PAGE)
+            pageables = response.context_data[pageable_name]
+            paginator = Paginator(pageables, pageables_per_page)
+            if page_number > paginator.num_pages:
+                true_destination = re.sub(
+                    r'/page/(\d+)/',
+                    ''.join([
+                        "/page/{}/".format(paginator.num_pages),
+                        "?", urlencode(request.GET)
+                    ]),
+                    request.path
+                )
+                messages.warning(
+                    request, ("The page you requested is out of range; "
+                              "you have been redirected to the last page.")
+                )
+                return HttpResponseRedirect(true_destination)
+            paged = paginator.page(page_number)
+            response.context_data.update(
+                {pageable_name: paged,
+                 'previous_page_number': (page_number - 1
+                                          if paged.has_previous()
+                                          else None),
+                 'next_page_number': (page_number + 1
+                                      if paged.has_next()
+                                      else None),
+                 'requested': requested}
+            )
+            return response
+        return derived_view
+    return derived_decorator
 
-def paginated_view(view):
-    @wraps(view)
-    def pagination_redirection_wrapper(*args, **kwargs):
-        try:
-            return view(*args, **kwargs)
-        except PaginationRedirection as pr:
-            return pr.response
-    return pagination_redirection_wrapper
-
-def paginated_context(request, pageable_name, pageables, page_number, context):
-    page_number = int(page_number) if page_number else 1
-    requested = request.GET.get('results')
-    pageables_per_page = (int(requested) if (requested and requested.isdigit())
-                          else settings.POSTS_PER_PAGE)
-    paginator = Paginator(pageables, pageables_per_page)
-    if page_number > paginator.num_pages:
-        true_destination = re.sub(
-            r'/page/(\d+)/',
-            ''.join([
-                "/page/{}/".format(paginator.num_pages),
-                "?", urlencode(request.GET)
-            ]),
-            request.path
-        )
-        messages.warning(
-            request, ("The page you requested is out of range; "
-                      "you have been redirected to the last page.")
-        )
-        raise PaginationRedirection(HttpResponseRedirect(true_destination))
-    paged = paginator.page(page_number)
-    context.update({
-        pageable_name: paged,
-        'previous_page_number': (page_number - 1 if paged.has_previous()
-                                 else None),
-        'next_page_number': (page_number + 1 if paged.has_next()
-                             else None),
-        'requested': requested
-    })
-    return context
 
 def tag_cloud_context(tags):
     if not tags.exists():
