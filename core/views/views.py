@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
+from django.template.response import TemplateResponse
 from django.utils.text import slugify
 from django.utils.translation import ugettext as _
 
@@ -20,21 +21,22 @@ import bleach
 from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm, SignupForm
 from core.views.view_utils import (
-    scored_context, paginated_view, paginated_context
+    score_bound_context_supplement, scored_view,
+    paginated_view
 )
 
 
-@paginated_view
-def home(request, page_number):
+@paginated_view('posts')
+@scored_view('posts')
+def home(request, page_number=None):
     all_posts = Post.objects.all() \
                             .prefetch_related('vote_set') \
                             .prefetch_related('comment_set') \
                             .select_related('author')
     for post in all_posts:
         post.request_user = request.user
-    context = paginated_context(request, 'posts', all_posts, page_number, {})
-    context = scored_context(context['posts'], context)
-    return render(request, "home.html", context)
+    return TemplateResponse(request, "home.html", {'posts': all_posts})
+
 
 @sensitive_post_parameters('password', 'confirm_password')
 def sign_up(request):
@@ -64,16 +66,19 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
+@scored_view('posts')
 def show_post(request, year, month, slug):
     post = Post.objects.get(
         slug=slug, published_at__year=int(year), published_at__month=int(month)
     )
     post.request_user = request.user
     top_level_comments = post.comment_set.filter(parent=None)
-    return render(
+    return TemplateResponse(
         request, "post.html",
-        scored_context([post], {'post': post, 'comment_form': CommentForm(),
-                                'top_level_comments': top_level_comments})
+        {'post': post,
+         'posts': [post],  # XXX awkward
+         'comment_form': CommentForm(),
+         'top_level_comments': top_level_comments}
     )
 
 class MonthlyArchive(ListView):
@@ -129,17 +134,15 @@ def new_post(request):
     else:
         return render(request, "new_post.html", {"url": url})
 
-@paginated_view
-def tagged(request, label, page_number):
+@paginated_view('posts')
+@scored_view('posts')
+def tagged(request, label, page_number=None):
     tag = Tag.objects.get(label=label)
     tagged_posts = tag.posts.all()
     for post in tagged_posts:
         post.request_user = request.user
-    context = paginated_context(
-        request, 'posts', tagged_posts, page_number, {'tag': tag}
-    )
-    context = scored_context(context['posts'], context)
-    return render(request, "tagged.html", context)
+    return TemplateResponse(request, "tagged.html",
+                            {'tag': tag, 'posts': tagged_posts})
 
 @login_required
 @require_POST

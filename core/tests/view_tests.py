@@ -1,10 +1,12 @@
+from datetime import datetime, timedelta
+
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 from core.models import FinetoothUser, Post
 from core.tests import factories as f
-
+from core.tests.factories import romanize
 
 class SignupTestCase(TestCase):
 
@@ -277,3 +279,29 @@ class PostTestCase(TestCase):
             slug=slugify(new_post_title)
         )
         self.assertEqual(len(matching_posts), 1)
+
+
+class PaginationTestCase(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        for i in range(1, 11):
+            f.PostFactory.create(
+                title="Pagination {}".format(romanize(i)),
+                published_at=datetime.now()-timedelta(10-i)
+            )
+
+    def test_pagination(self):
+        with self.settings(POSTS_PER_PAGE=3):
+            pages = [self.client.get(reverse('home', args=(i,)))
+                     for i in range(1, 5)]
+        installment_groups = [
+            ('X', 'IX', 'VIII'), ('VII', 'VI', 'V'),
+            ('IV', 'III', 'II'), ('I',)
+        ]
+        for page_index, installment_group in enumerate(installment_groups):
+            for part_no in installment_group:
+                with self.subTest(page_no=page_index+1):
+                    self.assertContains(
+                        pages[page_index], "Pagination {}".format(part_no)
+                    )
