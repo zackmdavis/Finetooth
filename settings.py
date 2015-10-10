@@ -162,4 +162,6 @@ LOGGING = {
     }
 }
 
+TEST_RUNNER = 'concerned_testrunner.ConcernedTestRunner'
+
 POSTS_PER_PAGE = 15
