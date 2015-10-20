@@ -1,10 +1,9 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib.auth.views import login
 
 from core import views, feeds
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^(?:page/(?P<page_number>\d+)/)?$', views.home, name='home'),
     url(r'^valuation_(-?\d+)-([0-9a-f]{6})_(-?\d+)-([0-9a-f]{6}).css$',
         views.serve_stylesheet, name='stylesheet'),
@@ -32,4 +31,4 @@ urlpatterns = patterns(
     url(r'^user/(.+)/feeds/comments/rss/$', feeds.CommenterFeed(),
         name='user_comments_rss'),
     url(r'^tagged/([-\w\s]*)/feeds/rss/$', feeds.TagFeed(), name='tag_rss')
-)
+]
