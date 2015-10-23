@@ -10,7 +10,7 @@ from core.tests.factories import romanize
 
 class SignupTestCase(TestCase):
 
-    def test_can_sign_up(self):
+    def concerning_signup(self):
         response = self.client.post(
             reverse('sign_up'),
             {'username': "signup_testr",
@@ -23,7 +23,7 @@ class SignupTestCase(TestCase):
         self.assertTrue(user_queryset.exists())
         self.assertTrue(user_queryset[0].check_password("moeDukr(,rpdCesLlrq"))
 
-    def test_cannnot_claim_extant_username(self):
+    def concerning_the_inability_to_claim_extant_usernames(self):
         f.FinetoothUserFactory.create(username="username_squatter")
         response = self.client.post(
             reverse('sign_up'),
@@ -36,7 +36,7 @@ class SignupTestCase(TestCase):
         self.assertIn(b"A user with that username already exists.",
                       response.content)
 
-    def test_confirm_password_must_match(self):
+    def concerning_confirm_passwords_needing_to_match(self):
         prior_user_count = FinetoothUser.objects.count()
         response = self.client.post(
             reverse('sign_up'),
@@ -50,7 +50,7 @@ class SignupTestCase(TestCase):
         self.assertEqual(prior_user_count, post_user_count)
         self.assertEqual(422, response.status_code)
 
-    def test_required_fields(self):
+    def concerning_required_fields(self):
         prior_user_count = FinetoothUser.objects.count()
         response = self.client.post(
             reverse('sign_up'),
@@ -81,13 +81,13 @@ class TaggingTestCase(TestCase):
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
 
-    def test_user_can_tag_own_post(self):
+    def concerning_users_tagging_their_own_posts(self):
         self.client.post(reverse('tag', args=(self.the_post.pk,)),
                          {'label': "taggable"})
         tags = self.the_post.tag_set
         self.assertTrue("taggable", tags.filter(label="taggable").exists())
 
-    def test_user_cannot_tag_post_of_other(self):
+    def concerning_users_inability_to_tag_posts_of_others(self):
         response = self.client.post(
             reverse('tag', args=(self.other_post.pk,)),
             {'label': "untaggable"}
@@ -96,7 +96,7 @@ class TaggingTestCase(TestCase):
         tags = self.other_post.tag_set
         self.assertEqual(0, tags.count())
 
-    def test_user_cannot_double_apply_same_tag(self):
+    def concerning_prohibition_of_double_tagging(self):
         tags_before = self.the_post.tag_set.all()
         response = self.client.post(
             reverse('tag', args=(self.the_post.pk,)),
@@ -115,7 +115,7 @@ class CommentingTestCase(TestCase):
         cls.the_user = f.FinetoothUserFactory.create()
         cls.the_post = f.PostFactory.create()
 
-    def test_can_submit_comment(self):
+    def concerning_comment_submission(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
@@ -135,7 +135,7 @@ class CommentingTestCase(TestCase):
             ) + fragment_identifier
         )
 
-    def test_against_html_injection(self):
+    def concerning_html_injection(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
@@ -146,7 +146,7 @@ class CommentingTestCase(TestCase):
         comment = self.the_post.comment_set.filter(commenter=self.the_user)[0]
         self.assertNotIn("<textarea>", comment.content)
 
-    def test_do_not_panic_on_blank_comment(self):
+    def concerning_blank_comment_submissions(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
@@ -164,7 +164,7 @@ class BallotBoxTestCase(TestCase):
         cls.the_user = f.FinetoothUserFactory.create()
         cls.the_post = f.PostFactory.create(content="hello Django world")
 
-    def test_can_vote(self):
+    def concerning_suffrage(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
@@ -177,14 +177,14 @@ class BallotBoxTestCase(TestCase):
             self.assertEqual(response.status_code, 204)
 
 
-    def test_cannot_vote_if_not_logged_in(self):
+    def concerning_suffrage_of_undocumented_immigrants(self):
         response = self.client.post(
             reverse('vote', args=("post", self.the_post.pk)),
             {'startIndex': 1, 'endIndex': 5, 'value': 1}
         )
         self.assertEqual(response.status_code, 401)
 
-    def test_cannot_submit_invalid_vote(self):
+    def concerning_hanging_chads(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
@@ -196,7 +196,7 @@ class BallotBoxTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_one_user_one_vote(self):
+    def concerning_the_principle_of_one_user_one_vote(self):
         self.client.login(
             username=self.the_user.username, password=f.FACTORY_USER_PASSWORD
         )
@@ -223,12 +223,12 @@ class ProfileTestCase(TestCase):
             username="Not_Jennifer", password="shsk$&hfio"
         )
 
-    def test_do_not_choke_on_nonexistent_user(self):
+    def concerning_nonexistent_users(self):
         response = self.client.get(
             reverse('show_profile', args=("nonexistent2507",)), follow=True)
         self.assertContains(response, "That user does not exist.")
 
-    def test_can_edit_profile(self):
+    def concerning_profile_editing(self):
         self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
         response = self.client.post(
             reverse('edit_profile', args=("Jennifer_Userton",)),
@@ -244,7 +244,7 @@ class ProfileTestCase(TestCase):
         self.assertEqual("Usertown, California",
                          the_user_transformed.location)
 
-    def test_cannot_edit_profile_not_ones_own(self):
+    def concerning_editing_the_profiles_of_others(self):
         self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
         response = self.client.post(
             reverse('edit_profile', args=("Not_Jennifer",)),
@@ -265,7 +265,7 @@ class PostTestCase(TestCase):
     def setUp(self):
         self.client.login(username="Jennifer_Userton", password="vmR9*sdfp[")
 
-    def test_new_post(self):
+    def concerning_new_posts(self):
         new_post_title = "A very entertaining post"
         response = self.client.post(
             reverse('new_post'),
@@ -291,7 +291,7 @@ class PaginationTestCase(TestCase):
                 published_at=datetime.now()-timedelta(10-i)
             )
 
-    def test_pagination(self):
+    def concerning_pagination(self):
         with self.settings(POSTS_PER_PAGE=3):
             pages = [self.client.get(reverse('home', args=(i,)))
                      for i in range(1, 5)]

@@ -15,7 +15,7 @@ class TagnosticismTestCase(TestCase):
         content = "*Hello* [Python](python.org) world"
         self.tag_skeptic = Tagnostic(content)
 
-    def test_feeding(self):
+    def concerning_feeding(self):
         self.assertEqual(
             self.tag_skeptic.content,
             [('p', {}), ("em", {}), "Hello", ("/em",), " ",
@@ -23,7 +23,7 @@ class TagnosticismTestCase(TestCase):
              " world", ('/p',)]
         )
 
-    def test_plaintext(self):
+    def concerning_plaintext(self):
         self.assertEqual(self.tag_skeptic.plaintext(), "Hello Python world")
 
 class ScoringTestCase(TestCase):
@@ -40,7 +40,7 @@ class ScoringTestCase(TestCase):
                 start_index=i, end_index=10
             )
 
-    def test_scored_plaintext(self):
+    def concerning_scored_plaintext(self):
         self.assertEqual(
             self.the_post.scored_plaintext(),
             (('f', 1, 0), ('r', 2, 0), ('i', 3, 0), ('e', 4, 0), ('n', 5, 0),
@@ -62,7 +62,7 @@ class RenderingTestCase(TestCase):
                 start_index=indices[0], end_index=indices[1]
             )
 
-    def test_rendering(self):
+    def concerning_rendering(self):
         self.assertHTMLEqual(
             self.the_post.render(),
             """<p>
