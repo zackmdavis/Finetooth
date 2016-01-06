@@ -1,55 +1,47 @@
 {% load i18n %}
 
-<div class="comment" id="comment-{{ comment.pk }}">
+<div class="comment-frame">
   <div class="byline">
-  <a class="username" href="{% url 'show_profile' comment.commenter.username %}">
-    {{ comment.commenter.username }}
-  </a>
-  &bull; <em>{{ comment.published_at }}</em>
+    <a class="username" href="{% url 'show_profile' comment.commenter.username %}">
+      {{ comment.commenter.username }}
+    </a>
+    &bull; <em>{{ comment.published_at }}</em>
   </div>
-  {{ comment.render|safe }}
-  <p>
-  <a href="javascript:void(0);" class="comment-tool reply-form-link"
-     data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
-    <i class="glyphicon glyphicon-pencil"></i> Reply
-  </a>
-  &nbsp;&nbsp;
-  <a href="#comment-{{ comment.pk }}" class="comment-tool">
-    <i class="glyphicon glyphicon-pushpin"></i> Permalink
-  </a>
-</p>
-<span class="score" data-pk="{{ comment.slug }}" data-score="{{ comment.score }}">
-  <p>
-    <i class="glyphicon glyphicon-time"></i>
-    <em>{{ comment.published_at }} </em>
-    <strong>score: {{ comment.score }}</strong>
-  </p>
-</span>
-<div class="comment well" data-pk="{{ comment.pk }}" data-kind="comment">{{ comment.render|safe }}</div>
-<div class="voting-area">
-  <a class="btn btn-primary upvote"
-     data-pk="{{ comment.pk }}" data-kind="comment"
-     href="javascript:void(0)">
-    <i class="glyphicon glyphicon-thumbs-up"></i>
-    upvote
-  </a>
-  <a class="btn btn-danger downvote"
-     data-pk="{{ comment.pk }}" data-kind="comment"
-     href="javascript:void(0)">
-    <i class="glyphicon glyphicon-thumbs-down""></i>
-    downvote
-  </a>
-  <div class="label label-default vote-status" data-pk="{{ comment.pk }}" data-kind="comment">
-     ...
-  </div>
-</div>  
-<div class="reply-form-holder" data-parent-pk="{{ comment.pk }}"></div>
-{% for child in comment.comment_set.all %}
-   {% with "includes/comment.html" as comment_template %}
-      {% with child as comment %}
-         {% include comment_template %}
-      {% endwith %}
-   {% endwith %}
-{% endfor %}
-</div>
+  {# no whitespace in comment markup to ease DOM-traversal #}
+  <div class="comment" id="comment-{{ comment.pk }}" data-kind="comment" data-pk="{{ comment.pk }}">{{ comment.render|safe }}</div>
+  <div>
+    <a href="javascript:void(0);" class="comment-tool reply-form-link"
+       data-comment-pk="{{ comment.pk }}" data-post-pk="{{ post.pk }}">
+      <i class="glyphicon glyphicon-pencil"></i> Reply
+    </a>
+    &nbsp;&nbsp;
+    <a href="#comment-{{ comment.pk }}" class="comment-tool">
+      <i class="glyphicon glyphicon-pushpin"></i> Permalink
+    </a>
+    <a class="btn btn-primary btn-sm upvote"
+       data-pk="{{ comment.pk }}" data-kind="comment"
+       href="javascript:void(0)">
+      <i class="glyphicon glyphicon-thumbs-up"></i>
+      upvote
+    </a>
+    <a class="btn btn-danger btn-sm downvote"
+       data-pk="{{ comment.pk }}" data-kind="comment"
+       href="javascript:void(0)">
+      <i class="glyphicon glyphicon-thumbs-down""></i>
+      downvote
+    </a>
+    <div class="label label-default vote-status" data-pk="{{ comment.pk }}" data-kind="comment">
+      ...
+    </div>
 
+    <div class="reply-form-holder" data-parent-pk="{{ comment.pk }}">
+    </div>
+    {% for child in comment.comment_set.all %}
+      {% with "includes/comment.html" as comment_template %}
+        {% with child as comment %}
+          {% include comment_template %}
+        {% endwith %}
+      {% endwith %}
+    {% endfor %}
+  </div>
+</div>

@@ -26,8 +26,6 @@ if ENVIRONMENT is Environment.development:
 else:
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
-TEMPLATE_DEBUG = DEBUG
-
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = (
@@ -37,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'core',
 )
 
@@ -103,11 +102,11 @@ TEMPLATES = (
         'OPTIONS': {
             'context_processors': (
                 'django.contrib.auth.context_processors.auth',
-                'django.core.context_processors.debug',
-                'django.core.context_processors.i18n',
-                'django.core.context_processors.media',
-                'django.core.context_processors.static',
-                'django.core.context_processors.tz',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.tag_cloud_context_processor',
                 ('core.context_processors'
@@ -160,5 +159,7 @@ LOGGING = {
         },
     }
 }
+
+TEST_RUNNER = 'concerned_testrunner.ConcernedTestRunner'
 
 POSTS_PER_PAGE = 15

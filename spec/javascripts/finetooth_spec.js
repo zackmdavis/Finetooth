@@ -83,16 +83,16 @@ describe("concerning voting", function() {
     });
 
     it("`renderVoteStatus` sets CSS classes when called upon", function() {
-        renderVoteStatus(2, true, "Vote recorded!");
+        renderVoteStatus("post", 2, true, "Vote recorded!");
         expect(
-            $(voteStatusSelector(2)).hasClass("label-success")
+            $(voteStatusSelector("post", 2)).hasClass("label-success")
         ).toBe(true);
-        renderVoteStatus(2, false, "Error!");
+        renderVoteStatus("post", 2, false, "Error!");
         expect(
-            $(voteStatusSelector(2)).hasClass("label-success")
+            $(voteStatusSelector("post", 2)).hasClass("label-success")
         ).toBe(false);
         expect(
-            $(voteStatusSelector(2)).hasClass("label-warning")
+            $(voteStatusSelector("post", 2)).hasClass("label-warning")
         ).toBe(true);
     });
 

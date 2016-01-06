@@ -49,3 +49,6 @@ db.sqlite3
 
 # sentinel file to disable the Django Debug Toolbar
 .disable_debug_toolbar
+
+# really
+share/

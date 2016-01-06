@@ -15,7 +15,7 @@ a {
 
 .post a:link { text-decoration: underline }
 
-.comment {
+.comment-frame {
     border-width: 1px;
     border-style: solid;
     padding: 6px;
@@ -43,4 +43,8 @@ a {
 }
 #tag-cloud a {
     color: #303030;
+}
+
+.feed-icon {
+    margin-right: 5px;
 }
