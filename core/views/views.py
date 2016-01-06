@@ -169,7 +169,6 @@ def show_profile(request, username):
     if the_user is None:
         messages.error(request, "That user does not exist.")
         return redirect('home')
-    viewing_user = request.user
     posts = Post.objects.filter(author=the_user).prefetch_related(
         'comment_set').prefetch_related('vote_set')
     comments = Comment.objects.filter(commenter=the_user)
