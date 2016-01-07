@@ -22,7 +22,7 @@ from core.models import FinetoothUser, Post, Comment, Tag
 from core.forms import CommentForm, SignupForm
 from core.views.view_utils import (
     score_bound_context_supplement, scored_view,
-    paginated_view
+    paginated_view, thread_sorting_view
 )
 
 
@@ -66,6 +66,8 @@ def logout_view(request):
     logout(request)
     return redirect("/")
 
+
+@thread_sorting_view
 @scored_view('posts')
 def show_post(request, year, month, slug):
     post = Post.objects.get(
@@ -80,6 +82,7 @@ def show_post(request, year, month, slug):
          'comment_form': CommentForm(),
          'top_level_comments': top_level_comments}
     )
+
 
 class MonthlyArchive(ListView):
     context_object_name = 'posts'
