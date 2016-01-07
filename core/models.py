@@ -21,7 +21,7 @@ class FinetoothUser(AbstractUser):
 
 
 class Post(models.Model, VotableMixin):
-    author = models.ForeignKey("FinetoothUser")
+    author = models.ForeignKey("FinetoothUser", on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     content = models.TextField(
         validators=[
@@ -55,10 +55,10 @@ class Post(models.Model, VotableMixin):
 
 
 class Comment(models.Model, VotableMixin):
-    commenter = models.ForeignKey("FinetoothUser")
+    commenter = models.ForeignKey("FinetoothUser", on_delete=models.CASCADE)
     content = models.TextField()
-    post = models.ForeignKey("Post")
-    parent = models.ForeignKey("Comment", null=True)
+    post = models.ForeignKey("Post", on_delete=models.CASCADE)
+    parent = models.ForeignKey("Comment", null=True, on_delete=models.CASCADE)
     published_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -83,19 +83,19 @@ class Comment(models.Model, VotableMixin):
 
 
 class Vote(models.Model):
-    voter = models.ForeignKey("FinetoothUser")
+    voter = models.ForeignKey("FinetoothUser", on_delete=models.CASCADE)
     value = models.IntegerField()
     start_index = models.PositiveIntegerField()
     end_index = models.PositiveIntegerField()
 
 class PostVote(Vote):
-    post = models.ForeignKey("Post")
+    post = models.ForeignKey("Post", on_delete=models.CASCADE)
 
     def __str__(self):
         return "{} on post #{}".format(self.value, self.post.pk)
 
 class CommentVote(Vote):
-    comment = models.ForeignKey("Comment")
+    comment = models.ForeignKey("Comment", on_delete=models.CASCADE)
 
     def __str__(self):
         return "{} on comment #{}".format(self.value, self.comment.pk)
