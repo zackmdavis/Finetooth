@@ -85,20 +85,24 @@ def thread_sorting_view(view):
     def derived_view(*args, **kwargs):
         response = view(*args, **kwargs)
         request, *rest = args
-        criterion_key = request.GET.get('sort_threads', "chronologically")
+        criterion_key = request.GET.get('sort_threads')
         if criterion_key == "chronologically":
-            sorter = partial(sorted, key=operator.attrgetter('published_at'))
+            criterion = {'key': operator.attrgetter('published_at')}
         elif criterion_key == "reverse-chronologically":
-            sorter = partial(sorted, key=operator.attrgetter('published_at'),
-                             reverse=True)
+            criterion = {'key': operator.attrgetter('published_at'),
+                         'reverse': True}
         elif criterion_key == "top-level-scorewise":
-            sorter = partial(sorted, key=operator.attrgetter('score'),
-                             reverse=True)
+            criterion = {'key': operator.attrgetter('score'),
+                         'reverse': True}
         elif criterion_key == "top-level-antiscorewise":
-            sorter = partial(sorted, key=operator.attrgetter('score'))
-        response.context_data['top_level_comments'] = sorter(
-            response.context_data['top_level_comments'])
+            criterion = {'key': operator.attrgetter('score')}
+        else:
+            return response
+        response.context_data[
+            'top_level_comments'] = partial(sorted, **criterion)(
+                response.context_data['top_level_comments'])
         return response
+
     return derived_view
 
 
