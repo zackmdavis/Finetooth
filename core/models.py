@@ -81,6 +81,9 @@ class Comment(models.Model, VotableMixin):
     def vote_set(self):
         return self.commentvote_set
 
+    class Meta:
+        ordering = ('published_at',)
+
 
 class Vote(models.Model):
     voter = models.ForeignKey("FinetoothUser", on_delete=models.CASCADE)

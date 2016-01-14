@@ -1,5 +1,6 @@
+import operator
 import re
-from functools import wraps
+from functools import partial, wraps
 from urllib.parse import urlencode
 
 from django.db.models import Count
@@ -77,6 +78,32 @@ def paginated_view(pageable_name):
             return response
         return derived_view
     return derived_decorator
+
+
+def thread_sorting_view(view):
+    @wraps(view)
+    def derived_view(*args, **kwargs):
+        response = view(*args, **kwargs)
+        request, *rest = args
+        criterion_key = request.GET.get('sort_threads')
+        if criterion_key == "chronologically":
+            criterion = {'key': operator.attrgetter('published_at')}
+        elif criterion_key == "reverse-chronologically":
+            criterion = {'key': operator.attrgetter('published_at'),
+                         'reverse': True}
+        elif criterion_key == "top-level-scorewise":
+            criterion = {'key': operator.attrgetter('score'),
+                         'reverse': True}
+        elif criterion_key == "top-level-antiscorewise":
+            criterion = {'key': operator.attrgetter('score')}
+        else:
+            return response
+        response.context_data[
+            'top_level_comments'] = partial(sorted, **criterion)(
+                response.context_data['top_level_comments'])
+        return response
+
+    return derived_view
 
 
 def tag_cloud_context(tags):
