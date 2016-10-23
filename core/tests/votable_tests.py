@@ -66,19 +66,19 @@ class RenderingTestCase(TestCase):
         self.assertHTMLEqual(
             self.the_post.render(),
             """<p>
-                 <span data-value="1" data-mark="0">We\'ll </span>
+                 <span title="score: 1" data-value="1" data-mark="0">We\'ll </span>
                  <em>
-                   <span data-value="1" data-mark="0">al</span>
-                   <span data-value="2" data-mark="0">ways</span>
-                   <span data-value="1" data-mark="0">find</span>
-                   <span data-value="0" data-mark="0"> a way</span>
+                   <span title="score: 1" data-value="1" data-mark="0">al</span>
+                   <span title="score: 2" data-value="2" data-mark="0">ways</span>
+                   <span title="score: 1" data-value="1" data-mark="0">find</span>
+                   <span title="score: 0" data-value="0" data-mark="0"> a way</span>
                  </em>
-                 <span data-value="0" data-mark="0">
+                 <span title="score: 0" data-value="0" data-mark="0">
                     ; that\'s why the people of
                  </span>
                  <em>
-                   <span data-value="0" data-mark="0">this</span>
+                   <span title="score: 0" data-value="0" data-mark="0">this</span>
                  </em>
-                 <span data-value="0" data-mark="0">world believe</span>
+                 <span title="score: 0" data-value="0" data-mark="0">world believe</span>
                </p>"""
         )

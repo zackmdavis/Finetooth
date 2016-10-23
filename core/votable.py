@@ -71,7 +71,7 @@ class VotableMixin:
                     join_to_render_partial.append('</span>')
                     open_span = False
                 join_to_render_partial.append(
-                    '<span data-value="{}" data-mark="{}">'.format(value, mark)
+                    '<span title="score: {0}" data-value="{0}" data-mark="{1}">'.format(value, mark)
                 )
                 open_span = True
                 value_at_index = value
