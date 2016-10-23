@@ -1,5 +1,5 @@
 bleach==1.4
-Django==1.9.1
+Django==1.10.2
 Markdown==2.4.1
 dj-database-url==0.3.0
 dj-static==0.0.6
