@@ -14,7 +14,7 @@ from core.models import (
 
 FACTORY_USER_PASSWORD = "f:O>r<5H%UsBu"
 
-if os.name == "posix":
+if os.path.exists('/usr/share/dict/words'):
     dictionary_path = '/usr/share/dict/words'
 else:
     # if we're not on a Unix-like system (!?)
