@@ -39,7 +39,7 @@ def tag(request, post_pk):
 
 @require_POST
 def ballot_box(request, kind, pk):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         return HttpResponse("You must be logged in to vote!", status=401)
     kinds = {"post": Post, "comment": Comment}
     value = request.POST.get('value')

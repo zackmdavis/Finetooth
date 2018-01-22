@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.test import TestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.text import slugify
 
 from core.models import FinetoothUser, Post

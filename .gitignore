@@ -52,3 +52,7 @@ db.sqlite3
 
 # really
 share/
+
+# other droppings
+pip-selfcheck.json
+selenium/
