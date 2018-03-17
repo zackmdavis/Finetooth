@@ -16,6 +16,7 @@ markdown = "==2.6.11"
 jasmine = "==2.9.0"
 factory-boy = "==2.9.2"
 monkeytype = "*"
+mypy = "*"
 
 
 [dev-packages]

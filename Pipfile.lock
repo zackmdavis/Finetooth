@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a8424d663730c8873cc5ae74df6fd5b82c425b5bd8e24436b98383db3a029a32"
+            "sha256": "bf5ea2b19c23598c17865cd9108301c07d1ce782aa427ea83cae165579eac3a7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,14 @@
         ]
     },
     "default": {
+        "appnope": {
+            "hashes": [
+                "sha256:5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0",
+                "sha256:8b995ffe925347a2138d7ac0fe77155e4311a0ea6d6da4f5128fe4b3cbe5ed71"
+            ],
+            "markers": "sys_platform == 'darwin'",
+            "version": "==0.1.0"
+        },
         "bleach": {
             "hashes": [
                 "sha256:38fc8cbebea4e787d8db55d6f324820c7f74362b70db9142c1ac7920452d1a19",
@@ -44,6 +52,14 @@
                 "sha256:f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
             ],
             "version": "==6.7"
+        },
+        "colorama": {
+            "hashes": [
+                "sha256:463f8483208e921368c9f306094eb6f725c6ca42b0f97e313cb5d5512459feda",
+                "sha256:48eb22f4f8461b1df5734a074b57042430fb06e1d61bd1e11b078c0fe6d7a1f1"
+            ],
+            "markers": "sys_platform == 'win32'",
+            "version": "==0.3.9"
         },
         "decorator": {
             "hashes": [
@@ -75,6 +91,16 @@
             ],
             "index": "pypi",
             "version": "==1.9.9"
+        },
+        "enum34": {
+            "hashes": [
+                "sha256:2d81cbbe0e73112bdfe6ef8576f2238f2ba27dd0d55752a776c41d38b7da2850",
+                "sha256:644837f692e5f550741432dd3f223bbb9852018674981b1664e5dc339387588a",
+                "sha256:6bd0f6ad48ec2aa117d3d141940d484deccda84d4fcd884f5c3d93c23ecd8c79",
+                "sha256:8ad8c4783bf61ded74527bffb48ed9b54166685e4230386a9ed9b1279e2df5b1"
+            ],
+            "markers": "python_version == '3.3'",
+            "version": "==1.1.6"
         },
         "factory-boy": {
             "hashes": [
@@ -176,6 +202,14 @@
             ],
             "version": "==4.1.0"
         },
+        "mypy": {
+            "hashes": [
+                "sha256:83d798f66323f2de6191d66d9ae5ab234e4ee5b400010e19c58d75d308049f25",
+                "sha256:884f18f3a40cfcf24cdd5860b84958cfb35e6563e439c5adc1503878df221dc3"
+            ],
+            "index": "pypi",
+            "version": "==0.570"
+        },
         "ordereddict": {
             "hashes": [
                 "sha256:1c35b4ac206cef2d24816c89f89cf289dd3d38cf7c449bb3fab7bf6d43f01b1f"
@@ -188,6 +222,14 @@
                 "sha256:a7bb86fe0844304869d1c08e8bd0e52be931228483025c422917411ab82d628a"
             ],
             "version": "==0.1.1"
+        },
+        "pathlib2": {
+            "hashes": [
+                "sha256:d32550b75a818b289bd4c1f96b60c89957811da205afcceab75bc8b4857ea5b3",
+                "sha256:db3e43032d23787d3e9aec8c7ef1e0d2c3c589d5f303477661ebda2ca6d4bfba"
+            ],
+            "markers": "python_version == '3.3'",
+            "version": "==2.3.0"
         },
         "pexpect": {
             "hashes": [
@@ -345,6 +387,15 @@
             ],
             "version": "==1.1.0"
         },
+        "typing": {
+            "hashes": [
+                "sha256:3a887b021a77b292e151afb75323dea88a7bc1b3dfa92176cff8e44c8b68bddf",
+                "sha256:b2c689d54e1144bbcfd191b0832980a21c2dbcf7b5ff7a66248a60c90e951eb8",
+                "sha256:d400a9344254803a2368533e4533a4200d21eb7b6b729c173bc38201a74db3f2"
+            ],
+            "markers": "python_version < '3.5'",
+            "version": "==3.6.4"
+        },
         "wcwidth": {
             "hashes": [
                 "sha256:3df37372226d6e63e1b1e1eda15c594bca98a22d33a23832a90998faa96bc65e",
@@ -358,6 +409,13 @@
                 "sha256:b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"
             ],
             "version": "==0.5.1"
+        },
+        "win-unicode-console": {
+            "hashes": [
+                "sha256:d4142d4d56d46f449d6f00536a73625a871cba040f0bc1a2e305a04578f07d1e"
+            ],
+            "markers": "sys_platform == 'win32' and python_version < '3.6'",
+            "version": "==0.5"
         }
     },
     "develop": {}
