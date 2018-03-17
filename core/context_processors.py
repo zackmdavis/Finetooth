@@ -8,14 +8,17 @@ from django.utils.translation import ugettext as _
 from core.models import Post, Tag
 from core.views.view_utils import tag_cloud_context
 
+from django.core.handlers.wsgi import WSGIRequest
+from typing import Any, Dict, List, Tuple, Union
 
-def tag_cloud_context_processor(request):
+
+def tag_cloud_context_processor(request: WSGIRequest) -> Dict[str, Dict[Any, Any]]:
     return {'cloud': tag_cloud_context(Tag.objects.all())}
 
-def sidebar_login_form_context_processor(request):
+def sidebar_login_form_context_processor(request: WSGIRequest) -> Dict[str, AuthenticationForm]:
     return {'sidebar_login_form': AuthenticationForm()}
 
-def monthly_archives_context_processor(request):
+def monthly_archives_context_processor(request: WSGIRequest) -> Dict[str, Union[List[Any], List[Tuple[Tuple[str, str], str]]]]:
     month_counts = Counter([(p.year, p.month)
                             for p in Post.objects.all()])
     month_counts = sorted(
@@ -34,7 +37,7 @@ def monthly_archives_context_processor(request):
     ]
     return {'months': month_display_texts}
 
-def contextual_static_serving_context_processor(request):
+def contextual_static_serving_context_processor(request: WSGIRequest) -> Dict[str, Union[WSGIRequest, str]]:
     if settings.SERVE_STATIC_LIBS_LOCALLY:
         jquery_url = "/static/libs/jquery-2.1.1.min.js"
         underscore_url = "/static/libs/underscore-min.js"

@@ -26,9 +26,14 @@ from core.views.view_utils import (
 )
 
 
+from django.core.handlers.wsgi import WSGIRequest
+from django.http.response import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from typing import Optional, Union
+
+
 @paginated_view('posts')
 @scored_view('posts')
-def home(request, page_number=None):
+def home(request: WSGIRequest, page_number: Optional[str] = None) -> TemplateResponse:
     all_posts = Post.objects.all() \
                             .prefetch_related('vote_set') \
                             .prefetch_related('comment_set') \
@@ -39,7 +44,7 @@ def home(request, page_number=None):
 
 
 @sensitive_post_parameters('password', 'confirm_password')
-def sign_up(request):
+def sign_up(request: WSGIRequest) -> HttpResponse:
     if request.method == "POST":
         signup_form = SignupForm(request.POST)
         if signup_form.is_valid():
@@ -69,7 +74,7 @@ def logout_view(request):
 
 @thread_sorting_view
 @scored_view('posts')
-def show_post(request, year, month, slug):
+def show_post(request: WSGIRequest, year: str, month: str, slug: str) -> TemplateResponse:
     post = Post.objects.get(
         slug=slug, published_at__year=int(year), published_at__month=int(month)
     )
@@ -109,7 +114,7 @@ class MonthlyArchive(ListView):
         return context
 
 @login_required
-def new_post(request):
+def new_post(request: WSGIRequest) -> HttpResponseRedirect:
     url = HttpRequest.build_absolute_uri(request, reverse("home"))
     if request.method == "POST":
         content = bleach.clean(request.POST["content"])
@@ -149,7 +154,7 @@ def tagged(request, label, page_number=None):
 
 @login_required
 @require_POST
-def add_comment(request, post_pk):
+def add_comment(request: WSGIRequest, post_pk: str) -> HttpResponseRedirect:
     comment_form = CommentForm(request.POST)
     post = Post.objects.get(pk=post_pk)
     year_month_slug = (post.year, post.month, post.slug)
@@ -167,7 +172,7 @@ def add_comment(request, post_pk):
         messages.warning(request, "Comments may not be blank.")
         return redirect('show_post', *year_month_slug)
 
-def show_profile(request, username):
+def show_profile(request: WSGIRequest, username: str) -> HttpResponseRedirect:
     the_user = FinetoothUser.objects.filter(username=username).first()
     if the_user is None:
         messages.error(request, "That user does not exist.")
@@ -180,7 +185,7 @@ def show_profile(request, username):
                   {'the_user': the_user,
                    'posts': posts, 'comments': comments})
 
-def edit_profile(request, username):
+def edit_profile(request: WSGIRequest, username: str) -> Union[HttpResponseRedirect, HttpResponseForbidden]:
     the_user = FinetoothUser.objects.get(username=username)
     if the_user == request.user:
         if request.method == "POST":

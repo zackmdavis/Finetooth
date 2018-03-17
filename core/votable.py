@@ -6,24 +6,28 @@ from markdown import markdown as markdown_to_html
 
 from django.db.models import Q
 
+from django.utils.functional import SimpleLazyObject
+from typing import List, Optional, Tuple, Union, Any
+
+
 logger = logging.getLogger(__name__)
 
 class Tagnostic(HTMLParser):
-    def __init__(self, content):
+    def __init__(self, content: str) -> None:
         super().__init__(convert_charrefs=False)
         self.content = []
         self.feed(markdown_to_html(content, lazy_ol=False))
 
-    def handle_starttag(self, tag, attrs):
+    def handle_starttag(self, tag: str, attrs: List[Tuple[str, str]]) -> None:
         self.content.append((tag, dict(attrs)))
 
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag: str) -> None:
         self.content.append(('/'+tag,))
 
-    def handle_data(self, data):
+    def handle_data(self, data: str) -> None:
         self.content.append(data)
 
-    def plaintext(self):
+    def plaintext(self) -> str:
         return ''.join(
             token for token in self.content if isinstance(token, str)
         )
@@ -36,11 +40,11 @@ class VotingException(Exception):
 class VotableMixin:
 
     @property
-    def score(self):
+    def score(self) -> int:
         return sum(v.value for v in self.vote_set.all())
 
     @property
-    def plaintext(self):
+    def plaintext(self) -> str:
         return Tagnostic(self.content).plaintext()
 
     def scored_plaintext(self, for_voter=None):
@@ -58,7 +62,7 @@ class VotableMixin:
                          itertools.accumulate(mark_increments)))
 
     @staticmethod
-    def _render_scored_substring(scored_characters):
+    def _render_scored_substring(scored_characters: List[Tuple[str, int, int]]) -> str:
         join_to_render_partial = []
         value_at_index = None
         mark_at_index = None
@@ -81,7 +85,7 @@ class VotableMixin:
             join_to_render_partial.append('</span>')
         return ''.join(join_to_render_partial)
 
-    def render(self):
+    def render(self) -> str:
         for_voter = getattr(self, 'request_user', None)
         parsed_content = Tagnostic(self.content).content
         # XXX inefficiency
@@ -111,14 +115,14 @@ class VotableMixin:
                 join_to_render.append("<{}>".format(token[0]))
         return "".join(join_to_render)
 
-    def low_score(self):
+    def low_score(self) -> int:
         return min(v for c, v, _m in self.scored_plaintext())
 
-    def high_score(self):
+    def high_score(self) -> int:
         return max(v for c, v, _m in self.scored_plaintext())
 
-    def vote_in_range_for_user(self, voter,
-                               ballot_start_index, ballot_end_index):
+    def vote_in_range_for_user(self, voter: SimpleLazyObject,
+                               ballot_start_index: int, ballot_end_index: int) -> Optional[Any]:
         return self.vote_set.filter(
             end_index__gt=ballot_start_index, start_index__lt=ballot_end_index,
             voter=voter
