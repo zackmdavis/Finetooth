@@ -8,9 +8,14 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.db.models.query import QuerySet
+
+from core.models import Post
+
+from typing import Any, Callable, Dict, List, Union
 
 
-def score_bound_context_supplement(scorables):
+def score_bound_context_supplement(scorables: Union[List[Post], QuerySet]) -> Dict[str, Union[int, str]]:
     if scorables:
         low_score = min(s.low_score() for s in scorables)
         high_score = max(s.high_score() for s in scorables)
@@ -22,7 +27,7 @@ def score_bound_context_supplement(scorables):
         'low_color': "ff0000", 'high_color': "0000ff"
     }
 
-def scored_view(scorable_key):
+def scored_view(scorable_key: str) -> Callable:
     def derived_decorator(view):
         @wraps(view)
         def derived_view(*args, **kwargs):
@@ -36,7 +41,7 @@ def scored_view(scorable_key):
     return derived_decorator
 
 
-def paginated_view(pageable_name):
+def paginated_view(pageable_name: str) -> Callable:
     def derived_decorator(view):
         @wraps(view)
         def derived_view(*args, **kwargs):
@@ -80,7 +85,7 @@ def paginated_view(pageable_name):
     return derived_decorator
 
 
-def thread_sorting_view(view):
+def thread_sorting_view(view: Callable) -> Callable:
     @wraps(view)
     def derived_view(*args, **kwargs):
         response = view(*args, **kwargs)
@@ -106,7 +111,7 @@ def thread_sorting_view(view):
     return derived_view
 
 
-def tag_cloud_context(tags):
+def tag_cloud_context(tags: QuerySet) -> Dict[Any, Any]:
     if not tags.exists():
         return {}
     min_size = 9

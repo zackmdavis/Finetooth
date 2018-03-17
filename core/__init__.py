@@ -5,7 +5,7 @@ class FinetoothConfig(AppConfig):
     name = "core"
     verbose_name = "Finetooth Core"
 
-    def ready(self):
+    def ready(self) -> None:
         import core.signals
 
 default_app_config = "core.FinetoothConfig"

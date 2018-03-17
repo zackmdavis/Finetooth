@@ -10,13 +10,13 @@ class FinetoothUser(AbstractUser):
     location = models.CharField(max_length=100, null=True)
     url = models.URLField(null=True)
 
-    def post_karma(self):
+    def post_karma(self) -> int:
         return 3 * sum(post.score for post in self.post_set.all())
 
-    def comment_karma(self):
+    def comment_karma(self) -> int:
         return sum(comment.score for comment in self.comment_set.all())
 
-    def karma(self):
+    def karma(self) -> int:
         return self.post_karma() + self.comment_karma()
 
 
@@ -39,11 +39,11 @@ class Post(models.Model, VotableMixin):
         return "#{}: {}".format(self.pk, self.title)
 
     @property
-    def month(self):
+    def month(self) -> str:
         return str(self.published_at.month).zfill(2)
 
     @property
-    def year(self):
+    def year(self) -> str:
         return str(self.published_at.year).zfill(4)
 
     @property
@@ -108,5 +108,5 @@ class Tag(models.Model):
     label = models.CharField(max_length=64, unique=True)
     posts = models.ManyToManyField("Post")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.label

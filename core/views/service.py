@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from core.models import Post, Comment, Tag
 from core.colorize import stylesheet
 
+from django.core.handlers.wsgi import WSGIRequest
+from django.http.response import HttpResponse
+
 
 def serve_stylesheet(request, low_score, low_color, high_score, high_color):
     return HttpResponse(
@@ -19,7 +22,7 @@ def serve_stylesheet(request, low_score, low_color, high_score, high_color):
 
 @login_required
 @require_POST
-def tag(request, post_pk):
+def tag(request: WSGIRequest, post_pk: str) -> HttpResponse:
     label = request.POST['label']
     post = Post.objects.get(pk=post_pk)
     if post.author != request.user:
@@ -38,7 +41,7 @@ def tag(request, post_pk):
         return HttpResponse(status=204)
 
 @require_POST
-def ballot_box(request, kind, pk):
+def ballot_box(request: WSGIRequest, kind: str, pk: str) -> HttpResponse:
     if not request.user.is_authenticated:
         return HttpResponse("You must be logged in to vote!", status=401)
     kinds = {"post": Post, "comment": Comment}
