@@ -1,0 +1,377 @@
+{
+    "abi": "cp36m",
+    "default": [
+        {
+            "name": "six",
+            "package_type": "bdist_wheel",
+            "sha256": "832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/67/4b/141a581104b1f6397bfa78ac9d43d8ad29a7ca43ea90a2d863fe3056e86a/six-1.11.0-py2.py3-none-any.whl",
+            "version": "1.11.0"
+        },
+        {
+            "name": "webencodings",
+            "package_type": "bdist_wheel",
+            "sha256": "a0af1213f3c2226497a97e2b3aa01a7e4bee4f403f95be16fc9acd2947514a78",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/f4/24/2a3e3df732393fed8b3ebf2ec078f05546de641fe1b667ee316ec1dcf3b7/webencodings-0.5.1-py2.py3-none-any.whl",
+            "version": "0.5.1"
+        },
+        {
+            "name": "html5lib",
+            "package_type": "bdist_wheel",
+            "sha256": "20b159aa3badc9d5ee8f5c647e5efd02ed2a66ab8d354930bd9ff139fc1dc0a3",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/a5/62/bbd2be0e7943ec8504b517e62bab011b4946e1258842bc159e5dfde15b96/html5lib-1.0.1-py2.py3-none-any.whl",
+            "version": "1.0.1"
+        },
+        {
+            "name": "bleach",
+            "package_type": "bdist_wheel",
+            "sha256": "cf567e7ed30ea5e05b31231d88ae170af1c5544758b9d7bebbc20590b7c30b1e",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/07/59/06f368f350cd7f226606c2bc7210c6b336312df62185de333c66d6180512/bleach-2.1.2-py2.py3-none-any.whl",
+            "version": "2.1.2"
+        },
+        {
+            "name": "pytz",
+            "package_type": "bdist_wheel",
+            "sha256": "65ae0c8101309c45772196b21b74c46b2e5d11b6275c45d251b150d5da334555",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/dc/83/15f7833b70d3e067ca91467ca245bae0f6fe56ddc7451aa0dc5606b120f2/pytz-2018.4-py2.py3-none-any.whl",
+            "version": "2018.4"
+        },
+        {
+            "name": "django",
+            "package_type": "bdist_wheel",
+            "sha256": "52475f607c92035d4ac8fee284f56213065a4a6b25ed43f7e39df0e576e69e9f",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/21/2a/3a0ec97b18d6e8d295142228f03604ac78ea6de05cf9bc3773a74f0b58bb/Django-2.0.1-py3-none-any.whl",
+            "version": "2.0.1"
+        },
+        {
+            "name": "sqlparse",
+            "package_type": "bdist_wheel",
+            "sha256": "d9cf190f51cbb26da0412247dfe4fb5f4098edb73db84e02f9fc21fdca31fed4",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/65/85/20bdd72f4537cf2c4d5d005368d502b2f464ede22982e724a82c86268eda/sqlparse-0.2.4-py2.py3-none-any.whl",
+            "version": "0.2.4"
+        },
+        {
+            "name": "django-debug-toolbar",
+            "package_type": "bdist_wheel",
+            "sha256": "4af2a4e1e932dadbda197b18585962d4fc20172b4e5a479490bc659fe998864d",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/b2/ff/eb95539d31b3f3c12803c8f18cefe7f9e6f7281b059a36dbc9ee9b52c558/django_debug_toolbar-1.9.1-py2.py3-none-any.whl",
+            "version": "1.9.1"
+        },
+        {
+            "name": "typing",
+            "package_type": "bdist_wheel",
+            "sha256": "3a887b021a77b292e151afb75323dea88a7bc1b3dfa92176cff8e44c8b68bddf",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/05/2b/2b05bf1d5a9dd450447c9a5df3e118a465e5d3cb12b73b7220a5064a403f/typing-3.6.4-py3-none-any.whl",
+            "version": "3.6.4"
+        },
+        {
+            "name": "django-extensions",
+            "package_type": "bdist_wheel",
+            "sha256": "f642e79990f365e82a7c906c91b0dabea533cdcdf2df7059a732e1e8648f2fa3",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/04/cf/6208804312b8b43dfed482e34f51d98f96b5c9956ffd9f49fc7eae6655fc/django_extensions-1.9.9-py2.py3-none-any.whl",
+            "version": "1.9.9"
+        },
+        {
+            "name": "setuptools",
+            "package_type": "bdist_wheel",
+            "sha256": "0cb8b8625bfdcc2d43ea4b9cdba0b39b2b7befc04f3088897031082aa16ce186",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/8c/10/79282747f9169f21c053c562a0baa21815a8c7879be97abd930dbcf862e8/setuptools-39.1.0-py2.py3-none-any.whl",
+            "version": "39.1.0"
+        },
+        {
+            "name": "parso",
+            "package_type": "bdist_wheel",
+            "sha256": "a75a304d7090d2c67bd298091c14ef9d3d560e3c53de1c239617889f61d1d307",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/63/69/0c383765d192006330bfaae27a2c5d0933fb4760c5aacd933b8b19391693/parso-0.2.0-py2.py3-none-any.whl",
+            "version": "0.2.0"
+        },
+        {
+            "name": "jedi",
+            "package_type": "bdist_wheel",
+            "sha256": "5861f6dc0c16e024cbb0044999f9cf8013b292c05f287df06d3d991a87a4eb89",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/e7/42/074192a165622e645ed4aeade63e76e56b3496a044569b3c6cae3a918352/jedi-0.12.0-py2.py3-none-any.whl",
+            "version": "0.12.0"
+        },
+        {
+            "name": "decorator",
+            "package_type": "bdist_wheel",
+            "sha256": "2c51dff8ef3c447388fe5e4453d24a2bf128d3a4c32af3fabef1f01c6851ab82",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/bc/bb/a24838832ba35baf52f32ab1a49b906b5f82fb7c76b2f6a7e35e140bac30/decorator-4.3.0-py2.py3-none-any.whl",
+            "version": "4.3.0"
+        },
+        {
+            "name": "pickleshare",
+            "package_type": "bdist_wheel",
+            "sha256": "c9a2541f25aeabc070f12f452e1f2a8eae2abd51e1cd19e8430402bdf4c1d8b5",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/9f/17/daa142fc9be6b76f26f24eeeb9a138940671490b91cb5587393f297c8317/pickleshare-0.7.4-py2.py3-none-any.whl",
+            "version": "0.7.4"
+        },
+        {
+            "name": "simplegeneric",
+            "package_type": "sdist",
+            "sha256": "dc972e06094b9af5b855b3df4a646395e43d1c9d0d39ed345b7393560d0b9173",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/3d/57/4d9c9e3ae9a255cd4e1106bb57e24056d3d0709fc01b2e3e345898e49d5b/simplegeneric-0.8.1.zip",
+            "version": "0.8.1"
+        },
+        {
+            "name": "ipython-genutils",
+            "package_type": "bdist_wheel",
+            "sha256": "72dd37233799e619666c9f639a9da83c34013a73e8bbc79a7a6348d93c61fab8",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/fa/bc/9bd3b5c2b4774d5f33b2d544f1460be9df7df2fe42f352135381c347c69a/ipython_genutils-0.2.0-py2.py3-none-any.whl",
+            "version": "0.2.0"
+        },
+        {
+            "name": "traitlets",
+            "package_type": "bdist_wheel",
+            "sha256": "c6cb5e6f57c5a9bdaa40fa71ce7b4af30298fbab9ece9815b5d995ab6217c7d9",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/93/d6/abcb22de61d78e2fc3959c964628a5771e47e7cc60d53e9342e21ed6cc9a/traitlets-4.3.2-py2.py3-none-any.whl",
+            "version": "4.3.2"
+        },
+        {
+            "name": "wcwidth",
+            "package_type": "bdist_wheel",
+            "sha256": "f4ebe71925af7b40a864553f761ed559b43544f8f71746c2d756c7fe788ade7c",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/7e/9f/526a6947247599b084ee5232e4f9190a38f398d7300d866af3ab571a5bfe/wcwidth-0.1.7-py2.py3-none-any.whl",
+            "version": "0.1.7"
+        },
+        {
+            "name": "prompt-toolkit",
+            "package_type": "bdist_wheel",
+            "sha256": "1df952620eccb399c53ebb359cc7d9a8d3a9538cb34c5a1344bdbeb29fbcc381",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/04/d1/c6616dd03701e7e2073f06d5c3b41b012256e42b72561f16a7bd86dd7b43/prompt_toolkit-1.0.15-py3-none-any.whl",
+            "version": "1.0.15"
+        },
+        {
+            "name": "pygments",
+            "package_type": "bdist_wheel",
+            "sha256": "78f3f434bcc5d6ee09020f92ba487f95ba50f1e3ef83ae96b9d5ffa1bab25c5d",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/02/ee/b6e02dc6529e82b75bb06823ff7d005b141037cb1416b10c6f00fc419dca/Pygments-2.2.0-py2.py3-none-any.whl",
+            "version": "2.2.0"
+        },
+        {
+            "name": "ptyprocess",
+            "package_type": "bdist_wheel",
+            "sha256": "e8c43b5eee76b2083a9badde89fd1bbce6c8942d1045146e100b7b5e014f4f1a",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/ff/4e/fa4a73ccfefe2b37d7b6898329e7dbcd1ac846ba3a3b26b294a78a3eb997/ptyprocess-0.5.2-py2.py3-none-any.whl",
+            "version": "0.5.2"
+        },
+        {
+            "name": "pexpect",
+            "package_type": "bdist_wheel",
+            "sha256": "9783f4644a3ef8528a6f20374eeb434431a650c797ca6d8df0d81e30fffdfa24",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/b9/3c/e51a76fe78a877afd9acd95a51e3b7610c0983b19ef5a5dfa11735a619b8/pexpect-4.5.0-py2.py3-none-any.whl",
+            "version": "4.5.0"
+        },
+        {
+            "name": "ipython",
+            "package_type": "bdist_wheel",
+            "sha256": "fcc6d46f08c3c4de7b15ae1c426e15be1b7932bcda9d83ce1a4304e8c1129df3",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/e1/87/294b718125085559b56453be87d90777863173470167e5f1d5de20b9eea3/ipython-6.2.1-py3-none-any.whl",
+            "version": "6.2.1"
+        },
+        {
+            "name": "markdown",
+            "package_type": "bdist_wheel",
+            "sha256": "9ba587db9daee7ec761cfc656272be6aabe2ed300fece21208e4aab2e457bc8f",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/6d/7d/488b90f470b96531a3f5788cf12a93332f543dbab13c423a5e7ce96a0493/Markdown-2.6.11-py2.py3-none-any.whl",
+            "version": "2.6.11"
+        },
+        {
+            "name": "pyyaml",
+            "package_type": "sdist",
+            "sha256": "4a612876bfac22be403a39cbff64b8aac7ce3fed4c11778c59f79232943b22e4",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/e4/a4/6c1f6c989d97c62ea50329b3803ca214ccfed7e4c1f82fe30c6e048645a0/PyYAML-3.10.zip",
+            "version": "3.10"
+        },
+        {
+            "name": "argparse",
+            "package_type": "bdist_wheel",
+            "sha256": "c31647edb69fd3d465a847ea3157d37bed1f95f19760b11a47aa91c04b666314",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/f2/94/3af39d34be01a24a6e65433d19e107099374224905f1e0cc6bbe1fd22a2f/argparse-1.4.0-py2.py3-none-any.whl",
+            "version": "1.4.0"
+        },
+        {
+            "name": "markupsafe",
+            "package_type": "sdist",
+            "sha256": "a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/4d/de/32d741db316d8fdb7680822dd37001ef7a448255de9699ab4bfcbdf4172b/MarkupSafe-1.0.tar.gz",
+            "version": "1.0"
+        },
+        {
+            "name": "jinja2",
+            "package_type": "bdist_wheel",
+            "sha256": "74c935a1b8bb9a3947c50a54766a969d4846290e1e788ea44c1392163723c3bd",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/7f/ff/ae64bacdfc95f27a016a7bed8e8686763ba4d277a78ca76f32659220a731/Jinja2-2.10-py2.py3-none-any.whl",
+            "version": "2.10"
+        },
+        {
+            "name": "glob2",
+            "package_type": "sdist",
+            "sha256": "f5b0a686ff21f820c4d3f0c4edd216704cea59d79d00fa337e244a2f2ff83ed6",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/f0/e8/970c7a031b2d7f9a21fefaa8c9d5c38001f8f25055f4ffcb32b3dbecd1ea/glob2-0.6.tar.gz",
+            "version": "0.6"
+        },
+        {
+            "name": "ordereddict",
+            "package_type": "sdist",
+            "sha256": "1c35b4ac206cef2d24816c89f89cf289dd3d38cf7c449bb3fab7bf6d43f01b1f",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/53/25/ef88e8e45db141faa9598fbf7ad0062df8f50f881a36ed6a0073e1572126/ordereddict-1.1.tar.gz",
+            "version": "1.1"
+        },
+        {
+            "name": "jasmine-core",
+            "package_type": "sdist",
+            "sha256": "40c4f184e5eb4a6c8e97f9c7ba16eac13a0f88a5a318258968fbd07616abd232",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/8f/31/b650ef8d284450e8cd971c254a397ddea1d19c705e33c39f207bb173d273/jasmine-core-2.99.1.tar.gz",
+            "version": "2.99.1"
+        },
+        {
+            "name": "tempora",
+            "package_type": "bdist_wheel",
+            "sha256": "e7496537422e72bb331e460b5d1c864dd95d42474ca454a61ab8760be37a2f26",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/55/f4/6909c23d920192dc9d2bb0d0841abb561f58fb6c816cf593a35dda0a800c/tempora-1.11-py2.py3-none-any.whl",
+            "version": "1.11"
+        },
+        {
+            "name": "portend",
+            "package_type": "bdist_wheel",
+            "sha256": "99c265340a5bb46a037c0bbc76556416d7eef47f87ea0f1f6c0f9185b6faf154",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/16/20/d98f22a2a5b1d7f5ab3a38154f7a1dd87846f2c5881f4b6929bdd1624e72/portend-2.2-py2.py3-none-any.whl",
+            "version": "2.2"
+        },
+        {
+            "name": "more-itertools",
+            "package_type": "bdist_wheel",
+            "sha256": "0dd8f72eeab0d2c3bd489025bb2f6a1b8342f9b198f6fc37b52d15cfa4531fea",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/7a/46/886917c6a4ce49dd3fff250c01c5abac5390d57992751384fe61befc4877/more_itertools-4.1.0-py3-none-any.whl",
+            "version": "4.1.0"
+        },
+        {
+            "name": "backports-functools-lru-cache",
+            "package_type": "bdist_wheel",
+            "sha256": "f0b0e4eba956de51238e17573b7087e852dfe9854afd2e9c873f73fc0ca0a6dd",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/03/8e/2424c0e65c4a066e28f539364deee49b6451f8fcd4f718fefa50cc3dcf48/backports.functools_lru_cache-1.5-py2.py3-none-any.whl",
+            "version": "1.5"
+        },
+        {
+            "name": "cheroot",
+            "package_type": "bdist_wheel",
+            "sha256": "01cbd1cea13cf7837ce9f0cb96b7fc2164cde5e328b9ea506e1eabf51a2cecbc",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/67/2d/2adc51ca551c1a404dadf49b60c9027d950967f4dc598804aba1ef30461e/cheroot-6.2.4-py2.py3-none-any.whl",
+            "version": "6.2.4"
+        },
+        {
+            "name": "cherrypy",
+            "package_type": "bdist_wheel",
+            "sha256": "5ce3b1e6cfa1d6deafe3308e2c18cbb7a6cac8dbe2901ffe477bcbe709073c3d",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/f2/01/39863c9862ebe1a64ff9e1efcc93d610e0024d5f31b6300222d8763dc9a7/CherryPy-15.0.0-py2.py3-none-any.whl",
+            "version": "15.0.0"
+        },
+        {
+            "name": "selenium",
+            "package_type": "bdist_wheel",
+            "sha256": "fb6a2a5d80bf6f1de145d3a92a5d1331755e43aae07cff7b2588aa6e66fa8eaf",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/48/90/29bcfa7ced2836016a400e8216e5a4166a71923b05d452ee7ee9e8775156/selenium-3.6.0-py2.py3-none-any.whl",
+            "version": "3.6.0"
+        },
+        {
+            "name": "jasmine",
+            "package_type": "sdist",
+            "sha256": "3e4fa076877bdea926fcc72fb351d6db4edbdbb6a63a1202ea0d1fb65dfe40c8",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/72/36/7520d612ea2eece3586f5be97f9383e36891bb3985cb2b5406dbb449b292/jasmine-2.9.0.tar.gz",
+            "version": "2.9.0"
+        },
+        {
+            "name": "text-unidecode",
+            "package_type": "bdist_wheel",
+            "sha256": "801e38bd550b943563660a91de8d4b6fa5df60a542be9093f7abf819f86050cc",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/79/42/d717cc2b4520fb09e45b344b1b0b4e81aa672001dd128c180fabc655c341/text_unidecode-1.2-py2.py3-none-any.whl",
+            "version": "1.2"
+        },
+        {
+            "name": "python-dateutil",
+            "package_type": "bdist_wheel",
+            "sha256": "1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/cf/f5/af2b09c957ace60dcfac112b669c45c8c97e32f94aa8b56da4c6d1682825/python_dateutil-2.7.3-py2.py3-none-any.whl",
+            "version": "2.7.3"
+        },
+        {
+            "name": "faker",
+            "package_type": "bdist_wheel",
+            "sha256": "782a58cec0e083df8e3536b0a890fce9bdc1633782c140b64183dcc626fea53e",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/5c/50/69efd9250a2be64f23ba1985e6b61ab9fcf829d75850044e2a8e4dfb909c/Faker-0.8.15-py2.py3-none-any.whl",
+            "version": "0.8.15"
+        },
+        {
+            "name": "factory-boy",
+            "package_type": "bdist_wheel",
+            "sha256": "b8334bcc3c5b10af9a83ab5b8786f98cb322638dc1e6d320cad01c7f2b420e87",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/81/b9/ca160fdcfd7313d59151aa60a2d2125d5677f4147a2c7e14a3736560e271/factory_boy-2.9.2-py2.py3-none-any.whl",
+            "version": "2.9.2"
+        },
+        {
+            "name": "typed-ast",
+            "package_type": "bdist_wheel",
+            "sha256": "8550177fa5d4c1f09b5e5f524411c44633c80ec69b24e0e98906dd761941ca46",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/35/69/94dd92985792df90cf3b544d33315e60a95cc1c7ce0518f73b4cc11f106e/typed_ast-1.1.0-cp36-cp36m-manylinux1_x86_64.whl",
+            "version": "1.1.0"
+        },
+        {
+            "name": "mypy",
+            "package_type": "bdist_wheel",
+            "sha256": "01cf289838f266ae7c6550c813181ee77d21eac9459dbf067e7a95a0a2db9721",
+            "source": "https://pypi.org/pypi",
+            "url": "https://files.pythonhosted.org/packages/e2/3f/e20e2544b35e862fbed4e26a89e3d857007c5bd32abc019ef21c02aecd98/mypy-0.600-py3-none-any.whl",
+            "version": "0.600"
+        }
+    ],
+    "extras": {},
+    "manylinux1": true,
+    "platform": "linux_x86_64",
+    "python": "cp36"
+}
