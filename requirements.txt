@@ -1,6 +1,6 @@
 # TODO: update these (see dev_requirements for newer development versions)
 bleach==1.4
-Django==1.10.2
+Django==2.2.10
 Markdown==2.4.1
 dj-database-url==0.3.0
 dj-static==0.0.6
