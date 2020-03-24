@@ -1,4 +1,4 @@
-bleach==2.1.2
+bleach==3.1.2
 Django==2.0.1
 django-debug-toolbar==1.9.1
 django-extensions==1.9.9

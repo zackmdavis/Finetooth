@@ -1,5 +1,5 @@
 # TODO: update these (see dev_requirements for newer development versions)
-bleach==1.4
+bleach==3.1.2
 Django==1.10.2
 Markdown==2.4.1
 dj-database-url==0.3.0
